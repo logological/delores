@@ -1,8 +1,12 @@
 /*----------------------------------------------------------------------------
-File    : $Id: bget.c,v 1.6 2003-12-11 10:19:09 psy Exp $
+File    : $Id: bget.c,v 1.7 2003-12-11 10:21:32 psy Exp $
 What    : Memory allocation tool (faster replacement for malloc() and friends)
-Notes   : This file has been modified by Tristan Miller for use with the dl
-          project:
+
+Based on public domain code by John Walker, Duff Kurland, and Greg Lutz.
+Copyright (C) 1999, 2000 Michael Maher
+Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+
+Changes from original bget.c:
           1. some preprocessor macros have been commented out to prevent
              compilation of code not used by dl
           2. K&R-compatibility preprocessor macros have been manually expanded
@@ -10,10 +14,6 @@ Notes   : This file has been modified by Tristan Miller for use with the dl
              with free()  (Originally, it failed when passed a NULL pointer.)
           4. The test program has been removed
           5. Internal documentation unrelated to dl removed
-
-Based on public domain code by John Walker, Duff Kurland, and Greg Lutz.
-Copyright (C) 1999, 2000 Michael Maher
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1193,4 +1193,3 @@ int bpoolv(buf)
     return 1;
 }
 #endif /* BufValid */
-
