@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: ohash.c,v 1.5 2003-12-10 19:57:14 psy Exp $
+File    : $Id: ohash.c,v 1.6 2003-12-10 19:59:23 psy Exp $
 What    : Hash table functions
 
 Based on public domain code by Jerry Coffin and HenkJan Wolthuis.
@@ -49,7 +49,7 @@ hashTable *hashConstructTable(hashTable *table, size_t size,
     return NULL;
   }
 
-  table->table = (hashBucket **)balloc(size * sizeof(hashBucket *));
+  table->table = balloc(size * sizeof *(table->table));
   
   if (table->table == NULL) {
     table->size = 0;
@@ -98,7 +98,7 @@ void *hashInsert(const void *key, const void *datum, hashTable *table) {
     /* This key needs to be inserted at the beginning of the list of buckets */
     if (cmp < 0) {
       hashBucket *newBucket;
-      if (!(newBucket = (hashBucket *)balloc(sizeof(hashBucket))))
+      if (!(newBucket = balloc(sizeof *newBucket)))
         return NULL;
       newBucket->key = (void *)key;
       newBucket->datum = (void *)datum;
@@ -112,7 +112,7 @@ void *hashInsert(const void *key, const void *datum, hashTable *table) {
     else if (bucket->next == NULL ||
              table->compare(key, bucket->next->key) < 0) {
       hashBucket *newBucket;
-      if (!(newBucket = (hashBucket *)balloc(sizeof(hashBucket))))
+      if (!(newBucket = balloc(sizeof *newBucket)))
         return NULL;
       newBucket->key = (void *)key;
       newBucket->datum = (void *)datum;
@@ -128,7 +128,7 @@ void *hashInsert(const void *key, const void *datum, hashTable *table) {
   ** allocate space for the new bucket and point the table cell at it.
   */
   
-  if (!(bucket = (hashBucket *)balloc(sizeof(hashBucket))))
+  if (!(bucket = balloc(sizeof *bucket)))
     return NULL;
 
   bucket->key = (void *)key;

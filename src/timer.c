@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: timer.c,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: timer.c,v 1.4 2003-12-10 20:01:34 psy Exp $
 What    : Functions for timing
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -33,7 +33,7 @@ Args    : none
 Returns : pointer to new CPU timer, or NULL if out of memory
 ----------------------------------------------------------------------------*/
 __inline__ cpuTimer *newCpuTimer(void) {
-  return (cpuTimer *)balloc(sizeof(cpuTimer));
+  return balloc(sizeof(cpuTimer));
 }
 
 /*----------------------------------------------------------------------------
@@ -73,7 +73,7 @@ Args    : none
 Returns : pointer to new real-time timer, or NULL if out of memory
 ----------------------------------------------------------------------------*/
 __inline__ realTimer *newRealTimer(void) {
-  return (realTimer *)balloc(sizeof(realTimer));
+  return balloc(sizeof(realTimer));
 }
 
 /*----------------------------------------------------------------------------

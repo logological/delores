@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.c,v 1.4 2003-12-10 19:21:37 psy Exp $
+File    : $Id: dl.c,v 1.5 2003-12-10 20:06:34 psy Exp $
 What    : Defeasible logic interpreter functions
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -1046,7 +1046,7 @@ void fprintRule(FILE *fp, const Rule *r) {
   else {
     hashIterator i;
     size_t pop = hashPopulation(&ruleTable);
-    ruleList = balloc((pop + 1) * sizeof(Rule *));
+    ruleList = balloc((pop + 1) * sizeof *ruleList);
     hashInitIterator(&i, &ruleTable);
     for (ptr = ruleList; (*ptr = hashGetDatum(&i)); ptr++);
     qsort(ruleList, pop, sizeof(Rule *), cmpRuleOrder);
@@ -1180,7 +1180,7 @@ Note    : 1. idfmt must be a printf-like format string containing exactly one
           allowing its attributes to be changed first by the calling function
 -----------------------------------------------------------------------------*/
 Rule *dupRule(const Rule *r, const char *idfmt) {
-  Rule *newRule = balloc(sizeof(Rule));
+  Rule *newRule = balloc(sizeof *newRule);
   Literal *body, *first, *prev;
 
   /* Set the new rule id */
@@ -1193,7 +1193,7 @@ Rule *dupRule(const Rule *r, const char *idfmt) {
   
   /* Duplicate the body */
   for (body = r->body; body; body = body->next) {
-    Literal *newLit = balloc(sizeof(Literal));
+    Literal *newLit = balloc(sizeof *newLit);
     newLit->atom = body->atom;
     newLit->neg = body->neg;
     if (body == r->body) {
@@ -1287,7 +1287,7 @@ Rule *addRule(Rule *r, Rule *(*func)(Rule *, Rule *(*)())) {
   }
   
   /* All atoms keep track of rules for which they serve as heads */
-  ruleNode = balloc(sizeof(RuleList));
+  ruleNode = balloc(sizeof *ruleNode);
   ruleNode->rule = r;
   ruleNode->next = NULL;
   for (headList = r->head_neg ? 
@@ -1330,7 +1330,7 @@ Rule *initRule(Rule *r, const char *id, const Atom *head, _Bool head_neg,
   static uintmax_t ordinal = 0;
   
   if (!r)
-    r = balloc(sizeof(Rule));
+    r = balloc(sizeof *r);
   if (id)
     r->id = (char *)id;
   else
@@ -1367,7 +1367,7 @@ Returns : pointer to the the new literal (i.e. the beginning of the updated
           list, if any)
 -----------------------------------------------------------------------------*/
 Literal *initLiteral(const Atom *a, _Bool neg, Literal **list) {
-  Literal *l = balloc(sizeof(Literal));
+  Literal *l = balloc(sizeof *l);
   l->atom = (Atom *)a;
   l->neg = neg;
   l->rule = NULL;
@@ -1399,7 +1399,7 @@ Notes   : id is strdup'ed, so there's no need pass initAtom a dynamically-
 Atom *initAtom(const char *id) {
   Atom *a = hashLookup(id, &atomTable);
   if (!a) {
-    a = balloc(sizeof(Atom));
+    a = balloc(sizeof *a);
     a->id = dl_strdup(id);
     a->plus_delta = false;
     a->minus_delta = false;
