@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.c,v 1.12 2003-12-14 14:47:34 psy Exp $
+File    : $Id: dl.c,v 1.13 2003-12-18 21:05:04 psy Exp $
 What    : Defeasible logic interpreter functions
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -1104,19 +1104,23 @@ void fprintAtom(FILE *fp, const Atom *a) {
   RuleList *r;
 #ifdef DL_DEBUG
   Literal *l;
-  fprintf(fp, "+d %s=%c\t", a->id, a->plus_delta?'T':'F');
-  fprintf(fp, "-d %s=%c\t", a->id, a->minus_delta?'T':'F');
-  fprintf(fp, "+D %s=%c\t", a->id, a->plus_DELTA?'T':'F');
-  fprintf(fp, "-D %s=%c\t", a->id, a->minus_DELTA?'T':'F');
-  fprintf(fp, "+s %s=%c\t", a->id, a->plus_sigma?'T':'F');
-  fprintf(fp, "-s %s=%c\n", a->id, a->minus_sigma?'T':'F');
-  fprintf(fp, "+d~%s=%c\t", a->id, a->plus_delta_neg ? 'T':'F');
-  fprintf(fp, "-d~%s=%c\t", a->id, a->minus_delta_neg ? 'T':'F');
-  fprintf(fp, "+D~%s=%c\t", a->id, a->plus_DELTA_neg ? 'T':'F');
-  fprintf(fp, "-D~%s=%c\t", a->id, a->minus_DELTA_neg ? 'T':'F');
-  fprintf(fp, "+s~%s=%c\t", a->id, a->plus_sigma_neg ? 'T':'F');
-  fprintf(fp, "-s~%s=%c", a->id, a->minus_sigma_neg ? 'T':'F');
-  fprintf(fp, "\n %s strict_occ: ", a->id);
+#endif
+  fprintf(fp,   "+d %s=%c", a->id, a->plus_delta?'T':'F');
+  fprintf(fp, "\t-d %s=%c", a->id, a->minus_delta?'T':'F');
+  fprintf(fp, "\t+D %s=%c", a->id, a->plus_DELTA?'T':'F');
+  fprintf(fp, "\t-D %s=%c", a->id, a->minus_DELTA?'T':'F');
+#ifdef DL_DEBUG
+  fprintf(fp, "\t+s %s=%c", a->id, a->plus_sigma?'T':'F');
+  fprintf(fp, "\t-s %s=%c", a->id, a->minus_sigma?'T':'F');
+#endif
+  fprintf(fp, "\n+d~%s=%c", a->id, a->plus_delta_neg ? 'T':'F');
+  fprintf(fp, "\t-d~%s=%c", a->id, a->minus_delta_neg ? 'T':'F');
+  fprintf(fp, "\t+D~%s=%c", a->id, a->plus_DELTA_neg ? 'T':'F');
+  fprintf(fp, "\t-D~%s=%c", a->id, a->minus_DELTA_neg ? 'T':'F');
+#ifdef DL_DEBUG
+  fprintf(fp, "\t+s~%s=%c", a->id, a->plus_sigma_neg ? 'T':'F');
+  fprintf(fp, "\t-s~%s=%c", a->id, a->minus_sigma_neg ? 'T':'F');
+  fprintf(fp, "\n%s strict_occ: ", a->id);
   for (l = a->strict_occ; l; l = l->down)
     fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
   fprintf(fp, "\n~%s strict_occ: ", a->id);
@@ -1134,9 +1138,8 @@ void fprintAtom(FILE *fp, const Atom *a) {
   fprintf(fp, "\n~%s defeater_occ: ", a->id);
   for (l = a->defeater_occ_neg; l; l = l->down)
     fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
-  fputc('\n', fp);
 #endif
-  fprintf(fp, "rules for %s: ", a->id);
+  fprintf(fp, "\nrules for %s: ", a->id);
   for (r = a->rule_heads; r; r = r->next)
     fprintf(fp, "%s%s", r->rule->id, r->next ? "," : "");
   fprintf(fp, "\nrules for not %s: ", a->id);
