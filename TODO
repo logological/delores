@@ -1,5 +1,5 @@
 TODO file for DELORES.
-$Id: TODO,v 1.1 2003-12-11 14:30:43 psy Exp $
+$Id: TODO,v 1.2 2003-12-13 18:06:40 psy Exp $
 
 This file lists potential improvements and wish-list items for
 DELORES.
@@ -19,3 +19,7 @@ DELORES.
     * GUI interface
 
     * trace back through `include()' filenames on error
+
+    * improve hash table performance
+
+    * use strlen(argv[...]) and dynamic allocation instead of FILENAME_MAX
