@@ -1,0 +1,16 @@
+Bugs, limitations, and known issues for DELORES.
+$Id: BUGS,v 1.1 2003-12-11 14:30:43 psy Exp $
+
+BUGS:
+    * `include()' statements must be on separate lines
+
+LIMITATIONS:
+    * primes.txt is complete only for primes <= 1299827
+    * code for real-time timers is compiler-specific; see timer.h for
+      details.  If your compiler is not supported, all real-time timers
+      remain at time 0.
+
+UNRESOLVED IMPLEMENTATION ISSUES:
+    * how to handle redefinition of rules
+    * format for fprint[Rule|Atom] -- use `~' or `neg' in output?
+    * how to check state of constants

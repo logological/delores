@@ -1,0 +1,18 @@
+DELORES was originally conceived by Michael Maher and implemented by
+Tristan Miller <psychonaut@nothingisreal.com>.
+
+Many people have further contributed to DELORES by reporting problems,
+suggesting various improvements, or submitting actual code. Here is a
+list of these people. Help me keep it complete and exempt of errors.
+
+Much of the research behind DELORES was performed while the authors
+were employed by Griffith University.
+
+We thank Scott Brady and Chris Herring for their work on a preliminary
+all-conclusions system.
+
+We thank Guido Governatori for his work on the transformations used in
+DELORES and for discussions on defeasible logic.
+
+Development of DELORES was supported by the Australian Research
+Council under grant A49803544.

@@ -1,0 +1,12 @@
+Welcome to DELORES, a defeasible logic reasoning system.
+
+DELORES is free software. Please see the file COPYING for details.
+
+The doc subdirectory contains a Unix man page describing how to use
+DELORES.  There is also a LaTeX file (preprocessed into DVI and PDF
+formats) which contains a programmer's guide for those wishing to
+understand or extend DELORES.  Only the man page is installed by
+default.
+
+For building and installation instructions please see the INSTALL
+file.

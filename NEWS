@@ -1,0 +1,106 @@
+DELORES NEWS -- history of user-visible changes
+$Id: NEWS,v 1.1 2003-12-11 14:30:43 psy Exp $
+
+Copyright (C) 2003 Tristan Miller.  See the end of this file for
+copying conditions.
+
+Please send DELORES bug reports to Tristan Miller
+<psychonaut@nothingisreal.com>.
+
+
+Version 1.0
+
+    * DELORES is now packaged in a manner similar to most GNU
+      programs, including a `configure' configuration/installation
+      script suitable for Unix-like systems.
+    * The programmer's manual is now available as DVI, PDF, and LaTeX.
+    * A Unix man page is now available.
+    * HTML versions of the manuals have been removed.
+
+Version 0.59
+
+    * Miscellaneous bugs have been fixed.
+    * HTML user's and programmer's manuals are now available.
+
+Version 0.58
+
+    * DELORES's behaviour can now be modified by command-line options.
+    * A `quiet mode' has been added.
+    * There is now improved error handling: in interactive mode, the
+      parser will allow unlimited syntax errors so that they can be
+      corrected; otherwise, the parser will list the first ERROR_LIMIT
+      errors and abort.
+    * Fatal error messages are now more helpful and consistent.
+    * Some speed optimizations have been made.
+
+Version 0.57
+
+    * A couple memory leaks have been fixed.
+
+Version 0.56
+
+    * A bug has been fixed.
+    * An alternative memory management package has been added.  A
+      speed improvement of up to 30% has been recorded.
+    * A profiler has been added which times program execution.
+
+Version 0.55
+
+    * Some speed optimizations have been made.
+
+Version 0.54
+
+    * Some speed and memory optimizations have been made.
+
+Version 0.53
+
+    * ANSI/ISO C89/C99 compliance has been improved.
+
+Version 0.52
+
+    * Some speed and memory optimizations have been made.
+    * Syntax for the `faild' and `failD' declarations has been changed.
+
+Version 0.51
+
+    * ANSI/ISO C89 compliance has been improved.
+    * A memory leak has been fixed.
+    * The `faild' and `failD' declarations are now available, though
+      at present they do not do anything.
+    * The maximum nesting depth for `include()' has been set to 15.
+
+Version 0.50
+
+    * The `include()' directive is now available.
+    * Hash table sizes now default to prime numbers.
+    * The default hash table size has been increased to 10^6 + 3
+
+Version 0.40
+
+    * No user-visible changes in this version.
+
+Version 0.30
+
+    * Comments may now be specified with `%'.
+    * The `print()' directive is now available.
+    * The `listing()' directive is now available.
+    * `unknown' declarations are now available.
+    * The `end' directive is now available.
+    * Rules may now be declared implicitly via superiority relations.
+    * Duplicate rule labels are automatically renamed.
+    * Nameless rules are allowed.
+
+----------------------------------------------------------------------
+Copyright information:
+
+Copyright (C) 2003 Tristan Miller.
+
+   Permission is granted to anyone to make or distribute verbatim
+   copies of this document as received, in any medium, provided that
+   the copyright notice and this permission notice are preserved, thus
+   giving the recipient permission to redistribute in turn.
+
+   Permission is granted to distribute modified versions of this
+   document, or of portions of it, under the above conditions,
+   provided also that they carry prominent notices stating who last
+   changed them.

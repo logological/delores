@@ -1,0 +1,21 @@
+TODO file for DELORES.
+$Id: TODO,v 1.1 2003-12-11 14:30:43 psy Exp $
+
+This file lists potential improvements and wish-list items for
+DELORES.
+
+    * intelligent use of quiet mode (check isatty() on POSIX systems)
+
+    * ability to list rules sorted by specified criterion
+
+    * support for variables and grounding
+
+    * ability to toggle grounding
+
+    * semantics for `faild' and `failD' declarations
+
+    * syntax and semantics for `private' declarations
+
+    * GUI interface
+
+    * trace back through `include()' filenames on error
