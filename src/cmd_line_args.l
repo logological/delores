@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.14 2003-12-12 20:04:29 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.15 2003-12-13 15:04:34 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -96,7 +96,7 @@ uint [0-9]+
   fprintf(stderr,"Usage: %s [options] [file]\n", DL_PROGNAME);
   fprintf(stderr,"Options:\n");
   for (opts = Options; *opts; opts += 2)
-    fprintf(stderr,"  %-6s  %s\n", *opts, *(opts + 1));
+    fprintf(stderr,"  %-9s  %s\n", *opts, *(opts + 1));
   exit(EXIT_SUCCESS);
 }
 
