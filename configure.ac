@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-# $Id: configure.ac,v 1.4 2003-12-12 18:32:38 psy Exp $
+# $Id: configure.ac,v 1.5 2003-12-12 19:47:47 psy Exp $
 
 AC_PREREQ(2.57)
 AC_INIT(DELORES, 1.0, psychonaut@nothingisreal.com)
@@ -29,6 +29,7 @@ AC_HEADER_STDBOOL
 AC_C_CONST
 AC_C_INLINE
 AC_TYPE_SIZE_T
+AC_CHECK_TYPES([unsigned long long, uintmax_t])
 
 # Checks for library functions.
 AC_FUNC_MALLOC
