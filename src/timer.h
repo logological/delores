@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: timer.h,v 1.8 2003-12-12 14:37:35 psy Exp $
+File    : $Id: timer.h,v 1.9 2003-12-12 19:30:01 psy Exp $
 What    : Timing functions header
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -25,7 +25,9 @@ USA.
 #ifndef TIMER__H
 #define TIMER__H
 
-#include <config.h>
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
 /*
 ** Set up macros and function prototypes for the ANSI standard CPU timer

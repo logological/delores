@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: parser.y,v 1.1 2003-12-12 18:48:18 psy Exp $
+File    : $Id: parser.y,v 1.2 2003-12-12 19:30:01 psy Exp $
 What    : Defeasible logic parser
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -23,7 +23,9 @@ USA.
 
 ----------------------------------------------------------------------------*/
 
-#include <config.h>
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>

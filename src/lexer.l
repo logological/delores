@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: lexer.l,v 1.2 2003-12-12 18:50:30 psy Exp $
+File    : $Id: lexer.l,v 1.3 2003-12-12 19:30:00 psy Exp $
 What    : Defeasible logic lexer
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -25,7 +25,9 @@ USA.
 
 static int include_stack_index = 0;
 
-#include <config.h>
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 #include <stdio.h>
 #include <string.h>
 #include "dl_strdup.h"

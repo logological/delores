@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.6 2003-12-12 18:51:39 psy Exp $
+# $Id: Makefile.am,v 1.7 2003-12-12 19:30:00 psy Exp $
 #
 # Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
 # Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
@@ -11,5 +11,8 @@
 # the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 # PURPOSE.
 
+BUILT_SOURCES = parser.h
+AM_YFLAGS = -d
 bin_PROGRAMS = delores
 delores_SOURCES = bget.c bget.h cmd_line_args.h cmd_line_args.l dl.c dl.h lexer.l dl_malloc.c dl_malloc.h dl_stdbool.h dl_stdint.h dl_strdup.c dl_strdup.h parser.y main.c ohash.c ohash.h timer.c timer.h
+

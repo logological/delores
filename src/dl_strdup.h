@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_strdup.h,v 1.6 2003-12-12 13:48:45 psy Exp $
+File    : $Id: dl_strdup.h,v 1.7 2003-12-12 19:30:00 psy Exp $
 What    : Header file for strdup() function
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -25,9 +25,10 @@ USA.
 #ifndef STRDUP__H
 #define STRDUP__H
 
-#include <config.h>
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
-/* Determine whether the compiler supports strdup() */
 #if ! HAVE_STRDUP
 inline char *dl_strdup(const char *s);
 #else
