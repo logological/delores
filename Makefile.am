@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.3 2003-12-13 22:33:40 psy Exp $
+# $Id: Makefile.am,v 1.4 2003-12-13 22:43:05 psy Exp $
 #
 # Copyright (C) 2003 Tristan Miller <psychonaut@nothingisreal.com>
 #  
@@ -12,5 +12,5 @@
 
 AUTOMAKE_OPTIONS = dist-bzip2
 man_MANS = doc/delores.1
-EXTRA_DIST = BUGS TODO doc/delores.tex doc/delores.dvi doc/delores.pdf $(man_MANS)
+EXTRA_DIST = BUGS TODO doc/delores.tex doc/delores.dvi doc/delores.pdf examples/circle50.dl examples/circle5000.dl examples/circle20000.dl examples/circle15000.dl examples/circle10000.dl examples/circle2000.dl examples/circle500.dl examples/circle25000.dl $(man_MANS)
 SUBDIRS = src
