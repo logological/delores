@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: main.c,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: main.c,v 1.4 2003-12-10 19:21:37 psy Exp $
 What    : Initialization routine for interpreter
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -61,20 +61,20 @@ int main(int argc, char *argv[]) {
 
   /* Switch stdin to file specified on command line, if given */
   if (args.inputFile[0]) {
-	if (!freopen(args.inputFile, "r", stdin)) {
-	  fprintf(stderr, "%s: %s: no such file or directory\n", DL_PROGNAME,
-			  args.inputFile);
-	  return EXIT_FAILURE;
-	}
-	InteractiveMode = false;
+    if (!freopen(args.inputFile, "r", stdin)) {
+      fprintf(stderr, "%s: %s: no such file or directory\n", DL_PROGNAME,
+              args.inputFile);
+      return EXIT_FAILURE;
+    }
+    InteractiveMode = false;
   }
   else
-	/*
-	** The following should probably be changed to something like
-	**    Interactivemode = POSIX ? isatty(fileno(stdin)) : true;
-	** once we figure out how to test for POSIX compliance with Autoconf
-	*/
-	InteractiveMode = true;
+    /*
+    ** The following should probably be changed to something like
+    **    Interactivemode = POSIX ? isatty(fileno(stdin)) : true;
+    ** once we figure out how to test for POSIX compliance with Autoconf
+    */
+    InteractiveMode = true;
 
 #ifdef DL_USE_BGET
   /* If using BGET, we need to initialize the memory pool */
@@ -83,48 +83,48 @@ int main(int argc, char *argv[]) {
   
   /* Initialize atom table with [neg] true, [neg] false */
   if (!hashConstructTable(&atomTable, args.atomTableSize, hashKey,
-						   hashStrcmp)) {
-	fprintf(stderr,"%s: atom table too big for available memory!\n",
-			DL_PROGNAME);
-	return EXIT_FAILURE;
+                           hashStrcmp)) {
+    fprintf(stderr,"%s: atom table too big for available memory!\n",
+            DL_PROGNAME);
+    return EXIT_FAILURE;
   }
   else {
-	Atom *a = initAtom("true");
-	a->plus_DELTA = true;
-	a->plus_delta = true;
-	a->minus_DELTA_neg = true;
-	a->minus_delta_neg = true;
-	a = initAtom("false");
-	a->minus_DELTA = true;
-	a->minus_delta = true;
-	a->plus_DELTA_neg = true;
-	a->plus_delta_neg = true;
+    Atom *a = initAtom("true");
+    a->plus_DELTA = true;
+    a->plus_delta = true;
+    a->minus_DELTA_neg = true;
+    a->minus_delta_neg = true;
+    a = initAtom("false");
+    a->minus_DELTA = true;
+    a->minus_delta = true;
+    a->plus_DELTA_neg = true;
+    a->plus_delta_neg = true;
   }
 
   /* Initialize rule table */
   if (!hashConstructTable(&ruleTable, args.ruleTableSize, hashKey,
-						  hashStrcmp)) {
-	fprintf(stderr,"%s: rule table too big for available memory!\n",
-			DL_PROGNAME);
-	return EXIT_FAILURE;
+                          hashStrcmp)) {
+    fprintf(stderr,"%s: rule table too big for available memory!\n",
+            DL_PROGNAME);
+    return EXIT_FAILURE;
   }
   
   /* Title screen */
   if (!args.quietMode) {
-	printVersionInformation();
-	printf("Invoke as `%s --help' for command-line options.\n\n", DL_PROGNAME);
-	__extension__
-	  printf("Atom table size: %" UINTMAX_FMT "\n",
-			 (uintmax_t)args.atomTableSize);
-	__extension__
-	  printf("Rule table size: %" UINTMAX_FMT "\n", 
-			 (uintmax_t)args.ruleTableSize);
+    printVersionInformation();
+    printf("Invoke as `%s --help' for command-line options.\n\n", DL_PROGNAME);
+    __extension__
+      printf("Atom table size: %" UINTMAX_FMT "\n",
+             (uintmax_t)args.atomTableSize);
+    __extension__
+      printf("Rule table size: %" UINTMAX_FMT "\n", 
+             (uintmax_t)args.ruleTableSize);
 #ifdef DL_USE_BGET
-	__extension__
-	  printf("Memory chunk size: %" BUFSIZE_FMT "\n", 
-			 args.bgetPoolIncrement);
+    __extension__
+      printf("Memory chunk size: %" BUFSIZE_FMT "\n", 
+             args.bgetPoolIncrement);
 #endif
-	putc('\n', stdout);
+    putc('\n', stdout);
   }
 
 #ifdef DL_PROFILE
@@ -139,9 +139,9 @@ int main(int argc, char *argv[]) {
 
   /* Begin parsing */
   if (yyparse()) {
-	fprintf(stderr, "%s: *** errors in input -- interpretation failed\n",
-			DL_PROGNAME);
-	return EXIT_FAILURE;
+    fprintf(stderr, "%s: *** errors in input -- interpretation failed\n",
+            DL_PROGNAME);
+    return EXIT_FAILURE;
   }
 
 #ifdef DL_PROFILE
@@ -218,12 +218,12 @@ size_t hashKey(const void *key, size_t n) {
   const char *k = key;
   unsigned int i = 0;
   union {
-	size_t s;
-	unsigned char c[sizeof(size_t)];
+    size_t s;
+    unsigned char c[sizeof(size_t)];
   } hashVal = {0};
 
   while (*k)
-	hashVal.c[i++ % sizeof(size_t)] += (unsigned char)(*k++);
+    hashVal.c[i++ % sizeof(size_t)] += (unsigned char)(*k++);
 
   return hashVal.s % n;
 }

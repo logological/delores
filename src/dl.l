@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: dl.l,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: dl.l,v 1.4 2003-12-10 19:21:37 psy Exp $
 What    : Defeasible logic lexer
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -54,62 +54,62 @@ extern uintmax_t yy_error_count;
 %s L_LISTING
 %x L_INCLUDE
 
-space	        [ \t\n]
-name	        [a-z][A-Za-z0-9_]*
-definablelabel	[A-Za-z][A-Za-z0-9_]*
+space           [ \t\n]
+name            [a-z][A-Za-z0-9_]*
+definablelabel  [A-Za-z][A-Za-z0-9_]*
 label           [A-Za-z/][A-Za-z0-9_/]*
 
 %%
 
-{space}+	;								/* ignore whitespace */
+{space}+    ;                               /* ignore whitespace */
 
 unknown     return UNKNOWN;
 
-neg|not	    return NOT;
+neg|not     return NOT;
 
-:-|\<-	    return SARROW;
+:-|\<-      return SARROW;
 
-:=|\<=	    return DARROW;
+:=|\<=      return DARROW;
 
-:^|\<~	    return DEFARROW;
+:^|\<~      return DEFARROW;
 
 faild       return FAIL_d;
 
 failD       return FAIL_D;
 
-print	{
+print   {
   BEGIN L_PRINT;
   return PRINT;
 }
-	
-listing/{space}*\(	{
+    
+listing/{space}*\(  {
   BEGIN L_LISTING;
   return LISTING;
 }
 
-listing  	return LISTING;
+listing     return LISTING;
 
-infer		return INFER;
+infer       return INFER;
 
 inferwf     return INFERWF;
 
-end 		{
+end         {
   /* The following line has no purpose other than to suppress lint warnings */
   (void)yy_flex_realloc;
   return END;
 }
 
-true	{									/* true */
+true    {                                   /* true */
   yylval.a=hashLookup("true",&atomTable);
   return DL_TRUE;
 }
 
-false	{									/* false */
+false   {                                   /* false */
   yylval.a=hashLookup("false",&atomTable);
   return DL_FALSE;
 }
 
-{definablelabel}/{space}*:[^-=^]	{	    /* Rule definition */
+{definablelabel}/{space}*:[^-=^]    {       /* Rule definition */
 #ifdef DL_LEXER_DEBUG
   fprintf(stderr, "\tDL_LEXER: `%s' is a LABEL\n", yytext);
 #endif
@@ -117,7 +117,7 @@ false	{									/* false */
   return LABEL;
 }
 
-{label}/{space}*[><][^-=~]	{				/* LHS of superiority relation */
+{label}/{space}*[><][^-=~]  {               /* LHS of superiority relation */
 #ifdef DL_LEXER_DEBUG
   fprintf(stderr, "\tDL_LEXER: `%s' is a LABEL\n", yytext);
 #endif
@@ -125,8 +125,8 @@ false	{									/* false */
   yylval.id=dl_strdup(yytext);
   return LABEL;
 }
-	
-<L_SUPREL>{label}	{						/* RHS of superiority relation */
+    
+<L_SUPREL>{label}   {                       /* RHS of superiority relation */
 #ifdef DL_LEXER_DEBUG
   fprintf(stderr, "\tDL_LEXER: `%s' is a LABEL\n", yytext);
 #endif
@@ -134,8 +134,8 @@ false	{									/* false */
   yylval.id=dl_strdup(yytext);
   return LABEL;
 }
-	
-<L_LISTING>{label}	{                       /* listing() statement */
+    
+<L_LISTING>{label}  {                       /* listing() statement */
 #ifdef DL_LEXER_DEBUG
   fprintf(stderr, "\tDL_LEXER: `%s' is a LABEL\n", yytext);
 #endif
@@ -144,7 +144,7 @@ false	{									/* false */
   return LABEL;
 }
 
-<INITIAL>{name}	{							/* Atom */
+<INITIAL>{name} {                           /* Atom */
   Atom *a=initAtom(yytext);
 #ifdef DL_LEXER_DEBUG
   fprintf(stderr, "\tDL_LEXER: `%s' is a NAME (%p)\n", yytext, a);
@@ -153,23 +153,23 @@ false	{									/* false */
   return NAME;
 }
 
-<L_PRINT>{name}	{                           /* print() statement */
+<L_PRINT>{name} {                           /* print() statement */
   yylval.a=hashLookup(yytext, &atomTable);
   if (!yylval.a) {
-	char *err=balloc(yyleng+19);
-	sprintf(err,"`%s' is not an atom",yytext);
-	yyerror(err);
-	bfree(err);
+    char *err=balloc(yyleng+19);
+    sprintf(err,"`%s' is not an atom",yytext);
+    yyerror(err);
+    bfree(err);
   }
   BEGIN INITIAL;
   return NAME;
 }
-	
-{label}|_	{				            	/* Variable */
+    
+{label}|_   {                               /* Variable */
   /* *** NOT IMPLEMENTED YET *** */
 #ifdef DL_LEXER_DEBUG
   fprintf(stderr, "\tDL_LEXER: `%s' is a VARIABLE (%p)\n",
-		  yytext, (void *)NULL);
+          yytext, (void *)NULL);
 #endif
   return VARIABLE;
 }
@@ -180,25 +180,25 @@ false	{									/* false */
 
 <L_INCLUDE>.*\){space}*\. {       /* Include file */
   if (include_stack_index>=MAX_INCLUDE_DEPTH) {
-	yyerror("too many nested includes");
-	exit(EXIT_FAILURE);
+    yyerror("too many nested includes");
+    exit(EXIT_FAILURE);
   }
   
   /* Remember the current file so we can resume processing it later */
   *strrchr(yytext,')')='\0';
   include_stack[include_stack_index].buffer=YY_CURRENT_BUFFER;
   if (include_stack_index==0)
-	include_stack[include_stack_index].filename="stdin";
+    include_stack[include_stack_index].filename="stdin";
   include_stack[++include_stack_index].filename=dl_strdup(yytext);
   yy_current_file=include_stack[include_stack_index].filename;
 
   /* Open the include file */
   if (!(yyin=fopen(yy_current_file,"r"))) {
-	char *buf=balloc(strlen(yy_current_file)+28);
-	sprintf(buf,"%s: no such file or directory",yy_current_file);
-	yyerror(buf);
-	bfree(buf);
-	exit(EXIT_FAILURE);
+    char *buf=balloc(strlen(yy_current_file)+28);
+    sprintf(buf,"%s: no such file or directory",yy_current_file);
+    yyerror(buf);
+    bfree(buf);
+    exit(EXIT_FAILURE);
   }
 
 #ifdef DL_LEXER_DEBUG
@@ -212,35 +212,35 @@ false	{									/* false */
 
 <<EOF>> {                                   /* End include file */
   if (include_stack_index==0)
-	yyterminate();
+    yyterminate();
   else {
 #ifdef DL_LEXER_DEBUG
   fprintf(stderr,"\tDL_LEXER: closing %s\n",yy_current_file);
 #endif
-	bfree(include_stack[include_stack_index--].filename);
-	yy_current_file=include_stack[include_stack_index].filename;
-	yy_delete_buffer(YY_CURRENT_BUFFER);
+    bfree(include_stack[include_stack_index--].filename);
+    yy_current_file=include_stack[include_stack_index].filename;
+    yy_delete_buffer(YY_CURRENT_BUFFER);
 #ifdef DL_LEXER_DEBUG
   fprintf(stderr,"\tDL_LEXER: resuming %s\n",yy_current_file);
 #endif
-	yy_switch_to_buffer(include_stack[include_stack_index].buffer);
+    yy_switch_to_buffer(include_stack[include_stack_index].buffer);
   }
 }
 
-%				BEGIN L_COMMENT;			/* Comment marker */
-<L_COMMENT>.	;							/* Ignore comments */
-<L_COMMENT>\n	BEGIN INITIAL;				/* End of comments */
+%               BEGIN L_COMMENT;            /* Comment marker */
+<L_COMMENT>.    ;                           /* Ignore comments */
+<L_COMMENT>\n   BEGIN INITIAL;              /* End of comments */
 
-.		return yytext[0];					/* Default action */
+.       return yytext[0];                   /* Default action */
 
-{name}{space}*\?	{						/* Debugging tool */
+{name}{space}*\?    {                       /* Debugging tool */
   Atom *a;
   Rule *r;
   yytext[yyleng-1]='\0';
   if ((a=hashLookup(yytext,&atomTable)))
-	fprintAtom(stderr,a);
+    fprintAtom(stderr,a);
   if ((r=hashLookup(yytext,&ruleTable)))
-	fprintRule(stderr,r);
+    fprintRule(stderr,r);
 }
 
 %%

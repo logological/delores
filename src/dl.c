@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.c,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: dl.c,v 1.4 2003-12-10 19:21:37 psy Exp $
 What    : Defeasible logic interpreter functions
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -116,18 +116,18 @@ void inferWellFounded(void) {
   */
   while (L) {
 
-	_Bool *plus_DELTA = L->neg ? 
-	  &(L->atom->plus_DELTA_neg) : &(L->atom->plus_DELTA);
-	_Bool *minus_DELTA = L->neg ? 
-	  &(L->atom->minus_DELTA_neg) : &(L->atom->minus_DELTA);
+    _Bool *plus_DELTA = L->neg ? 
+      &(L->atom->plus_DELTA_neg) : &(L->atom->plus_DELTA);
+    _Bool *minus_DELTA = L->neg ? 
+      &(L->atom->minus_DELTA_neg) : &(L->atom->minus_DELTA);
 
-	if (!*plus_DELTA && !*minus_DELTA) {
-	  *minus_DELTA = true;
-	  initLiteral(L->atom, L->neg, &S);
-	}
+    if (!*plus_DELTA && !*minus_DELTA) {
+      *minus_DELTA = true;
+      initLiteral(L->atom, L->neg, &S);
+    }
 
-	if ((L = L->next))
-	  bfree(L->prev);
+    if ((L = L->next))
+      bfree(L->prev);
   }
   bfree(L);
 
@@ -142,36 +142,36 @@ void inferWellFounded(void) {
   */
 
   do {
-	Literal *l;
+    Literal *l;
 
-	/* Execute the Standard Algorithm on S */
-	inferStandardAlgorithm(&S, &Lambda);
+    /* Execute the Standard Algorithm on S */
+    inferStandardAlgorithm(&S, &Lambda);
 
-	for (l = Lambda; l; l = l->next) {
-	  if (l->neg ? l->atom->plus_sigma_neg : l->atom->plus_sigma) {
-		if (l->neg)
-		  l->atom->plus_delta_neg = true;
-		else
-		  l->atom->plus_delta = true;
-		l->marked = true;
-		initLiteral(l->atom, l->neg, &S);
-	  }
-	}
+    for (l = Lambda; l; l = l->next) {
+      if (l->neg ? l->atom->plus_sigma_neg : l->atom->plus_sigma) {
+        if (l->neg)
+          l->atom->plus_delta_neg = true;
+        else
+          l->atom->plus_delta = true;
+        l->marked = true;
+        initLiteral(l->atom, l->neg, &S);
+      }
+    }
 
-	inferRevisedAlgorithm(&S, &Lambda);
+    inferRevisedAlgorithm(&S, &Lambda);
 
-	/*
-	** For each undetermined literal l, if l is not marked, add -d l to S.
-	** Remove all marks and reset rules to be in the same state as prior to
-	** entering this while() loop.
-	*/
-	
-	for (l = Lambda; l; l = l->next) {
-	  if (!l->marked)
-		initLiteral(l->atom, l->neg, &S);
-	  l->marked = false;
-	  resetRules();
-	}
+    /*
+    ** For each undetermined literal l, if l is not marked, add -d l to S.
+    ** Remove all marks and reset rules to be in the same state as prior to
+    ** entering this while() loop.
+    */
+    
+    for (l = Lambda; l; l = l->next) {
+      if (!l->marked)
+        initLiteral(l->atom, l->neg, &S);
+      l->marked = false;
+      resetRules();
+    }
 
   } while (S);
 
@@ -196,197 +196,197 @@ Source  : "Efficient Defeasible Reasoning Systems" by G. Antoniou,
 ----------------------------------------------------------------------------*/
 void inferStandardAlgorithm(Literal **S, Literal **Lambda) {
   while (*S) {
-	/*
-	** Pop a literal l from the set S and create some convenient
-	** alias variables
-	*/
-	Literal *l = *S;
-	_Bool *plus_delta = l->neg ? 
-	  &(l->atom->plus_delta_neg) : &(l->atom->plus_delta);
-	_Bool *plus_DELTA = l->neg ? 
-	  &(l->atom->plus_DELTA_neg) : &(l->atom->plus_DELTA);
-	_Bool *minus_delta = l->neg ? 
-	  &(l->atom->minus_delta_neg) : &(l->atom->minus_delta);
-	_Bool *minus_DELTA = l->neg ? 
-	  &(l->atom->minus_DELTA_neg) : &(l->atom->minus_DELTA);
-	Literal **defeater_occ = l->neg ? 
-	  &(l->atom->defeater_occ_neg) : &(l->atom->defeater_occ);
-	Literal **strict_occ = l->neg ? 
-	  &(l->atom->strict_occ_neg) : &(l->atom->strict_occ);
-	Literal **defeasible_occ = l->neg ? 
-	  &(l->atom->defeasible_occ_neg) : &(l->atom->defeasible_occ);
-	
-	*S = (*S)->next;
-	if (*S)
-	  (*S)->prev = NULL;
-	
+    /*
+    ** Pop a literal l from the set S and create some convenient
+    ** alias variables
+    */
+    Literal *l = *S;
+    _Bool *plus_delta = l->neg ? 
+      &(l->atom->plus_delta_neg) : &(l->atom->plus_delta);
+    _Bool *plus_DELTA = l->neg ? 
+      &(l->atom->plus_DELTA_neg) : &(l->atom->plus_DELTA);
+    _Bool *minus_delta = l->neg ? 
+      &(l->atom->minus_delta_neg) : &(l->atom->minus_delta);
+    _Bool *minus_DELTA = l->neg ? 
+      &(l->atom->minus_DELTA_neg) : &(l->atom->minus_DELTA);
+    Literal **defeater_occ = l->neg ? 
+      &(l->atom->defeater_occ_neg) : &(l->atom->defeater_occ);
+    Literal **strict_occ = l->neg ? 
+      &(l->atom->strict_occ_neg) : &(l->atom->strict_occ);
+    Literal **defeasible_occ = l->neg ? 
+      &(l->atom->defeasible_occ_neg) : &(l->atom->defeasible_occ);
+    
+    *S = (*S)->next;
+    if (*S)
+      (*S)->prev = NULL;
+    
 #ifdef DL_DEBUG
-	fprintf(stderr, "Examining %s%s...\n", l->neg ? "~" : "", l->atom->id);
+    fprintf(stderr, "Examining %s%s...\n", l->neg ? "~" : "", l->atom->id);
 #endif
-	
-	/* >>>>>>>>>>>>>>>>>>>>> Case +D: <<<<<<<<<<<<<<<<<<<< */
-	if (*plus_DELTA) {
-	  Rule *r;
+    
+    /* >>>>>>>>>>>>>>>>>>>>> Case +D: <<<<<<<<<<<<<<<<<<<< */
+    if (*plus_DELTA) {
+      Rule *r;
 
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\tIt's +D\n");
+      fprintf(stderr, "\tIt's +D\n");
 #endif
-	  
-	  /* Delete all occurrences of l in defeater rule bodies */
-	  while (deleteFirstLiteral(defeater_occ));
-	  
-	  /* Delete all occurrences of l in strict rule bodies */
-	  while ((r = deleteFirstLiteral(strict_occ))) {
-		/*
-		** If a strict rule with head h becomes bodiless, record +D h
-		** and add h to S.  Check inference on h and ~h; if ~h is
-		** consequently updated then add it to S also.
-		*/
-		if (!r->body) {
-		  Literal *h = initLiteral(r->head, r->head_neg, S);
-		  if (h->neg)
-			h->atom->plus_DELTA_neg = true;
-		  else
-			h->atom->plus_DELTA = true;
+      
+      /* Delete all occurrences of l in defeater rule bodies */
+      while (deleteFirstLiteral(defeater_occ));
+      
+      /* Delete all occurrences of l in strict rule bodies */
+      while ((r = deleteFirstLiteral(strict_occ))) {
+        /*
+        ** If a strict rule with head h becomes bodiless, record +D h
+        ** and add h to S.  Check inference on h and ~h; if ~h is
+        ** consequently updated then add it to S also.
+        */
+        if (!r->body) {
+          Literal *h = initLiteral(r->head, r->head_neg, S);
+          if (h->neg)
+            h->atom->plus_DELTA_neg = true;
+          else
+            h->atom->plus_DELTA = true;
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting +D %s%s\n", h->neg ? "~" : "", 
-				  h->atom->id);
+          fprintf(stderr, "\t\tsetting +D %s%s\n", h->neg ? "~" : "", 
+                  h->atom->id);
 #endif
-		  checkInferenceStandard(h->atom, h->neg, Lambda);
-		  if (checkInferenceStandard(h->atom, !h->neg, Lambda))
-			initLiteral(h->atom, !h->neg, S);
-		}
-	  }
-	  
-	  /* Delete all occurrences of l in defeasible rule bodies */
-	  while ((r = deleteFirstLiteral(defeasible_occ))) {
-		/*
-		** If a defeasible rule with head h becomes bodiless, record
-		** +s h and check inference on h and ~h.  If either is
-		** consequently updated then add it to S.
-		*/
+          checkInferenceStandard(h->atom, h->neg, Lambda);
+          if (checkInferenceStandard(h->atom, !h->neg, Lambda))
+            initLiteral(h->atom, !h->neg, S);
+        }
+      }
+      
+      /* Delete all occurrences of l in defeasible rule bodies */
+      while ((r = deleteFirstLiteral(defeasible_occ))) {
+        /*
+        ** If a defeasible rule with head h becomes bodiless, record
+        ** +s h and check inference on h and ~h.  If either is
+        ** consequently updated then add it to S.
+        */
 #ifdef DL_DEBUG
-		printf("\tDeleting %s%s from %s...\n", l->neg ? "~" : "", l->atom->id,
-			   r->id);
+        printf("\tDeleting %s%s from %s...\n", l->neg ? "~" : "", l->atom->id,
+               r->id);
 #endif
-		if (!r->body) {
-		  if (r->head_neg)
-			r->head->plus_sigma_neg = true;
-		  else
-			r->head->plus_sigma = true;
+        if (!r->body) {
+          if (r->head_neg)
+            r->head->plus_sigma_neg = true;
+          else
+            r->head->plus_sigma = true;
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting +s %s%s\n", 
-				  r->head_neg ? "~" : "", r->head->id);
+          fprintf(stderr, "\t\tsetting +s %s%s\n", 
+                  r->head_neg ? "~" : "", r->head->id);
 #endif
-		  if (checkInferenceStandard(r->head, r->head_neg, Lambda)) 
-			initLiteral(r->head, r->head_neg, S);
-		  if (checkInferenceStandard(r->head, !r->head_neg, Lambda)) 
-			initLiteral(r->head, !r->head_neg, S);
-		}
-	  }
-	}
-	
-	/* >>>>>>>>>>>>>>>>>>>>> Case -D: <<<<<<<<<<<<<<<<<<<< */
-	if (*minus_DELTA) {
-	  Literal *h, *next;
+          if (checkInferenceStandard(r->head, r->head_neg, Lambda)) 
+            initLiteral(r->head, r->head_neg, S);
+          if (checkInferenceStandard(r->head, !r->head_neg, Lambda)) 
+            initLiteral(r->head, !r->head_neg, S);
+        }
+      }
+    }
+    
+    /* >>>>>>>>>>>>>>>>>>>>> Case -D: <<<<<<<<<<<<<<<<<<<< */
+    if (*minus_DELTA) {
+      Literal *h, *next;
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\tIt's -D\n");
+      fprintf(stderr, "\tIt's -D\n");
 #endif
-	  
-	  /* Delete all rules that have l in the body */
-	  for (; *strict_occ; *strict_occ = next) {
-		next = (*strict_occ)->down;
-		h = deleteRule((*strict_occ)->rule);
-		/*
-		** Whenever there are no more strict rules for h, record -D h
-		** and add h to S. Check inference on h and ~h.  If ~h is
-		** consequently updated, add it to S as well.
-		*/
-		if (( h->neg && !h->atom->strict_occ_neg) ||
-			(!h->neg && !h->atom->strict_occ)) {
-		  initLiteral(h->atom, h->neg, S);
+      
+      /* Delete all rules that have l in the body */
+      for (; *strict_occ; *strict_occ = next) {
+        next = (*strict_occ)->down;
+        h = deleteRule((*strict_occ)->rule);
+        /*
+        ** Whenever there are no more strict rules for h, record -D h
+        ** and add h to S. Check inference on h and ~h.  If ~h is
+        ** consequently updated, add it to S as well.
+        */
+        if (( h->neg && !h->atom->strict_occ_neg) ||
+            (!h->neg && !h->atom->strict_occ)) {
+          initLiteral(h->atom, h->neg, S);
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting -D %s%s\n", h->neg ? "~" : "", 
-				  h->atom->id);
+          fprintf(stderr, "\t\tsetting -D %s%s\n", h->neg ? "~" : "", 
+                  h->atom->id);
 #endif
-		  if (h->neg)
-			h->atom->minus_DELTA_neg = true;
-		  else
-			h->atom->minus_DELTA = true;
-		  checkInferenceStandard(h->atom, h->neg, Lambda);
-		  if (checkInferenceStandard(h->atom, !h->neg, Lambda))
-			initLiteral(h->atom, !h->neg, S);
-		}
-	  }
-	}
-	
-	/* >>>>>>>>>>>>>>>>>>>>> Case +d: <<<<<<<<<<<<<<<<<<<< */
-	if (*plus_delta) {
-	  Rule *r;
+          if (h->neg)
+            h->atom->minus_DELTA_neg = true;
+          else
+            h->atom->minus_DELTA = true;
+          checkInferenceStandard(h->atom, h->neg, Lambda);
+          if (checkInferenceStandard(h->atom, !h->neg, Lambda))
+            initLiteral(h->atom, !h->neg, S);
+        }
+      }
+    }
+    
+    /* >>>>>>>>>>>>>>>>>>>>> Case +d: <<<<<<<<<<<<<<<<<<<< */
+    if (*plus_delta) {
+      Rule *r;
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\tIt's +d\n");
+      fprintf(stderr, "\tIt's +d\n");
 #endif
-	  
-	  /* Delete all occurrences of l in defeasible rule bodies */
-	  while ((r = deleteFirstLiteral(defeasible_occ))) {
-		/*
-		** If a defeasible rule with head h becomes bodiless, record
-		** +s h. Check inference on both h and ~h; if either is
-		** consequently updated, add it to S.
-		*/
-		if (!r->body) {
-		  if (r->head_neg)
-			r->head->plus_sigma_neg = true;
-		  else
-			r->head->plus_sigma = true;
+      
+      /* Delete all occurrences of l in defeasible rule bodies */
+      while ((r = deleteFirstLiteral(defeasible_occ))) {
+        /*
+        ** If a defeasible rule with head h becomes bodiless, record
+        ** +s h. Check inference on both h and ~h; if either is
+        ** consequently updated, add it to S.
+        */
+        if (!r->body) {
+          if (r->head_neg)
+            r->head->plus_sigma_neg = true;
+          else
+            r->head->plus_sigma = true;
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting +s %s%s\n", 
-				  r->head_neg ? "~" : "", r->head->id);
+          fprintf(stderr, "\t\tsetting +s %s%s\n", 
+                  r->head_neg ? "~" : "", r->head->id);
 #endif
-		  if (checkInferenceStandard(r->head, r->head_neg, Lambda))
-			initLiteral(r->head, r->head_neg, S);
-		  if (checkInferenceStandard(r->head, !r->head_neg, Lambda)) 
-			initLiteral(r->head, !r->head_neg, S);
-		}
-	  }
-	}
-	
-	/* >>>>>>>>>>>>>>>>>>>>> Case -d: <<<<<<<<<<<<<<<<<<<< */
-	if (*minus_delta) {
-	  Literal *h, *next;
+          if (checkInferenceStandard(r->head, r->head_neg, Lambda))
+            initLiteral(r->head, r->head_neg, S);
+          if (checkInferenceStandard(r->head, !r->head_neg, Lambda)) 
+            initLiteral(r->head, !r->head_neg, S);
+        }
+      }
+    }
+    
+    /* >>>>>>>>>>>>>>>>>>>>> Case -d: <<<<<<<<<<<<<<<<<<<< */
+    if (*minus_delta) {
+      Literal *h, *next;
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\tIt's -d\n");
+      fprintf(stderr, "\tIt's -d\n");
 #endif
-	  
-	  /* Delete all rules that have l in the body */
-	  for (; *defeasible_occ; *defeasible_occ = next) {
-		next = (*defeasible_occ)->down;
-		h = deleteRule((*defeasible_occ)->rule);
-		/*
-		** Whenever there are no more defeasible rules for h, record
-		** -s h. Check inference on h and ~h; if either is consequently
-		** updated, add it to S.
-		*/
-		if (( h->neg && !h->atom->defeasible_occ_neg) ||
-			(!h->neg && !h->atom->defeasible_occ)) {
-		  if (h->neg)
-			h->atom->minus_sigma_neg = true;
-		  else
-			h->atom->minus_sigma = true;
+      
+      /* Delete all rules that have l in the body */
+      for (; *defeasible_occ; *defeasible_occ = next) {
+        next = (*defeasible_occ)->down;
+        h = deleteRule((*defeasible_occ)->rule);
+        /*
+        ** Whenever there are no more defeasible rules for h, record
+        ** -s h. Check inference on h and ~h; if either is consequently
+        ** updated, add it to S.
+        */
+        if (( h->neg && !h->atom->defeasible_occ_neg) ||
+            (!h->neg && !h->atom->defeasible_occ)) {
+          if (h->neg)
+            h->atom->minus_sigma_neg = true;
+          else
+            h->atom->minus_sigma = true;
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting -s %s%s\n", h->neg ? "~" : "",
-				  h->atom->id);
+          fprintf(stderr, "\t\tsetting -s %s%s\n", h->neg ? "~" : "",
+                  h->atom->id);
 #endif
-		  if (checkInferenceStandard(h->atom, h->neg, Lambda))
-			initLiteral(h->atom, h->neg, S);
-		  if (checkInferenceStandard(h->atom, !h->neg, Lambda))
-			initLiteral(h->atom, !h->neg, S);
-		}
-	  }
-	}
-	
-	bfree(l);
-  }	
+          if (checkInferenceStandard(h->atom, h->neg, Lambda))
+            initLiteral(h->atom, h->neg, S);
+          if (checkInferenceStandard(h->atom, !h->neg, Lambda))
+            initLiteral(h->atom, !h->neg, S);
+        }
+      }
+    }
+    
+    bfree(l);
+  } 
 }
 
 
@@ -413,197 +413,197 @@ void inferRevisedAlgorithm(Literal **S, Literal **Lambda) {
   yyerror("inferRevisedAlgorithm is not complete");
 
   while (*S) {
-	/*
-	** Pop a literal l from the set S and create some convenient
-	** alias variables
-	*/
-	Literal *l = *S;
-	_Bool *plus_delta = l->neg ? 
-	  &(l->atom->plus_delta_neg) : &(l->atom->plus_delta);
-	_Bool *plus_DELTA = l->neg ? 
-	  &(l->atom->plus_DELTA_neg) : &(l->atom->plus_DELTA);
-	_Bool *minus_delta = l->neg ? 
-	  &(l->atom->minus_delta_neg) : &(l->atom->minus_delta);
-	_Bool *minus_DELTA = l->neg ? 
-	  &(l->atom->minus_DELTA_neg) : &(l->atom->minus_DELTA);
-	Literal **defeater_occ = l->neg ? 
-	  &(l->atom->defeater_occ_neg) : &(l->atom->defeater_occ);
-	Literal **strict_occ = l->neg ? 
-	  &(l->atom->strict_occ_neg) : &(l->atom->strict_occ);
-	Literal **defeasible_occ = l->neg ? 
-	  &(l->atom->defeasible_occ_neg) : &(l->atom->defeasible_occ);
-	
-	*S = (*S)->next;
-	if (*S)
-	  (*S)->prev = NULL;
-	
+    /*
+    ** Pop a literal l from the set S and create some convenient
+    ** alias variables
+    */
+    Literal *l = *S;
+    _Bool *plus_delta = l->neg ? 
+      &(l->atom->plus_delta_neg) : &(l->atom->plus_delta);
+    _Bool *plus_DELTA = l->neg ? 
+      &(l->atom->plus_DELTA_neg) : &(l->atom->plus_DELTA);
+    _Bool *minus_delta = l->neg ? 
+      &(l->atom->minus_delta_neg) : &(l->atom->minus_delta);
+    _Bool *minus_DELTA = l->neg ? 
+      &(l->atom->minus_DELTA_neg) : &(l->atom->minus_DELTA);
+    Literal **defeater_occ = l->neg ? 
+      &(l->atom->defeater_occ_neg) : &(l->atom->defeater_occ);
+    Literal **strict_occ = l->neg ? 
+      &(l->atom->strict_occ_neg) : &(l->atom->strict_occ);
+    Literal **defeasible_occ = l->neg ? 
+      &(l->atom->defeasible_occ_neg) : &(l->atom->defeasible_occ);
+    
+    *S = (*S)->next;
+    if (*S)
+      (*S)->prev = NULL;
+    
 #ifdef DL_DEBUG
-	fprintf(stderr, "Examining %s%s...\n", l->neg ? "~" : "", l->atom->id);
+    fprintf(stderr, "Examining %s%s...\n", l->neg ? "~" : "", l->atom->id);
 #endif
-	
-	/* >>>>>>>>>>>>>>>>>>>>> Case +D: <<<<<<<<<<<<<<<<<<<< */
-	if (*plus_DELTA) {
-	  Rule *r;
+    
+    /* >>>>>>>>>>>>>>>>>>>>> Case +D: <<<<<<<<<<<<<<<<<<<< */
+    if (*plus_DELTA) {
+      Rule *r;
 
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\tIt's +D\n");
+      fprintf(stderr, "\tIt's +D\n");
 #endif
-	  
-	  /* Delete all occurrences of l in defeater rule bodies */
-	  while (deleteFirstLiteral(defeater_occ));
-	  
-	  /* Delete all occurrences of l in strict rule bodies */
-	  while ((r = deleteFirstLiteral(strict_occ))) {
-		/*
-		** If a strict rule with head h becomes bodiless, record +D h
-		** and add h to S.  Check inference on h and ~h; if ~h is
-		** consequently updated then add it to S also.
-		*/
-		if (!r->body) {
-		  Literal *h = initLiteral(r->head, r->head_neg, S);
-		  if (h->neg)
-			h->atom->plus_DELTA_neg = true;
-		  else
-			h->atom->plus_DELTA = true;
+      
+      /* Delete all occurrences of l in defeater rule bodies */
+      while (deleteFirstLiteral(defeater_occ));
+      
+      /* Delete all occurrences of l in strict rule bodies */
+      while ((r = deleteFirstLiteral(strict_occ))) {
+        /*
+        ** If a strict rule with head h becomes bodiless, record +D h
+        ** and add h to S.  Check inference on h and ~h; if ~h is
+        ** consequently updated then add it to S also.
+        */
+        if (!r->body) {
+          Literal *h = initLiteral(r->head, r->head_neg, S);
+          if (h->neg)
+            h->atom->plus_DELTA_neg = true;
+          else
+            h->atom->plus_DELTA = true;
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting +D %s%s\n", h->neg ? "~" : "", 
-				  h->atom->id);
+          fprintf(stderr, "\t\tsetting +D %s%s\n", h->neg ? "~" : "", 
+                  h->atom->id);
 #endif
-		  checkInferenceRevised(h->atom, h->neg, Lambda);
-		  if (checkInferenceRevised(h->atom, !h->neg, Lambda))
-			initLiteral(h->atom, !h->neg, S);
-		}
-	  }
-	  
-	  /* Delete all occurrences of l in defeasible rule bodies */
-	  while ((r = deleteFirstLiteral(defeasible_occ))) {
-		/*
-		** If a defeasible rule with head h becomes bodiless, record
-		** +s h and check inference on h and ~h.  If either is
-		** consequently updated then add it to S.
-		*/
+          checkInferenceRevised(h->atom, h->neg, Lambda);
+          if (checkInferenceRevised(h->atom, !h->neg, Lambda))
+            initLiteral(h->atom, !h->neg, S);
+        }
+      }
+      
+      /* Delete all occurrences of l in defeasible rule bodies */
+      while ((r = deleteFirstLiteral(defeasible_occ))) {
+        /*
+        ** If a defeasible rule with head h becomes bodiless, record
+        ** +s h and check inference on h and ~h.  If either is
+        ** consequently updated then add it to S.
+        */
 #ifdef DL_DEBUG
-		printf("\tDeleting %s%s from %s...\n", l->neg ? "~" : "", l->atom->id,
-			   r->id);
+        printf("\tDeleting %s%s from %s...\n", l->neg ? "~" : "", l->atom->id,
+               r->id);
 #endif
-		if (!r->body) {
-		  if (r->head_neg)
-			r->head->plus_sigma_neg = true;
-		  else
-			r->head->plus_sigma = true;
+        if (!r->body) {
+          if (r->head_neg)
+            r->head->plus_sigma_neg = true;
+          else
+            r->head->plus_sigma = true;
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting +s %s%s\n", 
-				  r->head_neg ? "~" : "", r->head->id);
+          fprintf(stderr, "\t\tsetting +s %s%s\n", 
+                  r->head_neg ? "~" : "", r->head->id);
 #endif
-		  if (checkInferenceRevised(r->head, r->head_neg, Lambda)) 
-			initLiteral(r->head, r->head_neg, S);
-		  if (checkInferenceRevised(r->head, !r->head_neg, Lambda)) 
-			initLiteral(r->head, !r->head_neg, S);
-		}
-	  }
-	}
-	
-	/* >>>>>>>>>>>>>>>>>>>>> Case -D: <<<<<<<<<<<<<<<<<<<< */
-	if (*minus_DELTA) {
-	  Literal *h, *next;
+          if (checkInferenceRevised(r->head, r->head_neg, Lambda)) 
+            initLiteral(r->head, r->head_neg, S);
+          if (checkInferenceRevised(r->head, !r->head_neg, Lambda)) 
+            initLiteral(r->head, !r->head_neg, S);
+        }
+      }
+    }
+    
+    /* >>>>>>>>>>>>>>>>>>>>> Case -D: <<<<<<<<<<<<<<<<<<<< */
+    if (*minus_DELTA) {
+      Literal *h, *next;
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\tIt's -D\n");
+      fprintf(stderr, "\tIt's -D\n");
 #endif
-	  
-	  /* Delete all rules that have l in the body */
-	  for (; *strict_occ; *strict_occ = next) {
-		next = (*strict_occ)->down;
-		h = deleteRule((*strict_occ)->rule);
-		/*
-		** Whenever there are no more strict rules for h, record -D h
-		** and add h to S. Check inference on h and ~h.  If ~h is
-		** consequently updated, add it to S as well.
-		*/
-		if (( h->neg && !h->atom->strict_occ_neg) ||
-			(!h->neg && !h->atom->strict_occ)) {
-		  initLiteral(h->atom, h->neg, S);
+      
+      /* Delete all rules that have l in the body */
+      for (; *strict_occ; *strict_occ = next) {
+        next = (*strict_occ)->down;
+        h = deleteRule((*strict_occ)->rule);
+        /*
+        ** Whenever there are no more strict rules for h, record -D h
+        ** and add h to S. Check inference on h and ~h.  If ~h is
+        ** consequently updated, add it to S as well.
+        */
+        if (( h->neg && !h->atom->strict_occ_neg) ||
+            (!h->neg && !h->atom->strict_occ)) {
+          initLiteral(h->atom, h->neg, S);
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting -D %s%s\n", h->neg ? "~" : "", 
-				  h->atom->id);
+          fprintf(stderr, "\t\tsetting -D %s%s\n", h->neg ? "~" : "", 
+                  h->atom->id);
 #endif
-		  if (h->neg)
-			h->atom->minus_DELTA_neg = true;
-		  else
-			h->atom->minus_DELTA = true;
-		  checkInferenceRevised(h->atom, h->neg, Lambda);
-		  if (checkInferenceRevised(h->atom, !h->neg, Lambda))
-			initLiteral(h->atom, !h->neg, S);
-		}
-	  }
-	}
-	
-	/* >>>>>>>>>>>>>>>>>>>>> Case +d: <<<<<<<<<<<<<<<<<<<< */
-	if (*plus_delta) {
-	  Rule *r;
+          if (h->neg)
+            h->atom->minus_DELTA_neg = true;
+          else
+            h->atom->minus_DELTA = true;
+          checkInferenceRevised(h->atom, h->neg, Lambda);
+          if (checkInferenceRevised(h->atom, !h->neg, Lambda))
+            initLiteral(h->atom, !h->neg, S);
+        }
+      }
+    }
+    
+    /* >>>>>>>>>>>>>>>>>>>>> Case +d: <<<<<<<<<<<<<<<<<<<< */
+    if (*plus_delta) {
+      Rule *r;
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\tIt's +d\n");
+      fprintf(stderr, "\tIt's +d\n");
 #endif
-	  
-	  /* Delete all occurrences of l in defeasible rule bodies */
-	  while ((r = deleteFirstLiteral(defeasible_occ))) {
-		/*
-		** If a defeasible rule with head h becomes bodiless, record
-		** +s h. Check inference on both h and ~h; if either is
-		** consequently updated, add it to S.
-		*/
-		if (!r->body) {
-		  if (r->head_neg)
-			r->head->plus_sigma_neg = true;
-		  else
-			r->head->plus_sigma = true;
+      
+      /* Delete all occurrences of l in defeasible rule bodies */
+      while ((r = deleteFirstLiteral(defeasible_occ))) {
+        /*
+        ** If a defeasible rule with head h becomes bodiless, record
+        ** +s h. Check inference on both h and ~h; if either is
+        ** consequently updated, add it to S.
+        */
+        if (!r->body) {
+          if (r->head_neg)
+            r->head->plus_sigma_neg = true;
+          else
+            r->head->plus_sigma = true;
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting +s %s%s\n", 
-				  r->head_neg ? "~" : "", r->head->id);
+          fprintf(stderr, "\t\tsetting +s %s%s\n", 
+                  r->head_neg ? "~" : "", r->head->id);
 #endif
-		  if (checkInferenceRevised(r->head, r->head_neg, Lambda))
-			initLiteral(r->head, r->head_neg, S);
-		  if (checkInferenceRevised(r->head, !r->head_neg, Lambda)) 
-			initLiteral(r->head, !r->head_neg, S);
-		}
-	  }
-	}
-	
-	/* >>>>>>>>>>>>>>>>>>>>> Case -d: <<<<<<<<<<<<<<<<<<<< */
-	if (*minus_delta) {
-	  Literal *h, *next;
+          if (checkInferenceRevised(r->head, r->head_neg, Lambda))
+            initLiteral(r->head, r->head_neg, S);
+          if (checkInferenceRevised(r->head, !r->head_neg, Lambda)) 
+            initLiteral(r->head, !r->head_neg, S);
+        }
+      }
+    }
+    
+    /* >>>>>>>>>>>>>>>>>>>>> Case -d: <<<<<<<<<<<<<<<<<<<< */
+    if (*minus_delta) {
+      Literal *h, *next;
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\tIt's -d\n");
+      fprintf(stderr, "\tIt's -d\n");
 #endif
-	  
-	  /* Delete all rules that have l in the body */
-	  for (; *defeasible_occ; *defeasible_occ = next) {
-		next = (*defeasible_occ)->down;
-		h = deleteRule((*defeasible_occ)->rule);
-		/*
-		** Whenever there are no more defeasible rules for h, record
-		** -s h. Check inference on h and ~h; if either is consequently
-		** updated, add it to S.
-		*/
-		if (( h->neg && !h->atom->defeasible_occ_neg) ||
-			(!h->neg && !h->atom->defeasible_occ)) {
-		  if (h->neg)
-			h->atom->minus_sigma_neg = true;
-		  else
-			h->atom->minus_sigma = true;
+      
+      /* Delete all rules that have l in the body */
+      for (; *defeasible_occ; *defeasible_occ = next) {
+        next = (*defeasible_occ)->down;
+        h = deleteRule((*defeasible_occ)->rule);
+        /*
+        ** Whenever there are no more defeasible rules for h, record
+        ** -s h. Check inference on h and ~h; if either is consequently
+        ** updated, add it to S.
+        */
+        if (( h->neg && !h->atom->defeasible_occ_neg) ||
+            (!h->neg && !h->atom->defeasible_occ)) {
+          if (h->neg)
+            h->atom->minus_sigma_neg = true;
+          else
+            h->atom->minus_sigma = true;
 #ifdef DL_DEBUG
-		  fprintf(stderr, "\t\tsetting -s %s%s\n", h->neg ? "~" : "",
-				  h->atom->id);
+          fprintf(stderr, "\t\tsetting -s %s%s\n", h->neg ? "~" : "",
+                  h->atom->id);
 #endif
-		  if (checkInferenceRevised(h->atom, h->neg, Lambda))
-			initLiteral(h->atom, h->neg, S);
-		  if (checkInferenceRevised(h->atom, !h->neg, Lambda))
-			initLiteral(h->atom, !h->neg, S);
-		}
-	  }
-	}
-	
-	bfree(l);
-  }	
+          if (checkInferenceRevised(h->atom, h->neg, Lambda))
+            initLiteral(h->atom, h->neg, S);
+          if (checkInferenceRevised(h->atom, !h->neg, Lambda))
+            initLiteral(h->atom, !h->neg, S);
+        }
+      }
+    }
+    
+    bfree(l);
+  } 
 }
 
 
@@ -624,8 +624,8 @@ void inferInitializeL(Literal **L) {
   /* Find all strict rules and add their heads to L */
   hashInitIterator(&i, &ruleTable);
   while ((r = hashGetDatum(&i)))
-	if (r->arrow_type == SARROW)
-	  initLiteral(r->head, r->head_neg, L);
+    if (r->arrow_type == SARROW)
+      initLiteral(r->head, r->head_neg, L);
 
 #ifdef DL_DEBUG
   /* Print out what's initally in L */
@@ -652,8 +652,8 @@ void inferInitializeLambda(Literal **Lambda) {
   /* Find all atoms and add negated and non-negated instances to Lambda */
   hashInitIterator(&i, &atomTable);
   while ((a = hashGetDatum(&i))) {
-	initLiteral(a, true, Lambda);
-	initLiteral(a, false, Lambda);
+    initLiteral(a, true, Lambda);
+    initLiteral(a, false, Lambda);
   } 
 
 #if 0
@@ -668,9 +668,9 @@ void inferInitializeLambda(Literal **Lambda) {
   /* Find all rules and add their heads and bodies Lambda */
   hashInitIterator(&i, &ruleTable);
   while ((r = hashGetDatum(&i))) {
-	initLiteral(r->head, r->head_neg, Lambda);
-	for (body = r->body; body; body = body->next)
-	  initLiteral(body->atom, body->neg, Lambda);
+    initLiteral(r->head, r->head_neg, Lambda);
+    for (body = r->body; body; body = body->next)
+      initLiteral(body->atom, body->neg, Lambda);
   }
 #endif
 
@@ -701,62 +701,62 @@ void inferInitializeS(Literal **S) {
   */
   hashInitIterator(&i, &atomTable);
   while ((a = hashGetDatum(&i))) {
-	/* We can ignore the boolean constants since they'll be added later */
-	if (!strcmp(a->id, "true") || !strcmp(a->id, "false"))
-	  continue;
-	
-	if (a->plus_DELTA)							     /* Add a if a is a fact */
-	  initLiteral(a, false, S);
-	else if (!a->unknown) {
-	  _Bool found_strict = false, found_rule = false;
-	  RuleList *rl;
-	  for (rl = a->rule_heads; rl; rl = rl->next)	/* Check for rules for a */
-		if (rl->rule->arrow_type == SARROW)
-		  found_strict = true;
-		else
-		  found_rule = true;
-	  if (!found_strict) {				        /* Set -D if no strict rules */
-		a->minus_DELTA = true;
-		initLiteral(a, false, S);
-	  }
-	  if (!found_rule && !found_strict) {	           /* Set -d if no rules */
-		a->minus_sigma = true;
-		initLiteral(a, false, S);
-	  }
-	}
-	
-	if (a->plus_DELTA_neg)					       /* Add ~a if ~a is a fact */
-	  initLiteral(a, true, S);
-	else if (!a->unknown_neg) {
-	  _Bool found_strict = false, found_rule = false;
-	  RuleList *rl;
-	  for (rl = a->rule_heads_neg; rl; rl = rl->next)	  /* check for rules */
-		if (rl->rule->arrow_type == SARROW)
-		  found_strict = true;
-		else
-		  found_rule = true;
-	  if (!found_strict) {				        /* Set -D if no strict rules */
-		a->minus_DELTA_neg = true;
-		initLiteral(a, true, S);
-	  }
-	  if (!found_rule && !found_strict) {		     /* Set -d~a if no rules */
-		a->minus_sigma_neg = true;
-		initLiteral(a, true, S);
-	  }
-	}
-  }		
+    /* We can ignore the boolean constants since they'll be added later */
+    if (!strcmp(a->id, "true") || !strcmp(a->id, "false"))
+      continue;
+    
+    if (a->plus_DELTA)                               /* Add a if a is a fact */
+      initLiteral(a, false, S);
+    else if (!a->unknown) {
+      _Bool found_strict = false, found_rule = false;
+      RuleList *rl;
+      for (rl = a->rule_heads; rl; rl = rl->next)   /* Check for rules for a */
+        if (rl->rule->arrow_type == SARROW)
+          found_strict = true;
+        else
+          found_rule = true;
+      if (!found_strict) {                      /* Set -D if no strict rules */
+        a->minus_DELTA = true;
+        initLiteral(a, false, S);
+      }
+      if (!found_rule && !found_strict) {              /* Set -d if no rules */
+        a->minus_sigma = true;
+        initLiteral(a, false, S);
+      }
+    }
+    
+    if (a->plus_DELTA_neg)                         /* Add ~a if ~a is a fact */
+      initLiteral(a, true, S);
+    else if (!a->unknown_neg) {
+      _Bool found_strict = false, found_rule = false;
+      RuleList *rl;
+      for (rl = a->rule_heads_neg; rl; rl = rl->next)     /* check for rules */
+        if (rl->rule->arrow_type == SARROW)
+          found_strict = true;
+        else
+          found_rule = true;
+      if (!found_strict) {                      /* Set -D if no strict rules */
+        a->minus_DELTA_neg = true;
+        initLiteral(a, true, S);
+      }
+      if (!found_rule && !found_strict) {            /* Set -d~a if no rules */
+        a->minus_sigma_neg = true;
+        initLiteral(a, true, S);
+      }
+    }
+  }     
 
   /*
   ** We want to make sure that the boolean constants are at the beginning of
   ** S so that they are processed first in the main loop
   */
   a = hashLookup("true", &atomTable);
-  initLiteral(a, false, S);						            /* Add true to S */
-  initLiteral(a, true, S);						        /* Add neg true to S */
+  initLiteral(a, false, S);                                 /* Add true to S */
+  initLiteral(a, true, S);                              /* Add neg true to S */
   
   a = hashLookup("false", &atomTable);
-  initLiteral(a, false, S);						           /* Add false to S */
-  initLiteral(a, true, S);						       /* Add neg false to S */
+  initLiteral(a, false, S);                                /* Add false to S */
+  initLiteral(a, true, S);                             /* Add neg false to S */
   
 #ifdef DL_DEBUG
   /* Print out what's initally in S */
@@ -787,29 +787,29 @@ _Bool checkInferenceStandard(Atom *a, _Bool neg, Literal **Lambda) {
   _Bool *minus_DELTA_not = neg ? &(a->minus_DELTA) : &(a->minus_DELTA_neg);
   
   if (*plus_DELTA || (*plus_sigma && *minus_DELTA_not && *minus_sigma_not)) {
-	_Bool *plus_delta = neg ? &(a->plus_delta_neg) : &(a->plus_delta);
+    _Bool *plus_delta = neg ? &(a->plus_delta_neg) : &(a->plus_delta);
 #ifdef DL_DEBUG
-	fprintf(stderr, "\t\tsetting +d %s%s\n", neg ? "~" : "", a->id);
+    fprintf(stderr, "\t\tsetting +d %s%s\n", neg ? "~" : "", a->id);
 #endif
-	if (Lambda)
-	  deleteLiteral(a, neg, Lambda);
-	return (*plus_delta = true);
+    if (Lambda)
+      deleteLiteral(a, neg, Lambda);
+    return (*plus_delta = true);
   }
   else {
-	_Bool *unknown = neg ? &(a->unknown_neg) : &(a->unknown);
-	_Bool *minus_DELTA = neg ? &(a->minus_DELTA_neg) : &(a->minus_DELTA);
-	_Bool *minus_sigma = neg ? &(a->minus_sigma_neg) : &(a->minus_sigma);
-	_Bool *plus_DELTA_not = neg ? &(a->plus_DELTA) : &(a->plus_DELTA_neg);
-	_Bool *plus_sigma_not = neg ? &(a->plus_sigma) : &(a->plus_sigma_neg);
+    _Bool *unknown = neg ? &(a->unknown_neg) : &(a->unknown);
+    _Bool *minus_DELTA = neg ? &(a->minus_DELTA_neg) : &(a->minus_DELTA);
+    _Bool *minus_sigma = neg ? &(a->minus_sigma_neg) : &(a->minus_sigma);
+    _Bool *plus_DELTA_not = neg ? &(a->plus_DELTA) : &(a->plus_DELTA_neg);
+    _Bool *plus_sigma_not = neg ? &(a->plus_sigma) : &(a->plus_sigma_neg);
   
-	if (*minus_DELTA && (*minus_sigma || *plus_DELTA_not || *plus_sigma_not) &&
-		!*unknown) {
-	  _Bool *minus_delta = neg ? &(a->minus_delta_neg) : &(a->minus_delta);
+    if (*minus_DELTA && (*minus_sigma || *plus_DELTA_not || *plus_sigma_not) &&
+        !*unknown) {
+      _Bool *minus_delta = neg ? &(a->minus_delta_neg) : &(a->minus_delta);
 #ifdef DL_DEBUG
-	  fprintf(stderr, "\t\tsetting -d %s%s\n", neg ? "~" : "", a->id);
+      fprintf(stderr, "\t\tsetting -d %s%s\n", neg ? "~" : "", a->id);
 #endif
-	  return (*minus_delta = true);
-	}
+      return (*minus_delta = true);
+    }
   }
 
   return false;
@@ -831,18 +831,18 @@ _Bool checkInferenceRevised(Atom *a, _Bool neg, Literal **Lambda) {
   _Bool *minus_DELTA_not = neg ? &(a->minus_DELTA) : &(a->minus_DELTA_neg);
   
   if (*plus_DELTA || (*plus_sigma && *minus_DELTA_not)) {
-	_Bool *plus_delta = neg ? &(a->plus_delta_neg) : &(a->plus_delta);
+    _Bool *plus_delta = neg ? &(a->plus_delta_neg) : &(a->plus_delta);
 #ifdef DL_DEBUG
-	fprintf(stderr, "\t\tsetting +d %s%s\n", neg ? "~" : "", a->id);
+    fprintf(stderr, "\t\tsetting +d %s%s\n", neg ? "~" : "", a->id);
 #endif
 
-	/* Mark all occurrences of this literal in Lambda */
-	if (*Lambda)
-	  for (; *Lambda; *Lambda = (*Lambda)->next)
-		if ((*Lambda)->atom == a && (*Lambda)->neg == neg)
-		  (*Lambda)->marked = true;
+    /* Mark all occurrences of this literal in Lambda */
+    if (*Lambda)
+      for (; *Lambda; *Lambda = (*Lambda)->next)
+        if ((*Lambda)->atom == a && (*Lambda)->neg == neg)
+          (*Lambda)->marked = true;
 
-	return (*plus_delta = true);
+    return (*plus_delta = true);
   }
 
   return false;
@@ -876,18 +876,18 @@ Returns : pointer to literal specifying head of the deleted rule (note that
 Literal *deleteRule(Rule *r) {
   static Literal l;
   RuleList **prl = r->head_neg ? 
-	&(r->head->rule_heads_neg) : &(r->head->rule_heads);
+    &(r->head->rule_heads_neg) : &(r->head->rule_heads);
   RuleList *rl;
   
   /* Remove r from its head's rule_heads list */
   for (rl = *prl; rl && rl->rule != r; rl = rl->next);
   if (rl) {
-	if (rl->prev)
-	  rl->prev->next = rl->next;
-	if (rl->next)
-	  rl->next->prev = rl->prev;
-	if (rl == *prl)
-	  (*prl) = rl->next;
+    if (rl->prev)
+      rl->prev->next = rl->next;
+    if (rl->next)
+      rl->next->prev = rl->prev;
+    if (rl == *prl)
+      (*prl) = rl->next;
   }
   
   /* Remove body */
@@ -918,11 +918,11 @@ void deleteLiteral(Atom *a, _Bool neg, Literal **L) {
   Literal *l;
 
   while (*L && (*L)->atom == a && (*L)->neg == neg)
-	deleteFirstLiteral(L);
+    deleteFirstLiteral(L);
 
   for (l = *L; l; l = l->next)
-	while (l && l->atom == a && l->neg == neg)
-	  deleteFirstLiteral(&l);
+    while (l && l->atom == a && l->neg == neg)
+      deleteFirstLiteral(&l);
 }
 
 
@@ -939,33 +939,33 @@ Rule *deleteFirstLiteral(Literal **L) {
 
   /* List is already empty */
   if (!l)
-	return NULL;
+    return NULL;
 
   if ((r = l->rule)) {
-	/*
-	** If literal is part of a rule body, and is the first in its atom's list
-	** of rule occurrences, remove the literal from its atom's list of rule
-	** occurrences
-	*/
-	if (l->atom->defeasible_occ_neg == l)
-	  l->atom->defeasible_occ_neg = l->down;
-	else if (l->atom->defeasible_occ == l)
-	  l->atom->defeasible_occ = l->down;
-	else if (l->atom->strict_occ_neg == l)
-	  l->atom->strict_occ_neg = l->down;
-	else if (l->atom->strict_occ == l)
-	  l->atom->strict_occ = l->down;
-	else if (l->atom->defeater_occ_neg == l)
-	  l->atom->defeater_occ_neg = l->down;
-	else if (l->atom->defeater_occ == l)
-	  l->atom->defeater_occ = l->down;
+    /*
+    ** If literal is part of a rule body, and is the first in its atom's list
+    ** of rule occurrences, remove the literal from its atom's list of rule
+    ** occurrences
+    */
+    if (l->atom->defeasible_occ_neg == l)
+      l->atom->defeasible_occ_neg = l->down;
+    else if (l->atom->defeasible_occ == l)
+      l->atom->defeasible_occ = l->down;
+    else if (l->atom->strict_occ_neg == l)
+      l->atom->strict_occ_neg = l->down;
+    else if (l->atom->strict_occ == l)
+      l->atom->strict_occ = l->down;
+    else if (l->atom->defeater_occ_neg == l)
+      l->atom->defeater_occ_neg = l->down;
+    else if (l->atom->defeater_occ == l)
+      l->atom->defeater_occ = l->down;
 
-	/*
-	** If literal is the first in a rule body, modify the rule's body pointer
-	** so that it points to the next literal in the body
-	*/
-	if (r->body == l)
-	  r->body = l->next;
+    /*
+    ** If literal is the first in a rule body, modify the rule's body pointer
+    ** so that it points to the next literal in the body
+    */
+    if (r->body == l)
+      r->body = l->next;
   }
 
   /* Modify the list L so that it now points to the next literal */
@@ -973,13 +973,13 @@ Rule *deleteFirstLiteral(Literal **L) {
 
   /* Tie together the ends of the two linked lists the literal is part of */
   if (l->prev)
-	l->prev->next = l->next;
+    l->prev->next = l->next;
   if (l->next)
-	l->next->prev = l->prev;
+    l->next->prev = l->prev;
   if (l->up)
-	l->up->down = l->down;
+    l->up->down = l->down;
   if (l->down)
-	l->down->up = l->up;
+    l->down->up = l->up;
 
   bfree(l);
   return r;
@@ -994,7 +994,7 @@ Returns : nothing
 ----------------------------------------------------------------------------*/
 void yyerror(const char *errmsg) {
   fprintf(stderr, "%s:%d at `%s': %s\n", yy_current_file, yylineno, 
-		  yytext, errmsg);
+          yytext, errmsg);
 }
 
 
@@ -1039,41 +1039,41 @@ void fprintRule(FILE *fp, const Rule *r) {
 
   /* Build an array of pointers to rules to print */
   if (r) {
-	ruleList = balloc(2 * sizeof(Rule *));
-	ruleList[0] = r;
-	ruleList[1] = NULL;
+    ruleList = balloc(2 * sizeof(Rule *));
+    ruleList[0] = r;
+    ruleList[1] = NULL;
   }
   else {
-	hashIterator i;
-	size_t pop = hashPopulation(&ruleTable);
-	ruleList = balloc((pop + 1) * sizeof(Rule *));
-	hashInitIterator(&i, &ruleTable);
-	for (ptr = ruleList; (*ptr = hashGetDatum(&i)); ptr++);
-	qsort(ruleList, pop, sizeof(Rule *), cmpRuleOrder);
+    hashIterator i;
+    size_t pop = hashPopulation(&ruleTable);
+    ruleList = balloc((pop + 1) * sizeof(Rule *));
+    hashInitIterator(&i, &ruleTable);
+    for (ptr = ruleList; (*ptr = hashGetDatum(&i)); ptr++);
+    qsort(ruleList, pop, sizeof(Rule *), cmpRuleOrder);
   }
 
   /* Actually print the rules */
   for (ptr = ruleList; *ptr; ptr++) {
-	if ((*ptr)->head) {
-	  fprintf(fp, "%s: %s%s ", (*ptr)->id, (*ptr)->head_neg ? "~" : "", 
-			  (*ptr)->head->id);
-	  switch ((*ptr)->arrow_type) {
-	  case SARROW:
-		fprintf(fp, "<- ");
-		break;
-	  case DARROW:
-		fprintf(fp, "<= ");
-		break;
-	  case DEFARROW:
-		fprintf(fp, "<~ ");
-		break;
-	  }
-	  fprintLiteralList(fp, (*ptr)->body, offsetof(Literal, next));
-	}
-	else
-	  fprintf(fp, "%s: undefined", (*ptr)->id);
-	if (*(ptr + 1))
-	  fputc('\n', fp);
+    if ((*ptr)->head) {
+      fprintf(fp, "%s: %s%s ", (*ptr)->id, (*ptr)->head_neg ? "~" : "", 
+              (*ptr)->head->id);
+      switch ((*ptr)->arrow_type) {
+      case SARROW:
+        fprintf(fp, "<- ");
+        break;
+      case DARROW:
+        fprintf(fp, "<= ");
+        break;
+      case DEFARROW:
+        fprintf(fp, "<~ ");
+        break;
+      }
+      fprintLiteralList(fp, (*ptr)->body, offsetof(Literal, next));
+    }
+    else
+      fprintf(fp, "%s: undefined", (*ptr)->id);
+    if (*(ptr + 1))
+      fputc('\n', fp);
   }
 
   bfree(ruleList);
@@ -1091,7 +1091,7 @@ Returns : -1 if r1->ordinal < r2->ordinal
 -----------------------------------------------------------------------------*/
 int cmpRuleOrder(const void *r1, const void *r2) {
   size_t o1 = ((*(const Rule **)r1))->ordinal, 
-	     o2 = ((*(const Rule **)r2))->ordinal;
+         o2 = ((*(const Rule **)r2))->ordinal;
 
   return (o1 < o2) ? -1 : (o1 > o2);
 }
@@ -1122,30 +1122,30 @@ void fprintAtom(FILE *fp, const Atom *a) {
   fprintf(fp, "-s~%s=%c", a->id, a->minus_sigma_neg ? 'T':'F');
   fprintf(fp, "\n %s strict_occ: ", a->id);
   for (l = a->strict_occ; l; l = l->down)
-	fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
+    fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
   fprintf(fp, "\n~%s strict_occ: ", a->id);
   for (l = a->strict_occ_neg; l; l = l->down)
-	fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
+    fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
   fprintf(fp, "\n %s defeasible_occ: ", a->id);
   for (l = a->defeasible_occ; l; l = l->down)
-	fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
+    fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
   fprintf(fp, "\n~%s defeasible_occ: ", a->id);
   for (l = a->defeasible_occ_neg; l; l = l->down)
-	fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
+    fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
   fprintf(fp, "\n %s defeater_occ: ", a->id);
   for (l = a->defeater_occ; l; l = l->down)
-	fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
+    fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
   fprintf(fp, "\n~%s defeater_occ: ", a->id);
   for (l = a->defeater_occ_neg; l; l = l->down)
-	fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
+    fprintf(fp, "%s%s", l->rule->id, l->down ? "," : "");
   fputc('\n', fp);
 #endif
   fprintf(fp, "rules for %s: ", a->id);
   for (r = a->rule_heads; r; r = r->next)
-	fprintf(fp, "%s%s", r->rule->id, r->next ? "," : "");
+    fprintf(fp, "%s%s", r->rule->id, r->next ? "," : "");
   fprintf(fp, "\nrules for not %s: ", a->id);
   for (r = a->rule_heads_neg; r; r = r->next)
-	fprintf(fp, "%s%s", r->rule->id, r->next ? "," : "");
+    fprintf(fp, "%s%s", r->rule->id, r->next ? "," : "");
   fputc('\n', fp);
 }
 
@@ -1162,8 +1162,8 @@ Returns : nothing
 -----------------------------------------------------------------------------*/
 void fprintLiteralList(FILE *fp, const Literal *l, size_t next) {
   for (; l; l = *(Literal **)((char *)l + next))
-	fprintf(fp, "%s%s%s", l->neg ? "~" : "", l->atom->id, 
-			*(Literal **)((char *)l + next) ? "," : "");
+    fprintf(fp, "%s%s%s", l->neg ? "~" : "", l->atom->id, 
+            *(Literal **)((char *)l + next) ? "," : "");
 }
 
 
@@ -1176,8 +1176,8 @@ Args    : r -- pointer to the rule to duplicate
 Returns : pointer to the new rule
 Note    : 1. idfmt must be a printf-like format string containing exactly one
           conversion, %s, which will be replaced with the old rule's id
-		  2. this function does not insert the duplicate into the rule table, 
-		  allowing its attributes to be changed first by the calling function
+          2. this function does not insert the duplicate into the rule table, 
+          allowing its attributes to be changed first by the calling function
 -----------------------------------------------------------------------------*/
 Rule *dupRule(const Rule *r, const char *idfmt) {
   Rule *newRule = balloc(sizeof(Rule));
@@ -1185,29 +1185,29 @@ Rule *dupRule(const Rule *r, const char *idfmt) {
 
   /* Set the new rule id */
   if (idfmt) {
-	newRule->id = balloc(strlen(idfmt) + strlen(r->id) - 1);
-	sprintf(newRule->id, idfmt, r->id);
+    newRule->id = balloc(strlen(idfmt) + strlen(r->id) - 1);
+    sprintf(newRule->id, idfmt, r->id);
   }
   else
-	setRuleName(newRule);
+    setRuleName(newRule);
   
   /* Duplicate the body */
   for (body = r->body; body; body = body->next) {
-	Literal *newLit = balloc(sizeof(Literal));
-	newLit->atom = body->atom;
-	newLit->neg = body->neg;
-	if (body == r->body) {
-	  first = newLit;
-	  newLit->prev = NULL;
-	}
-	else {
-	  prev->next = newLit;
-	  newLit->prev = prev;
-	}
-	if (body->next)
-	  prev = newLit;
-	else
-	  newLit->next = NULL;
+    Literal *newLit = balloc(sizeof(Literal));
+    newLit->atom = body->atom;
+    newLit->neg = body->neg;
+    if (body == r->body) {
+      first = newLit;
+      newLit->prev = NULL;
+    }
+    else {
+      prev->next = newLit;
+      newLit->prev = prev;
+    }
+    if (body->next)
+      prev = newLit;
+    else
+      newLit->next = NULL;
   }
   newRule->body = first;
   
@@ -1238,15 +1238,15 @@ Rule *addRule(Rule *r, Rule *(*func)(Rule *, Rule *(*)())) {
 
   /* Add rule to rule table */
   if ((temp = hashLookup(r->id, &ruleTable))) {
-	char *err = balloc(strlen(r->id) + 50);
-	sprintf(err, "warning: ignoring redefinition of `%s'", r->id);
-	yyerror(err);
-	bfree(err);
+    char *err = balloc(strlen(r->id) + 50);
+    sprintf(err, "warning: ignoring redefinition of `%s'", r->id);
+    yyerror(err);
+    bfree(err);
     return temp;
   }
   else if (!hashInsert(r->id, r, &ruleTable)) {
-	  yyerror("cannot insert into rule table");
-	  exit(EXIT_FAILURE);
+      yyerror("cannot insert into rule table");
+      exit(EXIT_FAILURE);
   }
 
   /*
@@ -1254,36 +1254,36 @@ Rule *addRule(Rule *r, Rule *(*func)(Rule *, Rule *(*)())) {
   ** among the same type of rule
   */
   for (body = r->body ; body; body = body->next) {
-	Literal **occList;
-	
-	/* Determine which linked list of body occurrences body belongs to */
-	switch (r->arrow_type) {
-	case SARROW:
-	  occList = body->neg ? &(body->atom->strict_occ_neg):
-		&(body->atom->strict_occ);
-	  break;
-	case DARROW:
-	  occList = body->neg ? &(body->atom->defeasible_occ_neg):
-		&(body->atom->defeasible_occ);
-	  break;
-	case DEFARROW:
-	  occList = body->neg ? &(body->atom->defeater_occ_neg):
-		&(body->atom->defeater_occ);
-	  break;
-	}
-	
-	/* Add body to the end of occList */
-	/* *** is this necessary?  can it be added to the beginning? *** */
-	body->down = NULL;
-	for (; *occList && (*occList)->down; occList = &((*occList)->down));
-	if (!*occList) {
-	  body->up = NULL;
-	  *occList = body;
-	}
-	else {
-	  body->up = *occList;
-	  (*occList)->down = body;
-	}
+    Literal **occList;
+    
+    /* Determine which linked list of body occurrences body belongs to */
+    switch (r->arrow_type) {
+    case SARROW:
+      occList = body->neg ? &(body->atom->strict_occ_neg):
+        &(body->atom->strict_occ);
+      break;
+    case DARROW:
+      occList = body->neg ? &(body->atom->defeasible_occ_neg):
+        &(body->atom->defeasible_occ);
+      break;
+    case DEFARROW:
+      occList = body->neg ? &(body->atom->defeater_occ_neg):
+        &(body->atom->defeater_occ);
+      break;
+    }
+    
+    /* Add body to the end of occList */
+    /* *** is this necessary?  can it be added to the beginning? *** */
+    body->down = NULL;
+    for (; *occList && (*occList)->down; occList = &((*occList)->down));
+    if (!*occList) {
+      body->up = NULL;
+      *occList = body;
+    }
+    else {
+      body->up = *occList;
+      (*occList)->down = body;
+    }
   }
   
   /* All atoms keep track of rules for which they serve as heads */
@@ -1291,16 +1291,16 @@ Rule *addRule(Rule *r, Rule *(*func)(Rule *, Rule *(*)())) {
   ruleNode->rule = r;
   ruleNode->next = NULL;
   for (headList = r->head_neg ? 
-		 &(r->head->rule_heads_neg) : &(r->head->rule_heads);
-	   *headList && (*headList)->next;
-	   headList = &((*headList)->next));
+         &(r->head->rule_heads_neg) : &(r->head->rule_heads);
+       *headList && (*headList)->next;
+       headList = &((*headList)->next));
   if (!*headList) {
-	ruleNode->prev = NULL;
-	*headList = ruleNode;
+    ruleNode->prev = NULL;
+    *headList = ruleNode;
   }
   else {
-	ruleNode->prev = *headList;
-	(*headList)->next = ruleNode;
+    ruleNode->prev = *headList;
+    (*headList)->next = ruleNode;
   }
 
   return r;
@@ -1313,7 +1313,7 @@ Purpose : initializes a rule with given parameters
 Args    : r -- pointer to the rule to initialize, or NULL to create a new rule
           id -- pointer to the rule's id, or NULL to automatically generate one
           head -- pointer to head atom
-		  head_neg -- is head negated
+          head_neg -- is head negated
           arrow -- must be one of SARROW, DARROW, or DEFARROW
           body -- pointer to body literal list
 Returns : pointer to the initialized rule
@@ -1321,7 +1321,7 @@ Notes   : unlike initAtom(), id is not strdup'ed. id should point to something
           dynamically-allocated, and shouldn't be freed by the calling function
 -----------------------------------------------------------------------------*/
 Rule *initRule(Rule *r, const char *id, const Atom *head, _Bool head_neg, 
-			   int arrow, Literal *body) {
+               int arrow, Literal *body) {
 
   /*
   ** The following variable keeps track of 
@@ -1330,11 +1330,11 @@ Rule *initRule(Rule *r, const char *id, const Atom *head, _Bool head_neg,
   static uintmax_t ordinal = 0;
   
   if (!r)
-	r = balloc(sizeof(Rule));
+    r = balloc(sizeof(Rule));
   if (id)
-	r->id = (char *)id;
+    r->id = (char *)id;
   else
-	setRuleName(r);
+    setRuleName(r);
   r->head = (Atom *)head;
   r->head_neg = head_neg;
   r->arrow_type = arrow;
@@ -1342,14 +1342,14 @@ Rule *initRule(Rule *r, const char *id, const Atom *head, _Bool head_neg,
   r->ordinal = ordinal++;
   
   if (ordinal == 0)
-	/*
-	** The following is only a warning, since the program will still
-	** work except that rules will not be properly sorted when listed
-	*/
-	yyerror("warning: rule count overflow");
+    /*
+    ** The following is only a warning, since the program will still
+    ** work except that rules will not be properly sorted when listed
+    */
+    yyerror("warning: rule count overflow");
 
   for (; body; body = body->next)
-	body->rule = r;			/* Link back to rule */
+    body->rule = r;         /* Link back to rule */
   
   return r;
 }
@@ -1375,13 +1375,13 @@ Literal *initLiteral(const Atom *a, _Bool neg, Literal **list) {
   l->up = NULL;
   l->prev = NULL;
   if (list) {
-	l->next = *list;
-	if (*list)
-	  (*list)->prev = l;
-	*list = l;
+    l->next = *list;
+    if (*list)
+      (*list)->prev = l;
+    *list = l;
   }
   else
-	l->next = NULL;
+    l->next = NULL;
   return l;
 }
 
@@ -1399,34 +1399,34 @@ Notes   : id is strdup'ed, so there's no need pass initAtom a dynamically-
 Atom *initAtom(const char *id) {
   Atom *a = hashLookup(id, &atomTable);
   if (!a) {
-	a = balloc(sizeof(Atom));
-	a->id = dl_strdup(id);
-	a->plus_delta = false;
-	a->minus_delta = false;
-	a->plus_DELTA = false;
-	a->minus_DELTA = false;
-	a->plus_sigma = false;
-	a->minus_sigma = false;
-	a->plus_delta_neg = false;
-	a->minus_delta_neg = false;
-	a->plus_DELTA_neg = false;
-	a->minus_DELTA_neg = false;
-	a->plus_sigma_neg = false;
-	a->minus_sigma_neg = false;
-	a->unknown = false;
-	a->unknown_neg = false;
-	a->strict_occ = NULL;
-	a->defeasible_occ = NULL;
-	a->defeater_occ = NULL;
-	a->strict_occ_neg = NULL;
-	a->defeasible_occ_neg = NULL;	
-	a->defeater_occ_neg = NULL;
-	a->rule_heads = NULL;
-	a->rule_heads_neg = NULL;
-	if (!hashInsert(a->id, a, &atomTable)) {
-	  yyerror("cannot insert into atom table");
-	  exit(EXIT_FAILURE);
-	}
+    a = balloc(sizeof(Atom));
+    a->id = dl_strdup(id);
+    a->plus_delta = false;
+    a->minus_delta = false;
+    a->plus_DELTA = false;
+    a->minus_DELTA = false;
+    a->plus_sigma = false;
+    a->minus_sigma = false;
+    a->plus_delta_neg = false;
+    a->minus_delta_neg = false;
+    a->plus_DELTA_neg = false;
+    a->minus_DELTA_neg = false;
+    a->plus_sigma_neg = false;
+    a->minus_sigma_neg = false;
+    a->unknown = false;
+    a->unknown_neg = false;
+    a->strict_occ = NULL;
+    a->defeasible_occ = NULL;
+    a->defeater_occ = NULL;
+    a->strict_occ_neg = NULL;
+    a->defeasible_occ_neg = NULL;   
+    a->defeater_occ_neg = NULL;
+    a->rule_heads = NULL;
+    a->rule_heads_neg = NULL;
+    if (!hashInsert(a->id, a, &atomTable)) {
+      yyerror("cannot insert into atom table");
+      exit(EXIT_FAILURE);
+    }
   }
   return a;
 }
@@ -1443,7 +1443,7 @@ Source  : Secs. 5.2 ("Simulating the Superiority Relation") and 5.3 (Simulating
           the Defeaters) of an unknown paper provided by M.J. Maher
 -----------------------------------------------------------------------------*/
 Rule *elimSupRel(const char *r1, const char *r2, 
-				 Rule *(*func)(Rule *, Rule *(*)())) {
+                 Rule *(*func)(Rule *, Rule *(*)())) {
   Atom *inf_plus_r1, *inf_minus_r1, *inf_plus_r2, *inf_minus_r2;
   char *buf = balloc(strlen(r1) + strlen(r2) + 11);
   
@@ -1462,14 +1462,14 @@ Rule *elimSupRel(const char *r1, const char *r2,
   /* Create inf + (r2) <= ~inf + (r1) */
   sprintf(buf, "%s/gt_%s_0", r1, r2);
   if (!hashLookup(buf, &ruleTable))
-	func(initRule(NULL, dl_strdup(buf), inf_plus_r2, false, DARROW, 
-			   initLiteral(inf_plus_r1, true, NULL)), addRule);
+    func(initRule(NULL, dl_strdup(buf), inf_plus_r2, false, DARROW, 
+               initLiteral(inf_plus_r1, true, NULL)), addRule);
   
   /* Create inf-(r2) <= ~inf-(r1) */
   sprintf(buf, "%s/gt_%s_1", r1, r2);
   if (!hashLookup(buf, &ruleTable)) {
-	func(initRule(NULL, dl_strdup(buf), inf_minus_r2, false, DARROW, 
-			 initLiteral(inf_minus_r1, true, NULL)), addRule);
+    func(initRule(NULL, dl_strdup(buf), inf_minus_r2, false, DARROW, 
+             initLiteral(inf_minus_r1, true, NULL)), addRule);
   }
 
   bfree(buf);
@@ -1502,51 +1502,51 @@ Rule *elimSupRel_r(Rule *r1, Rule *(*func)(Rule *, Rule *(*)())) {
   */
   sprintf(buf, "%s/body", r1->id);
   if (!(r1_body = hashLookup(buf, &atomTable))) {
-	r1_body = initAtom(buf);
-	r1_body->minus_delta_neg = true;
-	r1_body->minus_DELTA_neg = true;
-	r = dupRule(r1, "%s/bodyrule");
-	addRule(initRule(r, r->id, r1_body, false, DARROW, r->body), NULL);
+    r1_body = initAtom(buf);
+    r1_body->minus_delta_neg = true;
+    r1_body->minus_DELTA_neg = true;
+    r = dupRule(r1, "%s/bodyrule");
+    addRule(initRule(r, r->id, r1_body, false, DARROW, r->body), NULL);
   }
 
   switch (r1->arrow_type) {
 
   case DARROW:
 
-	/* Create ~inf + (r1) <= r1_body */
-	sprintf(buf, "%s/es0", r1->id);
-	func(initRule(NULL, dl_strdup(buf), inf_plus_r1, true, DARROW, 
-				  initLiteral(r1_body, false, NULL)), addRule);
-	
-	/* Create r1.head <= ~inf + (r1) */
-	sprintf(buf, "%s/es1", r1->id);
-	func(initRule(NULL, dl_strdup(buf), r1->head, r1->head_neg, DARROW, 
-			 initLiteral(inf_plus_r1, true, NULL)), addRule);
-	
-	/* Create ~inf-(r1) <= r1_body */
-	sprintf(buf, "%s/es2", r1->id);
-	func(initRule(NULL, dl_strdup(buf), inf_minus_r1, true, DARROW, 
-			 initLiteral(r1_body, false, NULL)), addRule);
-	
-	/* Create r1.head <= ~inf-(r1) */
-	sprintf(buf, "%s/es3", r1->id);
-	func(initRule(NULL, dl_strdup(buf), r1->head, r1->head_neg, DARROW, 
-			 initLiteral(inf_minus_r1, true, NULL)), addRule);
-	
-	break;
+    /* Create ~inf + (r1) <= r1_body */
+    sprintf(buf, "%s/es0", r1->id);
+    func(initRule(NULL, dl_strdup(buf), inf_plus_r1, true, DARROW, 
+                  initLiteral(r1_body, false, NULL)), addRule);
+    
+    /* Create r1.head <= ~inf + (r1) */
+    sprintf(buf, "%s/es1", r1->id);
+    func(initRule(NULL, dl_strdup(buf), r1->head, r1->head_neg, DARROW, 
+             initLiteral(inf_plus_r1, true, NULL)), addRule);
+    
+    /* Create ~inf-(r1) <= r1_body */
+    sprintf(buf, "%s/es2", r1->id);
+    func(initRule(NULL, dl_strdup(buf), inf_minus_r1, true, DARROW, 
+             initLiteral(r1_body, false, NULL)), addRule);
+    
+    /* Create r1.head <= ~inf-(r1) */
+    sprintf(buf, "%s/es3", r1->id);
+    func(initRule(NULL, dl_strdup(buf), r1->head, r1->head_neg, DARROW, 
+             initLiteral(inf_minus_r1, true, NULL)), addRule);
+    
+    break;
 
   case DEFARROW:
-	
-	/* Create ~inf-(r1) <= r1_body */
-	sprintf(buf, "%s/es4", r1->id);
-	func(initRule(NULL, dl_strdup(buf), inf_minus_r1, true, DARROW, 
-			 initLiteral(r1_body, false, NULL)), addRule);
-	
-	/* Create r1.head <~ ~inf-(r1) */
-	sprintf(buf, "%s/es5", r1->id);
-	func(initRule(NULL, dl_strdup(buf), r1->head, r1->head_neg, DEFARROW, 
-			 initLiteral(inf_minus_r1, true, NULL)), addRule);
-	
+    
+    /* Create ~inf-(r1) <= r1_body */
+    sprintf(buf, "%s/es4", r1->id);
+    func(initRule(NULL, dl_strdup(buf), inf_minus_r1, true, DARROW, 
+             initLiteral(r1_body, false, NULL)), addRule);
+    
+    /* Create r1.head <~ ~inf-(r1) */
+    sprintf(buf, "%s/es5", r1->id);
+    func(initRule(NULL, dl_strdup(buf), r1->head, r1->head_neg, DEFARROW, 
+             initLiteral(inf_minus_r1, true, NULL)), addRule);
+    
   }
 
   deleteRule(r1);
@@ -1578,63 +1578,63 @@ Rule *elimDef(Rule *r1, Rule *(*func)(Rule *, Rule *(*)())) {
 
   case DARROW:
 
-	/*
-	** Find (or create) the alias, r1_body, for r1's body.
-	** This avoids unnecessary duplication of r1's body.
-	*/
-	sprintf(buf, "%s/body", r1->id);
-	if (!(r1_body = hashLookup(buf, &atomTable))) {
-	  Rule *r = dupRule(r1, "%s/bodyrule");
-	  r1_body = initAtom(buf);
-	  r1_body->minus_delta_neg = true;
-	  r1_body->minus_DELTA_neg = true;
-	  addRule(initRule(r, r->id, r1_body, false, DARROW, r->body), NULL);
-	}
+    /*
+    ** Find (or create) the alias, r1_body, for r1's body.
+    ** This avoids unnecessary duplication of r1's body.
+    */
+    sprintf(buf, "%s/body", r1->id);
+    if (!(r1_body = hashLookup(buf, &atomTable))) {
+      Rule *r = dupRule(r1, "%s/bodyrule");
+      r1_body = initAtom(buf);
+      r1_body->minus_delta_neg = true;
+      r1_body->minus_DELTA_neg = true;
+      addRule(initRule(r, r->id, r1_body, false, DARROW, r->body), NULL);
+    }
 
-	if (r1->head_neg) {
+    if (r1->head_neg) {
 
-	  /* Create r1 + : ~head+ <= r1_body */
-	  sprintf(buf, "%s/plus", r1->id);
-	  func(initRule(NULL, dl_strdup(buf), head_plus, true, DARROW, 
-					   initLiteral(r1_body, false, NULL)), addRule);
+      /* Create r1 + : ~head+ <= r1_body */
+      sprintf(buf, "%s/plus", r1->id);
+      func(initRule(NULL, dl_strdup(buf), head_plus, true, DARROW, 
+                       initLiteral(r1_body, false, NULL)), addRule);
 
-	  /* Create r1-: head- <= r1_body */
-	  sprintf(buf, "%s/minus", r1->id);
-	  func(initRule(NULL, dl_strdup(buf), head_minus, false, DARROW, 
-					   initLiteral(r1_body, false, NULL)), addRule);
+      /* Create r1-: head- <= r1_body */
+      sprintf(buf, "%s/minus", r1->id);
+      func(initRule(NULL, dl_strdup(buf), head_minus, false, DARROW, 
+                       initLiteral(r1_body, false, NULL)), addRule);
 
-	  /* Create ~head <= r1_body, head- */
-	  func(initRule(r1, r1->id, r1->head, true, DARROW, 
-					   initLiteral(head_minus, false, &(r1->body))), addRule);
+      /* Create ~head <= r1_body, head- */
+      func(initRule(r1, r1->id, r1->head, true, DARROW, 
+                       initLiteral(head_minus, false, &(r1->body))), addRule);
 
-	}
-	else {
+    }
+    else {
 
-	  /* Create r1 + : head+ <= r1_body */
-	  sprintf(buf, "%s/plus", r1->id);
-	  func(initRule(NULL, dl_strdup(buf), head_plus, false, DARROW, 
-					   initLiteral(r1_body, false, NULL)), addRule);
+      /* Create r1 + : head+ <= r1_body */
+      sprintf(buf, "%s/plus", r1->id);
+      func(initRule(NULL, dl_strdup(buf), head_plus, false, DARROW, 
+                       initLiteral(r1_body, false, NULL)), addRule);
 
-	  /* Create r1-: ~head- <= r1_body */
-	  sprintf(buf, "%s/minus", r1->id);
-	  func(initRule(NULL, dl_strdup(buf), head_minus, true, DARROW, 
-					   initLiteral(r1_body, false, NULL)), addRule);
+      /* Create r1-: ~head- <= r1_body */
+      sprintf(buf, "%s/minus", r1->id);
+      func(initRule(NULL, dl_strdup(buf), head_minus, true, DARROW, 
+                       initLiteral(r1_body, false, NULL)), addRule);
 
-	  /* Create head <= r1_body, head+ */
-	  func(initRule(r1, r1->id, r1->head, false, DARROW, 
-					   initLiteral(head_plus, false, &(r1->body))), addRule);
+      /* Create head <= r1_body, head+ */
+      func(initRule(r1, r1->id, r1->head, false, DARROW, 
+                       initLiteral(head_plus, false, &(r1->body))), addRule);
 
-	}	
+    }   
 
-	break;
+    break;
 
   case DEFARROW:
 
-	if (r1->head_neg)
-	  func(initRule(r1, r1->id, head_plus, true, DARROW, r1->body), addRule);
-	else
-	  func(initRule(r1, r1->id, head_minus, true, DARROW, r1->body), addRule);
-	break;
+    if (r1->head_neg)
+      func(initRule(r1, r1->id, head_plus, true, DARROW, r1->body), addRule);
+    else
+      func(initRule(r1, r1->id, head_minus, true, DARROW, r1->body), addRule);
+    break;
   }
   
   bfree(buf);

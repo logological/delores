@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.4 2003-12-10 19:21:37 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -92,7 +92,7 @@ uint [0-9]+
   fprintf(stderr,"Usage: %s [options] [file]\n", DL_PROGNAME);
   fprintf(stderr,"Options:\n");
   for (opts = Options; *opts; opts += 2)
-	fprintf(stderr,"  %-6s  %s\n", *opts, *(opts + 1));
+    fprintf(stderr,"  %-6s  %s\n", *opts, *(opts + 1));
   exit(EXIT_SUCCESS);
 }
 
@@ -114,38 +114,38 @@ uint [0-9]+
 
 <_a>{uint} {
   if (returnData.atomTableSize == DEFAULT_ATOMTABLESIZE)
-	returnData.atomTableSize = closestPrime(getTableSize(xxtext));
+    returnData.atomTableSize = closestPrime(getTableSize(xxtext));
   BEGIN INITIAL;
 }
 
 <_A>{uint} {
   if (returnData.atomTableSize == DEFAULT_ATOMTABLESIZE)
-	returnData.atomTableSize = getTableSize(xxtext);
+    returnData.atomTableSize = getTableSize(xxtext);
   BEGIN INITIAL;
 }
 
 <_r>{uint} {
   if (returnData.ruleTableSize == DEFAULT_RULETABLESIZE)
-	returnData.ruleTableSize = closestPrime(getTableSize(xxtext));
+    returnData.ruleTableSize = closestPrime(getTableSize(xxtext));
   BEGIN INITIAL;
 }
 
 <_R>{uint} {
   if (returnData.ruleTableSize == DEFAULT_RULETABLESIZE)
-	returnData.atomTableSize = getTableSize(xxtext);
+    returnData.atomTableSize = getTableSize(xxtext);
   BEGIN INITIAL;
 }
 
 <_m>{uint} {
 #ifdef DL_USE_BGET
   if (returnData.bgetPoolIncrement == DEFAULT_BGETPOOLINCREMENT) {
-	if (strtoul(xxtext, NULL, 0) > BUFSIZE_MAX) {
-	  __extension__
-	  fprintf(stderr, "%s: cannot set bget pool increment > %" UINTMAX_FMT
-			  "\n", DL_PROGNAME, (uintmax_t)BUFSIZE_MAX);
-	  exit(EXIT_FAILURE);
-	}
-	returnData.bgetPoolIncrement = ATOBUFSIZE(xxtext);
+    if (strtoul(xxtext, NULL, 0) > BUFSIZE_MAX) {
+      __extension__
+      fprintf(stderr, "%s: cannot set bget pool increment > %" UINTMAX_FMT
+              "\n", DL_PROGNAME, (uintmax_t)BUFSIZE_MAX);
+      exit(EXIT_FAILURE);
+    }
+    returnData.bgetPoolIncrement = ATOBUFSIZE(xxtext);
   }
 #endif
   BEGIN INITIAL;
@@ -153,34 +153,34 @@ uint [0-9]+
 
 <INITIAL>[^-]+.* {
   if (returnData.inputFile[0] == '\0')
-	strncpy(returnData.inputFile, xxtext, PATH_MAX);
+    strncpy(returnData.inputFile, xxtext, PATH_MAX);
   else {
-	fprintf(stderr, "%s: error at `%s'; can't open multiple files (yet)\n",
-			DL_PROGNAME, xxtext);
-	exit(EXIT_FAILURE);
+    fprintf(stderr, "%s: error at `%s'; can't open multiple files (yet)\n",
+            DL_PROGNAME, xxtext);
+    exit(EXIT_FAILURE);
   }
 }
 
 <_r,_R,_a,_A,_m>.+ {
   fprintf(stderr, "%s: error at `%s' -- expecting unsigned integer\n",
-		  DL_PROGNAME, xxtext);
+          DL_PROGNAME, xxtext);
   exit(EXIT_FAILURE);
 }
 
 <option>[^aArRmv]+ {
   fprintf(stderr, "%s: unrecognized option `%s'\n", DL_PROGNAME, xxtext);
   fprintf(stderr, "Invoke as `%s --help' for command-line options.\n\n",
-		  DL_PROGNAME);
+          DL_PROGNAME);
   exit(EXIT_FAILURE);
 }
 
 <<EOF>> {
   if (++Arg_number >= ARGC) {
-	yyterminate();
+    yyterminate();
   }
   else {
-	xx_delete_buffer(YY_CURRENT_BUFFER);
-	xx_scan_string(ARGV[Arg_number]);
+    xx_delete_buffer(YY_CURRENT_BUFFER);
+    xx_scan_string(ARGV[Arg_number]);
   }
 }
 
@@ -202,10 +202,10 @@ Returns : structure specifying data obtained from the command line arguments
 ----------------------------------------------------------------------------*/
 cmdargs_t getCmdLineArgs(int argc, char *argv[]) {
   if (argc > 1) {
-	ARGC=argc;
-	ARGV=argv;
-	xx_scan_string(ARGV[1]);
-	xxlex();
+    ARGC=argc;
+    ARGV=argv;
+    xx_scan_string(ARGV[1]);
+    xxlex();
   }
   return returnData;
 }
@@ -221,10 +221,10 @@ Returns : smallest prime in prime file >= given argument, or largest prime
 size_t getTableSize(char *s) {
   size_t tableSize = ATOSIZE_T(s);
   if (tableSize == 0 || tableSize > TABLE_MAX) {
-	__extension__
-	fprintf(stderr,"%s: Table size must be in [1..%" UINTMAX_FMT "]\n",
-			DL_PROGNAME, (uintmax_t)TABLE_MAX);
-	exit(EXIT_FAILURE);
+    __extension__
+    fprintf(stderr,"%s: Table size must be in [1..%" UINTMAX_FMT "]\n",
+            DL_PROGNAME, (uintmax_t)TABLE_MAX);
+    exit(EXIT_FAILURE);
   }
   return tableSize;
 }
@@ -242,9 +242,9 @@ size_t closestPrime(size_t n) {
   uintmax_t prime;
 
   if (!(f = fopen(PRIME_FILE, "r"))) {
-	fprintf(stderr, "%s: could not open prime file `" PRIME_FILE "'\n",
-			DL_PROGNAME);
-	exit(EXIT_FAILURE);
+    fprintf(stderr, "%s: could not open prime file `" PRIME_FILE "'\n",
+            DL_PROGNAME);
+    exit(EXIT_FAILURE);
   }
   
   while (__extension__ fscanf(f, "%" UINTMAX_FMT, &prime) != EOF && prime < n);
@@ -252,10 +252,10 @@ size_t closestPrime(size_t n) {
 
 #ifdef DL_DEBUG
   if (prime > SIZE_MAX) {
-	__extension__
-	fprintf(stderr, "%s: " PRIME_FILE " contains a prime larger than %"
-			UINTMAX_FMT "\n", DL_PROGNAME, (uintmax_t)SIZE_MAX);
-	exit(EXIT_FAILURE);
+    __extension__
+    fprintf(stderr, "%s: " PRIME_FILE " contains a prime larger than %"
+            UINTMAX_FMT "\n", DL_PROGNAME, (uintmax_t)SIZE_MAX);
+    exit(EXIT_FAILURE);
   }
 #endif
 

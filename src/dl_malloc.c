@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_malloc.c,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: dl_malloc.c,v 1.4 2003-12-10 19:21:37 psy Exp $
 What    : Memory allocation functions
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -47,20 +47,20 @@ __inline__ void *balloc(size_t size) {
   ** DL_USE_BGET #defined.
   */
   if (size > BUFSIZE_MAX) {
-	yyerror("cannot allocate > BUFSIZE_MAX bytes using BGET");
-	exit(EXIT_FAILURE);
+    yyerror("cannot allocate > BUFSIZE_MAX bytes using BGET");
+    exit(EXIT_FAILURE);
   }
 
   if ((p=bget(size))==NULL) {
-	yyerror("out of memory!");
-	exit(EXIT_FAILURE);
+    yyerror("out of memory!");
+    exit(EXIT_FAILURE);
   }
 
 #else
 
   if ((p=malloc(size))==NULL) {
-	yyerror("out of memory!");
-	exit(EXIT_FAILURE);
+    yyerror("out of memory!");
+    exit(EXIT_FAILURE);
   }
 
 #endif
@@ -109,12 +109,12 @@ void bufferPoolInitialize(bufsize bufferPoolIncrement) {
 
   /* Ignore repeat calls to this function */
   if (bufferPool)
-	return;
+    return;
 
   bufferPool = malloc(bufferPoolIncrement);
   if (!bufferPool) {
-	yyerror("out of memory!");
-	exit(EXIT_FAILURE);
+    yyerror("out of memory!");
+    exit(EXIT_FAILURE);
   }
 
   bpool(bufferPool, bufferPoolIncrement);

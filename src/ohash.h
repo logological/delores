@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: ohash.h,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: ohash.h,v 1.4 2003-12-10 19:21:37 psy Exp $
 What    : Header file for hash table module -- see hash.c for info
 
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
@@ -113,9 +113,9 @@ typedef struct hashIterator {
 */
 
 hashTable *hashConstructTable(hashTable *table, size_t size,
-							  size_t (*hash)(const void *key, size_t n),
-							  int (*compare)(const void *key1,
-											 const void *key2));
+                              size_t (*hash)(const void *key, size_t n),
+                              int (*compare)(const void *key1,
+                                             const void *key2));
 
 /*
 ** Function : hashInsert()

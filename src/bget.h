@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: bget.h,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: bget.h,v 1.4 2003-12-10 19:21:37 psy Exp $
 What    : Memory allocation tool (faster replacement for malloc() and friends)
 Notes   : This file has been modified by Tristan Miller to remove ancient K&R-
           style prototypes, and to add the macros BUFSIZE_MAX and ATOBUFSIZE
@@ -34,20 +34,20 @@ USA.
 #define ATOBUFSIZE(x) atol(x)
 typedef long bufsize;
 
-void	bpool	     (void *buffer, bufsize len)  ;
-void   *bget	     (bufsize size)  ;
-void   *bgetz	     (bufsize size)  ;
-void   *bgetr	     (void *buffer, bufsize newsize)  ;
-void	brel	     (void *buf)  ;
-void	bectl	     (int (*compact)(bufsize sizereq, int sequence),
-		       void *(*acquire)(bufsize size),
-		       void (*release)(void *buf), bufsize pool_incr)  ;
-void	bstats	     (bufsize *curalloc, bufsize *totfree, bufsize *maxfree,
-		       long *nget, long *nrel)  ;
-void	bstatse      (bufsize *pool_incr, long *npool, long *npget,
-		       long *nprel, long *ndget, long *ndrel)  ;
-void	bufdump      (void *buf)  ;
-void	bpoold	     (void *pool, int dumpalloc, int dumpfree)  ;
-int	bpoolv	     (void *pool)  ;
+void    bpool        (void *buffer, bufsize len)  ;
+void   *bget         (bufsize size)  ;
+void   *bgetz        (bufsize size)  ;
+void   *bgetr        (void *buffer, bufsize newsize)  ;
+void    brel         (void *buf)  ;
+void    bectl        (int (*compact)(bufsize sizereq, int sequence),
+               void *(*acquire)(bufsize size),
+               void (*release)(void *buf), bufsize pool_incr)  ;
+void    bstats       (bufsize *curalloc, bufsize *totfree, bufsize *maxfree,
+               long *nget, long *nrel)  ;
+void    bstatse      (bufsize *pool_incr, long *npool, long *npget,
+               long *nprel, long *ndget, long *ndrel)  ;
+void    bufdump      (void *buf)  ;
+void    bpoold       (void *pool, int dumpalloc, int dumpfree)  ;
+int bpoolv       (void *pool)  ;
 
 #endif

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: ohash.c,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: ohash.c,v 1.4 2003-12-10 19:21:37 psy Exp $
 What    : Hash table functions
 
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
@@ -55,9 +55,9 @@ USA.
 */
 
 hashTable *hashConstructTable(hashTable *table, size_t size,
-							  size_t (*hash)(const void *key, size_t n),
-							  int (*compare)(const void *key1,
-											 const void *key2)) {
+                              size_t (*hash)(const void *key, size_t n),
+                              int (*compare)(const void *key1,
+                                             const void *key2)) {
   table->population = 0;
   table->hash = hash;
   table->compare = compare;
@@ -66,20 +66,20 @@ hashTable *hashConstructTable(hashTable *table, size_t size,
 #endif
 
   if ((size > (size_t)(-1) / sizeof(hashBucket *)) || size == 0) {
-	table->size = 0;
-	return NULL;
+    table->size = 0;
+    return NULL;
   }
 
   table->table = (hashBucket **)balloc(size * sizeof(hashBucket *));
   
   if (table->table == NULL) {
-	table->size = 0;
-	return NULL;
+    table->size = 0;
+    return NULL;
   }
 
   table->size = size;
   while (size)
-	(table->table)[--size] = NULL;
+    (table->table)[--size] = NULL;
 
   return table;
 }
@@ -106,42 +106,42 @@ void *hashInsert(const void *key, const void *datum, hashTable *table) {
   */
 
   for (bucket = (table->table)[hashVal]; bucket; bucket = bucket->next) {
-	cmp = table->compare(key, bucket->key);
+    cmp = table->compare(key, bucket->key);
 
-	/* This key is already in the table; return existing datum */
-	if (cmp == 0)
-	  return bucket->datum;
+    /* This key is already in the table; return existing datum */
+    if (cmp == 0)
+      return bucket->datum;
 
 #ifdef HASH_PROFILE
-	  table->collisions++;
+      table->collisions++;
 #endif
 
-	/* This key needs to be inserted at the beginning of the list of buckets */
-	if (cmp < 0) {
-	  hashBucket *newBucket;
-	  if (!(newBucket = (hashBucket *)balloc(sizeof(hashBucket))))
-		return NULL;
-	  newBucket->key = (void *)key;
-	  newBucket->datum = (void *)datum;
-	  newBucket->next = bucket;
-	  (table->table)[hashVal] = newBucket;
-	  table->population++;
-	  return (void *)datum;
-	}
+    /* This key needs to be inserted at the beginning of the list of buckets */
+    if (cmp < 0) {
+      hashBucket *newBucket;
+      if (!(newBucket = (hashBucket *)balloc(sizeof(hashBucket))))
+        return NULL;
+      newBucket->key = (void *)key;
+      newBucket->datum = (void *)datum;
+      newBucket->next = bucket;
+      (table->table)[hashVal] = newBucket;
+      table->population++;
+      return (void *)datum;
+    }
 
-	/* This key needs to be inserted after the current bucket */
-	else if (bucket->next == NULL ||
-			 table->compare(key, bucket->next->key) < 0) {
-	  hashBucket *newBucket;
-	  if (!(newBucket = (hashBucket *)balloc(sizeof(hashBucket))))
-		return NULL;
-	  newBucket->key = (void *)key;
-	  newBucket->datum = (void *)datum;
-	  newBucket->next = bucket->next;
-	  bucket->next = newBucket;
-	  table->population++;
-	  return (void *)datum;
-	}
+    /* This key needs to be inserted after the current bucket */
+    else if (bucket->next == NULL ||
+             table->compare(key, bucket->next->key) < 0) {
+      hashBucket *newBucket;
+      if (!(newBucket = (hashBucket *)balloc(sizeof(hashBucket))))
+        return NULL;
+      newBucket->key = (void *)key;
+      newBucket->datum = (void *)datum;
+      newBucket->next = bucket->next;
+      bucket->next = newBucket;
+      table->population++;
+      return (void *)datum;
+    }
   }
 
   /*
@@ -150,7 +150,7 @@ void *hashInsert(const void *key, const void *datum, hashTable *table) {
   */
   
   if (!(bucket = (hashBucket *)balloc(sizeof(hashBucket))))
-	return NULL;
+    return NULL;
 
   bucket->key = (void *)key;
   bucket->datum = (void *)datum;
@@ -171,12 +171,12 @@ void *hashLookup(const void *key, const hashTable *table) {
   int cmp;
 
   for (bucket = (table->table)[table->hash(key, table->size)];
-	   bucket; bucket = bucket->next) {
-	cmp = table->compare(key, bucket->key);
-	if (cmp == 0)
-	  return bucket->datum;
+       bucket; bucket = bucket->next) {
+    cmp = table->compare(key, bucket->key);
+    if (cmp == 0)
+      return bucket->datum;
     else if (cmp < 0 || bucket->next == NULL)
-	  return NULL;
+      return NULL;
   }
 
   return NULL;
@@ -202,19 +202,19 @@ void *hashDelete(const void *key, hashTable *table) {
   */
 
   for (bucket = (table->table)[hashVal], last = NULL; bucket;
-	   last = bucket, bucket = bucket->next) {
-	cmp = table->compare(key, bucket->key);
-	if (cmp == 0) {
-	  if (last)
-		last->next = bucket->next;
-	  else
-		(table->table)[hashVal] = bucket->next;
-	  datum = bucket->datum;
-	  bfree(bucket);
-	  table->population--;
-	  return datum;
-	} else if (cmp < 0)
-	  return NULL;
+       last = bucket, bucket = bucket->next) {
+    cmp = table->compare(key, bucket->key);
+    if (cmp == 0) {
+      if (last)
+        last->next = bucket->next;
+      else
+        (table->table)[hashVal] = bucket->next;
+      datum = bucket->datum;
+      bfree(bucket);
+      table->population--;
+      return datum;
+    } else if (cmp < 0)
+      return NULL;
   }
 
   return NULL;
@@ -242,12 +242,12 @@ void hashDeleteTable(hashTable *table, void (*freeDatum)(void *)) {
   hashBucket *bucket;
 
   while (--table->size != (size_t)(-1))
-	while ((bucket = (table->table)[table->size])) {
-	  (table->table)[table->size] = bucket->next;
-	  if (freeDatum)
-		freeDatum(bucket->datum);
-	  bfree(bucket);
-	}
+    while ((bucket = (table->table)[table->size])) {
+      (table->table)[table->size] = bucket->next;
+      if (freeDatum)
+        freeDatum(bucket->datum);
+      bfree(bucket);
+    }
 
   bfree(table->table);
   table->size = 0;
@@ -262,9 +262,9 @@ void hashDeleteTable(hashTable *table, void (*freeDatum)(void *)) {
 
 hashIterator *hashInitIterator(hashIterator *i, const hashTable *table) {
   if (i) {
-	i->bucket = NULL;
-	i->index = 0;
-	i->table = (hashTable *)table;
+    i->bucket = NULL;
+    i->index = 0;
+    i->table = (hashTable *)table;
   }
   return i;
 }
@@ -280,27 +280,27 @@ hashIterator *hashInitIterator(hashIterator *i, const hashTable *table) {
 void *hashGetDatum(hashIterator *i) {
   if (i->bucket) {
 
-	/*
-	** If we're not yet at the end of the list, find the next bucket in the
-	** current cell's list of buckets
-	*/
+    /*
+    ** If we're not yet at the end of the list, find the next bucket in the
+    ** current cell's list of buckets
+    */
 
-	if (i->bucket->next) {
-	  i->bucket = i->bucket->next;
-	  return i->bucket->datum;
-	}
+    if (i->bucket->next) {
+      i->bucket = i->bucket->next;
+      return i->bucket->datum;
+    }
 
-	/*
-	** There are no buckets left in the current cell's list.  Increment the
-	** hash table array index until we find the next cell that contains a
-	** bucket.
-	*/
+    /*
+    ** There are no buckets left in the current cell's list.  Increment the
+    ** hash table array index until we find the next cell that contains a
+    ** bucket.
+    */
 
-	for (++i->index; i->index < i->table->size; i->index++)
-	  if ((i->table->table)[i->index]) {
-		i->bucket = (i->table->table)[i->index];
-		return i->bucket->datum;
-	  }
+    for (++i->index; i->index < i->table->size; i->index++)
+      if ((i->table->table)[i->index]) {
+        i->bucket = (i->table->table)[i->index];
+        return i->bucket->datum;
+      }
   }
 
   /*
@@ -310,11 +310,11 @@ void *hashGetDatum(hashIterator *i) {
   */
 
   else
-	for (i->index = 0; i->index < i->table->size; i->index++)
-	  if ((i->table->table)[i->index]) {
-		i->bucket = (i->table->table)[i->index];
-		return i->bucket->datum;
-	  }
+    for (i->index = 0; i->index < i->table->size; i->index++)
+      if ((i->table->table)[i->index]) {
+        i->bucket = (i->table->table)[i->index];
+        return i->bucket->datum;
+      }
 
   /* 
   ** No cells containing buckets were found.  Reset the iterator and return
