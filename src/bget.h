@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: bget.h,v 1.5 2003-12-11 19:51:33 psy Exp $
+File    : $Id: bget.h,v 1.6 2003-12-13 15:35:03 psy Exp $
 What    : Memory allocation tool (faster replacement for malloc() and friends)
 Notes   : This file has been modified by Tristan Miller to remove ancient K&R-
           style prototypes, and to add the macros BUFSIZE_MAX and ATOBUFSIZE
@@ -27,6 +27,10 @@ USA.
 
 #ifndef BGET__H
 #define BGET__H
+
+#if ! HAVE_MEMSET
+#error BGET requires the function memset(), which it appears is not provided by your compiler.  Try recompiling without BGET.
+#endif
 
 #include <limits.h>
 #define BUFSIZE_MAX LONG_MAX
