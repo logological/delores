@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: main.c,v 1.8 2003-12-12 14:20:08 psy Exp $
+File    : $Id: main.c,v 1.9 2003-12-13 15:13:58 psy Exp $
 What    : Initialization routine for interpreter
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -22,6 +22,9 @@ USA.
 
 ----------------------------------------------------------------------------*/
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 #include <string.h>
 #include <stdio.h>
 #include "timer.h"
@@ -61,7 +64,7 @@ int main(int argc, char *argv[]) {
   /* Switch stdin to file specified on command line, if given */
   if (args.inputFile[0]) {
     if (!freopen(args.inputFile, "r", stdin)) {
-      fprintf(stderr, "%s: %s: no such file or directory\n", DL_PROGNAME,
+      fprintf(stderr, "%s: %s: no such file or directory\n", PACKAGE,
               args.inputFile);
       return EXIT_FAILURE;
     }
@@ -84,7 +87,7 @@ int main(int argc, char *argv[]) {
   if (!hashConstructTable(&atomTable, args.atomTableSize, hashKey,
                            hashStrcmp)) {
     fprintf(stderr,"%s: atom table too big for available memory!\n",
-            DL_PROGNAME);
+            PACKAGE);
     return EXIT_FAILURE;
   }
   else {
@@ -104,14 +107,14 @@ int main(int argc, char *argv[]) {
   if (!hashConstructTable(&ruleTable, args.ruleTableSize, hashKey,
                           hashStrcmp)) {
     fprintf(stderr,"%s: rule table too big for available memory!\n",
-            DL_PROGNAME);
+            PACKAGE);
     return EXIT_FAILURE;
   }
   
   /* Title screen */
   if (!args.quietMode) {
     printVersionInformation();
-    printf("Invoke as `%s --help' for command-line options.\n\n", DL_PROGNAME);
+    printf("Invoke as `%s --help' for command-line options.\n\n", PACKAGE);
       printf("Atom table size: %" PRIuMAX "\n",
              (uintmax_t)args.atomTableSize);
       printf("Rule table size: %" PRIuMAX "\n", 
@@ -136,7 +139,7 @@ int main(int argc, char *argv[]) {
   /* Begin parsing */
   if (yyparse()) {
     fprintf(stderr, "%s: *** errors in input -- interpretation failed\n",
-            DL_PROGNAME);
+            PACKAGE);
     return EXIT_FAILURE;
   }
 

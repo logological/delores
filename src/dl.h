@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.h,v 1.7 2003-12-11 19:51:34 psy Exp $
+File    : $Id: dl.h,v 1.8 2003-12-13 15:13:58 psy Exp $
 What    : Data structures, macros, headers, etc. shared among dl.l (the
           lexer), dl.y (the parser), and dl.c (the interpreter)
 
@@ -47,9 +47,6 @@ Include files
 /*----------------------------------------------------------------------------
 Macros
 ----------------------------------------------------------------------------*/
-#define DL_TITLE "DELORES"
-#define DL_VER "0.59"
-#define DL_PROGNAME "dl"
 #define printAtom(a) fprintAtom(stdout,(a))
 #define printLiteralList(l,n) fprintLiteralList(stdout,(l),(n))
 #define printRule(r) fprintRule(stdout,(r))

@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.15 2003-12-13 15:04:34 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.16 2003-12-13 15:13:58 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -93,7 +93,7 @@ uint [0-9]+
 <option>(help)  |
 <option>(-help) {
   char const **opts;
-  fprintf(stderr,"Usage: %s [options] [file]\n", DL_PROGNAME);
+  fprintf(stderr,"Usage: %s [options] [file]\n", PACKAGE);
   fprintf(stderr,"Options:\n");
   for (opts = Options; *opts; opts += 2)
     fprintf(stderr,"  %-9s  %s\n", *opts, *(opts + 1));
@@ -145,7 +145,7 @@ uint [0-9]+
   if (returnData.bgetPoolIncrement == DEFAULT_BGETPOOLINCREMENT) {
     if (strtoumax(xxtext, NULL, 0) > BUFSIZE_MAX) {
       fprintf(stderr, "%s: cannot set bget pool increment > %" PRIuMAX
-              "\n", DL_PROGNAME, (uintmax_t)BUFSIZE_MAX);
+              "\n", PACKAGE, (uintmax_t)BUFSIZE_MAX);
       exit(EXIT_FAILURE);
     }
     returnData.bgetPoolIncrement = ATOBUFSIZE(xxtext);
@@ -159,21 +159,21 @@ uint [0-9]+
     strncpy(returnData.inputFile, xxtext, FILENAME_MAX);
   else {
     fprintf(stderr, "%s: error at `%s'; can't open multiple files (yet)\n",
-            DL_PROGNAME, xxtext);
+            PACKAGE, xxtext);
     exit(EXIT_FAILURE);
   }
 }
 
 <_r,_R,_a,_A,_m>.+ {
   fprintf(stderr, "%s: error at `%s' -- expecting unsigned integer\n",
-          DL_PROGNAME, xxtext);
+          PACKAGE, xxtext);
   exit(EXIT_FAILURE);
 }
 
 <option>[^aArRmv]+ {
-  fprintf(stderr, "%s: unrecognized option `%s'\n", DL_PROGNAME, xxtext);
+  fprintf(stderr, "%s: unrecognized option `%s'\n", PACKAGE, xxtext);
   fprintf(stderr, "Invoke as `%s --help' for command-line options.\n\n",
-          DL_PROGNAME);
+          PACKAGE);
   exit(EXIT_FAILURE);
 }
 
@@ -225,7 +225,7 @@ size_t getTableSize(char *s) {
   uintmax_t tableSize = strtoumax(s, NULL, 0);
   if (tableSize == 0 || tableSize > TABLE_MAX) {
     fprintf(stderr,"%s: Table size must be in [1..%" PRIuMAX "]\n",
-            DL_PROGNAME, (uintmax_t)TABLE_MAX);
+            PACKAGE, (uintmax_t)TABLE_MAX);
     exit(EXIT_FAILURE);
   }
   return (size_t)tableSize;
@@ -245,7 +245,7 @@ size_t closestPrime(size_t n) {
 
   if (!(f = fopen(PRIME_FILE, "r"))) {
     fprintf(stderr, "%s: could not open prime file `" PRIME_FILE "'\n",
-            DL_PROGNAME);
+            PACKAGE);
     exit(EXIT_FAILURE);
   }
   
@@ -255,7 +255,7 @@ size_t closestPrime(size_t n) {
 #ifdef DL_DEBUG
   if (prime > SIZE_MAX) {
     fprintf(stderr, "%s: " PRIME_FILE " contains a prime larger than %"
-            PRIuMAX "\n", DL_PROGNAME, (uintmax_t)SIZE_MAX);
+            PRIuMAX "\n", PACKAGE, (uintmax_t)SIZE_MAX);
     exit(EXIT_FAILURE);
   }
 #endif
