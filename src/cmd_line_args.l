@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.8 2003-12-12 13:41:48 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.9 2003-12-12 13:45:01 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -26,7 +26,7 @@ USA.
 static size_t getTableSize(char *s);
 static size_t closestPrime(size_t n);
 
-#include "dl_compile.h"
+#include <config.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

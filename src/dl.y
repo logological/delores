@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: dl.y,v 1.5 2003-12-11 19:51:34 psy Exp $
+File    : $Id: dl.y,v 1.6 2003-12-12 13:44:47 psy Exp $
 What    : Defeasible logic parser
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -23,7 +23,7 @@ USA.
 
 ----------------------------------------------------------------------------*/
 
-#include "dl_compile.h"
+#include <config.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>

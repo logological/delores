@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: dl.l,v 1.5 2003-12-11 19:51:34 psy Exp $
+File    : $Id: dl.l,v 1.6 2003-12-12 13:44:54 psy Exp $
 What    : Defeasible logic lexer
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -25,7 +25,7 @@ USA.
 
 static int include_stack_index = 0;
 
-#include "dl_compile.h"
+#include <config.h>
 #include <stdio.h>
 #include <string.h>
 #include "dl_strdup.h"

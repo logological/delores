@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_strdup.h,v 1.5 2003-12-11 19:51:34 psy Exp $
+File    : $Id: dl_strdup.h,v 1.6 2003-12-12 13:48:45 psy Exp $
 What    : Header file for strdup() function
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -25,12 +25,10 @@ USA.
 #ifndef STRDUP__H
 #define STRDUP__H
 
-#include "dl_malloc.h"
 #include <config.h>
 
 /* Determine whether the compiler supports strdup() */
-#if !(defined __GLIBC__ &&  (defined _BSD_SOURCE || defined _SVID_SOURCE)) \
- || defined DL_USE_BGET
+#if ! HAVE_STRDUP
 inline char *dl_strdup(const char *s);
 #else
 #  undef dl_strdup
