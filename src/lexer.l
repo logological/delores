@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: lexer.l,v 1.3 2003-12-12 19:30:00 psy Exp $
+File    : $Id: lexer.l,v 1.4 2003-12-13 15:36:55 psy Exp $
 What    : Defeasible logic lexer
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -36,6 +36,11 @@ static int include_stack_index = 0;
 #include "parser.h"
 #include "dl_malloc.h"
 #include "dl_stdint.h"
+
+#if ! HAVE_STRRCHR
+#error DELORES requires the function strrchr(), which it appears is not provided by your compiler.
+#endif
+
 
 #define MAX_INCLUDE_DEPTH 15
 
