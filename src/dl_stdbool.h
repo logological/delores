@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_stdbool.h,v 1.4 2003-12-11 10:55:56 psy Exp $
+File    : $Id: dl_stdbool.h,v 1.5 2003-12-11 11:19:42 psy Exp $
 What    : Figures out compiler-specific information on boolean variables
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -25,7 +25,8 @@ USA.
 #ifndef DL_STDBOOL__H
 #define DL_STDBOOL__H
 
-/* Set up boolean data structure */
+#include <config.h>
+
 #if HAVE_STDBOOL_H
 #  include <stdbool.h>
 #else
