@@ -1,3 +1,5 @@
+# $Id: Makefile,v 1.2 2003-12-09 19:15:29 psy Exp $
+
 CC = gcc 
 CFLAGS = -g -Wall -pedantic
 PFLAGS = -pg -a

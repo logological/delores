@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-Filename: dl_compile.h
+File    : $Id: dl_compile.h,v 1.2 2003-12-09 19:15:29 psy Exp $
 What    : Figures out compiler-specific information for the dl project
 Author  : Tristan Miller
 Notes   : This should be the *first* file included in any project, since it

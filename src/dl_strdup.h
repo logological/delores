@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-Filename: dl_strdup.h
+File    : $Id: dl_strdup.h,v 1.2 2003-12-09 19:15:29 psy Exp $
 What    : Header file for strdup() function
 Author  : Tristan Miller
 ----------------------------------------------------------------------------*/

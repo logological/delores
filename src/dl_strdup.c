@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-Function: dl_strdup
+File    : $Id: dl_strdup.c,v 1.2 2003-12-09 19:15:29 psy Exp $
 Purpose : Returns a newly allocated area of memory that contains a duplicate
           of the string pointed to by s. The memory returned by this call must
           be freed by the caller. 

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-Filename: dl_inline.h
+File    : $Id: dl_inline.h,v 1.2 2003-12-09 19:15:29 psy Exp $
 What    : Figures out compiler-specific information on inline functions
 Author  : Tristan Miller
 ----------------------------------------------------------------------------*/

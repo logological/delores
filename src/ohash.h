@@ -1,7 +1,6 @@
 /*----------------------------------------------------------------------------
-Filename     : ohash.h
+File         : $Id: ohash.h,v 1.2 2003-12-09 19:15:29 psy Exp $
 Author       : Tristan Miller
-Last modified: 28 November 1999
 What         : Header file for hash table module -- see hash.c for info
 ----------------------------------------------------------------------------*/
 

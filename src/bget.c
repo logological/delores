@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-Filename: bget.c
+File    : $Id: bget.c,v 1.2 2003-12-09 19:15:29 psy Exp $
 What    : Memory allocation tool (faster replacement for malloc() and friends)
 Author  : John Walker
 Notes   : This file has been modified by Tristan Miller for use with the dl

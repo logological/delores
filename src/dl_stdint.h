@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-Filename: dl_stdint.h
+File    : $Id: dl_stdint.h,v 1.2 2003-12-09 19:15:29 psy Exp $
 What    : Figures out compiler-specific information on standard integer types
 Author  : Tristan Miller
 ----------------------------------------------------------------------------*/

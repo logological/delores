@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-Filename: main.c
+File    : $Id: main.c,v 1.2 2003-12-09 19:15:29 psy Exp $
 What    : Initialization routine for interpreter
 Author  : Tristan Miller
 ----------------------------------------------------------------------------*/
