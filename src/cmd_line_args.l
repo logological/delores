@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.18 2003-12-13 19:19:32 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.19 2003-12-13 19:55:11 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -43,8 +43,9 @@ static size_t closestPrime(size_t n);
 #  ifndef DL_DATADIR
 #    define DL_DATADIR "/usr/local/share"
 #  endif
-#  define PRIME_FILE DL_DATADIR "/primes.txt"
+#  define PRIME_FILE DL_DATADIR "/delores/primes.txt"
 #endif
+
 #define DEFAULT_ATOMTABLESIZE 1000003UL
 #define DEFAULT_RULETABLESIZE 1000003UL
 #ifdef DL_USE_BGET

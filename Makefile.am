@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.1 2003-12-10 20:15:40 psy Exp $
+# $Id: Makefile.am,v 1.2 2003-12-13 19:54:00 psy Exp $
 #
 # Copyright (C) 2003 Tristan Miller <psychonaut@nothingisreal.com>
 #  
@@ -12,5 +12,5 @@
 
 AUTOMAKE_OPTIONS = dist-bzip2
 man_MANS = doc/delores.1
-EXTRA_DIST = doc/program.html $(man_MANS)
+EXTRA_DIST = BUGS TODO doc/program.html $(man_MANS)
 SUBDIRS = src
