@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.6 2003-12-11 19:51:33 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.7 2003-12-12 13:39:49 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -270,7 +270,14 @@ Args    : none
 Returns : nothing
 ----------------------------------------------------------------------------*/
 void printVersionInformation(void) {
-  printf("%s version %s -- Copyright 2000 Michael Maher <mjm@math.luc.edu>\n", DL_TITLE, DL_VER);
+  puts(
+    PACKAGE_STRING "\n"
+    "Copyright (C) 1999, 2000 Michael Maher\n"
+    "Copyright (C) 1999, 2000, 2003 Tristan Miller\n"
+    "This is free software; see the source for copying conditions.  There is NO\n"
+    "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+    );
+
 }
 
 #undef TABLE_MAX
