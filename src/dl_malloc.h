@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_malloc.h,v 1.7 2003-12-12 21:27:27 psy Exp $
+File    : $Id: dl_malloc.h,v 1.8 2003-12-13 15:17:55 psy Exp $
 What    : Header file for memory allocation functions
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -25,8 +25,8 @@ USA.
 #ifndef DL_MALLOC__H
 #define DL_MALLOC__H
 
-/* Undefine the following line to use the BGET package instead of malloc */
-#define DL_USE_BGET
+/* Uncomment the following line to use the BGET package instead of malloc */
+/* #define DL_USE_BGET */
 
 #if HAVE_CONFIG_H
 #  include <config.h>
