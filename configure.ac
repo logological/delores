@@ -1,9 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-# $Id: configure.ac,v 1.5 2003-12-12 19:47:47 psy Exp $
+# $Id: configure.ac,v 1.6 2003-12-13 15:05:54 psy Exp $
 
 AC_PREREQ(2.57)
-AC_INIT(DELORES, 1.0, psychonaut@nothingisreal.com)
+AC_INIT(DELORES, 0.90, psychonaut@nothingisreal.com)
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/dl.c])
 AC_CONFIG_HEADER([config.h])
