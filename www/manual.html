@@ -21,6 +21,7 @@
 <a href="#LANGUAGE MORPHOLOGY">LANGUAGE MORPHOLOGY</a><br>
 <a href="#LANGUAGE SYNTAX">LANGUAGE SYNTAX</a><br>
 <a href="#LANGUAGE SEMANTICS">LANGUAGE SEMANTICS</a><br>
+<a href="#CONCLUSIONS">CONCLUSIONS</a><br>
 <a href="#DIAGNOSTICS">DIAGNOSTICS</a><br>
 <a href="#FILES">FILES</a><br>
 <a href="#BUGS">BUGS</a><br>
@@ -30,7 +31,7 @@
 
 <hr>
 <!-- Creator     : groff version 1.17.2 -->
-<!-- CreationDate: Sun Dec 14 15:27:30 2003 -->
+<!-- CreationDate: Thu Dec 18 22:12:46 2003 -->
 <a name="NAME"></a>
 <h2>NAME</h2>
 <table width="100%" border=0 rules="none" frame="void"
@@ -641,6 +642,71 @@ No further statements are read. This directive is optional
 at the end of a file, as the interpretation will simply end
 when there is no further data in standard
 input.</td></table>
+<a name="CONCLUSIONS"></a>
+<h2>CONCLUSIONS</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+After running the <b>infer</b> directive, various
+conclusions of a defeasible theory <i>T</i> can be printed
+using the <b>print</b> directive. A <i>conclusion</i> of
+<i>T</i> is a tagged literal and can have one of the
+following four forms:</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
++D<i>q</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+This means that <i>q</i> is definitely provable in <i>T</i>
+(<i>i.e.</i>, using only facts and strict
+rules).</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+-D<i>q</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+This means that we have proved that <i>q</i> is not
+definitely provable in <i>T</i>.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
++d<i>q</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+This means that <i>q</i> is defeasibly provable in
+<i>T</i>.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+-d<i>q</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+This means that we have proved that <i>q</i> is not
+defeasibly provable in <i>T</i>.</td></table>
 <a name="DIAGNOSTICS"></a>
 <h2>DIAGNOSTICS</h2>
 
@@ -926,7 +992,16 @@ library by John Walker.</td></table> <a name="COPYRIGHT"></a>
 <td width="10%"></td><td width="90%">
 <p>Copyright &copy; 1999, 2000 Michael Maher.<br>
 Copyright &copy; 1999, 2000, 2003 Tristan Miller.</p>
-<p>Permission is granted to make and distribute verbatim copies of this manual provided the copyright notice and this permission notice are preserved on all copies.</p></td></table>
+<p>Permission is granted to anyone to make or distribute verbatim
+	      copies of this document as received, in any medium,
+	      provided that the copyright notice and this permission
+	      notice are preserved, thus giving the recipient
+	      permission to redistribute in turn.</p>
+<p>Permission is granted to distribute modified versions of
+this document, or of portions of it, under the above
+conditions, provided also that they carry prominent notices
+stating who last changed them.</p>
+</td></table>
 <hr>
 </body>
 </html>
