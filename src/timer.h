@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: timer.h,v 1.7 2003-12-12 14:37:12 psy Exp $
+File    : $Id: timer.h,v 1.8 2003-12-12 14:37:35 psy Exp $
 What    : Timing functions header
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -39,11 +39,6 @@ inline void resetCpuTimer(cpuTimer *t);
 inline double readCpuTimer(cpuTimer *t);
 inline void freeCpuTimer(cpuTimer *t);
 
-/*
-** This section defines our favourite non-ANSI timing functions. If your
-** compiler is not listed, #define a new value of REAL_TIMER_METHOD and make
-** the appropriate changes to timer.h and timer.c.
-*/
 #if HAVE_SYS_TIMEB_H && HAVE_FTIME
 #  define REAL_TIMER_METHOD 1
 #  include <sys/timeb.h>
