@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.c,v 1.9 2003-12-13 14:50:38 psy Exp $
+File    : $Id: dl.c,v 1.10 2003-12-13 17:37:01 psy Exp $
 What    : Defeasible logic interpreter functions
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -1019,11 +1019,7 @@ Notes   : 1. As this function uses the rule's memory address in its name, it
 ----------------------------------------------------------------------------*/
 void setRuleName(Rule *r) {
   static const char *format="/r%#p";
-  /*
-  ** Generally speaking, 
-  ** r->id = balloc(2*sizeof(Rule *) + strlen(format));
-  */
-  r->id = balloc(2 * sizeof(Rule *) + 5);
+  r->id = balloc(2 * sizeof(Rule *) + strlen(format));
   sprintf(r->id, format, r);
 }
 
@@ -1240,7 +1236,8 @@ Rule *addRule(Rule *r, Rule *(*func)(Rule *, Rule *(*)())) {
 
   /* Add rule to rule table */
   if ((temp = hashLookup(r->id, &ruleTable))) {
-    char *err = balloc(strlen(r->id) + 50);
+    static const char msg[] = "warning: ignoring redefinition of `%s'";
+    char *err = balloc(strlen(r->id) + strlen(msg));
     sprintf(err, "warning: ignoring redefinition of `%s'", r->id);
     yyerror(err);
     bfree(err);

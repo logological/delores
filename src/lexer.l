@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: lexer.l,v 1.4 2003-12-13 15:36:55 psy Exp $
+File    : $Id: lexer.l,v 1.5 2003-12-13 17:39:07 psy Exp $
 What    : Defeasible logic lexer
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -163,8 +163,9 @@ false   {                                   /* false */
 <L_PRINT>{name} {                           /* print() statement */
   yylval.a=hashLookup(yytext, &atomTable);
   if (!yylval.a) {
-    char *err=balloc(yyleng+19);
-    sprintf(err,"`%s' is not an atom",yytext);
+    static const char msg[] = "`%s' is not an atom";
+    char *err=balloc(yyleng + strlen(msg));
+    sprintf(err, msg, yytext);
     yyerror(err);
     bfree(err);
   }
@@ -201,8 +202,9 @@ false   {                                   /* false */
 
   /* Open the include file */
   if (!(yyin=fopen(yy_current_file,"r"))) {
-    char *buf=balloc(strlen(yy_current_file)+28);
-    sprintf(buf,"%s: no such file or directory",yy_current_file);
+    static const char msg[] = "%s: no such file or directory";
+    char *buf=balloc(strlen(yy_current_file) + strlen(msg));
+    sprintf(buf, msg ,yy_current_file);
     yyerror(buf);
     bfree(buf);
     exit(EXIT_FAILURE);
