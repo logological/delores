@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: main.c,v 1.6 2003-12-11 19:51:34 psy Exp $
+File    : $Id: main.c,v 1.7 2003-12-12 14:15:50 psy Exp $
 What    : Initialization routine for interpreter
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -112,14 +112,11 @@ int main(int argc, char *argv[]) {
   if (!args.quietMode) {
     printVersionInformation();
     printf("Invoke as `%s --help' for command-line options.\n\n", DL_PROGNAME);
-    __extension__
-      printf("Atom table size: %" UINTMAX_FMT "\n",
+      printf("Atom table size: %" PRIuMAX "\n",
              (uintmax_t)args.atomTableSize);
-    __extension__
-      printf("Rule table size: %" UINTMAX_FMT "\n", 
+      printf("Rule table size: %" PRIuMAX "\n", 
              (uintmax_t)args.ruleTableSize);
 #ifdef DL_USE_BGET
-    __extension__
       printf("Memory chunk size: %" BUFSIZE_FMT "\n", 
              args.bgetPoolIncrement);
 #endif

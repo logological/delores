@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_stdint.h,v 1.6 2003-12-12 14:02:04 psy Exp $
+File    : $Id: dl_stdint.h,v 1.7 2003-12-12 14:14:01 psy Exp $
 What    : Figures out compiler-specific information on standard integer types
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -40,14 +40,19 @@ USA.
 #  ifndef PRIuMAX
 #    error You appear to have a very strange compiler which has uintmax_t but not PRIuMAX.  Please contact the DELORES bug reports address and provide the details of your compiler.
 #  endif
+#  ifndef SCNuMAX
+#    error You appear to have a very strange compiler which has uintmax_t but not SCNuMAX.  Please contact the DELORES bug reports address and provide the details of your compiler.
+#  endif
 #  if ! HAVE_STRTOUMAX
 #    error You appear to have a very strange compiler which has uintmax_t but not strtoumax().  Please contact the DELORES bug reports address and provide the details of your compiler.
 #  endif
 #else
 #  undef PRIuMAX
+#  undef SCNuMAX
 #  if HAVE_UNSIGNED_LONG_LONG
      typedef unsigned long long uintmax_t;
 #    define PRIuMAX "llu"
+#    define SCNuMAX "llu"
 #    if HAVE_STRTOULL && ! HAVE_STRTOUMAX
 #      define strtoumax strtoull
 #    else
@@ -56,6 +61,7 @@ USA.
 #  else
      typedef unsigned long int uintmax_t;
 #    define PRIuMAX "lu"
+#    define SCNuMAX "lu"
 #    if HAVE_STRTOUL && ! HAVE_STRTOUMAX
 #      define strtoumax strtoul
 #    else

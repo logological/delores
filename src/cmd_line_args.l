@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.10 2003-12-12 14:10:51 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.11 2003-12-12 14:11:53 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -139,7 +139,7 @@ uint [0-9]+
 <_m>{uint} {
 #ifdef DL_USE_BGET
   if (returnData.bgetPoolIncrement == DEFAULT_BGETPOOLINCREMENT) {
-    if (strtoul(xxtext, NULL, 0) > BUFSIZE_MAX) {
+    if (strtoumax(xxtext, NULL, 0) > BUFSIZE_MAX) {
       fprintf(stderr, "%s: cannot set bget pool increment > %" PRIuMAX
               "\n", DL_PROGNAME, (uintmax_t)BUFSIZE_MAX);
       exit(EXIT_FAILURE);
@@ -218,7 +218,7 @@ Returns : smallest prime in prime file >= given argument, or largest prime
           in prime file if given argument > largest prime in prime file
 ----------------------------------------------------------------------------*/
 size_t getTableSize(char *s) {
-  uintmax_t tableSize = strtoumax(s, NULL, 10);
+  uintmax_t tableSize = strtoumax(s, NULL, 0);
   if (tableSize == 0 || tableSize > TABLE_MAX) {
     fprintf(stderr,"%s: Table size must be in [1..%" PRIuMAX "]\n",
             DL_PROGNAME, (uintmax_t)TABLE_MAX);

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: ohash.h,v 1.4 2003-12-10 19:21:37 psy Exp $
+File    : $Id: ohash.h,v 1.5 2003-12-12 14:18:57 psy Exp $
 What    : Header file for hash table module -- see hash.c for info
 
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
@@ -63,11 +63,7 @@ typedef struct hashTable {
   ** this variable, uncomment the #define HASH_PROFILE line above, or use the
   ** appropriate command-line option for your compile to define this macro.
   */
-# if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
-  unsigned long long collisions;
-# else
-  unsigned long collisions;
-# endif
+  uintmax_t collisions;
 #endif
 } hashTable;
 
