@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: dl.l,v 1.6 2003-12-12 13:44:54 psy Exp $
+File    : $Id: lexer.l,v 1.1 2003-12-12 18:47:55 psy Exp $
 What    : Defeasible logic lexer
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
