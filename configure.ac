@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-# $Id: configure.ac,v 1.3 2003-12-12 13:57:56 psy Exp $
+# $Id: configure.ac,v 1.4 2003-12-12 18:32:38 psy Exp $
 
 AC_PREREQ(2.57)
 AC_INIT(DELORES, 1.0, psychonaut@nothingisreal.com)
@@ -10,6 +10,13 @@ AC_CONFIG_HEADER([config.h])
 
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_LEX
+if test "$LEX" != flex; then
+  LEX="$SHELL $missing_dir/missing flex"
+  AC_SUBST(LEX_OUTPUT_ROOT, lex.yy)
+  AC_SUBST(LEXLIB, '')
+fi
+AC_PROG_YACC
 
 # Checks for libraries.
 
