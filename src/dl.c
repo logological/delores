@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.c,v 1.8 2003-12-12 18:50:05 psy Exp $
+File    : $Id: dl.c,v 1.9 2003-12-13 14:50:38 psy Exp $
 What    : Defeasible logic interpreter functions
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -409,7 +409,8 @@ void inferRevisedAlgorithm(Literal **S, Literal **Lambda) {
   **     called afterwards
   **
   */
-  yyerror("inferRevisedAlgorithm is not complete");
+  yyerror("This undocumented feature has not yet been implemented!");
+  exit(EXIT_FAILURE);
 
   while (*S) {
     /*
@@ -860,7 +861,9 @@ void resetRules(void) {
 
   /* *** NOT IMPLEMENTED YET *** */
 
-  yyerror("resetRules() has not been implemented yet!");
+  yyerror("This undocumented feature has not yet been implemented!");
+  exit(EXIT_FAILURE);
+
 }
 
 
