@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: main.c,v 1.7 2003-12-12 14:15:50 psy Exp $
+File    : $Id: main.c,v 1.8 2003-12-12 14:20:08 psy Exp $
 What    : Initialization routine for interpreter
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -150,9 +150,9 @@ int main(int argc, char *argv[]) {
 #endif
 
 #ifdef HASH_PROFILE
-  printf("Atom collisions: %lu\n", atomTable.collisions);
-  printf("Rule collisions: %lu\n", ruleTable.collisions);
-  printf("Total: %lu\n", atomTable.collisions + ruleTable.collisions);
+  printf("Atom collisions: %" PRIuMAX "\n", atomTable.collisions);
+  printf("Rule collisions: %" PRIuMAX "\n", ruleTable.collisions);
+  printf("Total: %" PRIuMAX "\n", atomTable.collisions + ruleTable.collisions);
 #endif
 
  /*
