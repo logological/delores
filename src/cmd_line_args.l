@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.4 2003-12-10 19:21:37 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.5 2003-12-11 13:40:23 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -153,7 +153,7 @@ uint [0-9]+
 
 <INITIAL>[^-]+.* {
   if (returnData.inputFile[0] == '\0')
-    strncpy(returnData.inputFile, xxtext, PATH_MAX);
+    strncpy(returnData.inputFile, xxtext, FILENAME_MAX);
   else {
     fprintf(stderr, "%s: error at `%s'; can't open multiple files (yet)\n",
             DL_PROGNAME, xxtext);

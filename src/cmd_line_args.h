@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.h,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: cmd_line_args.h,v 1.4 2003-12-11 13:39:32 psy Exp $
 What    : Header file for lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -24,7 +24,7 @@ USA.
 
 #include "dl_malloc.h"
 #include "dl_stdbool.h"
-#include <limits.h>
+#include <stdio.h>
 
 typedef struct {
   size_t atomTableSize;
@@ -32,7 +32,7 @@ typedef struct {
 #ifdef DL_USE_BGET
   bufsize bgetPoolIncrement;
 #endif
-  char inputFile[PATH_MAX + 1];
+  char inputFile[FILENAME_MAX + 1];
   _Bool quietMode;
 } cmdargs_t;
 
