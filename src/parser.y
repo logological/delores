@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: parser.y,v 1.2 2003-12-12 19:30:01 psy Exp $
+File    : $Id: parser.y,v 1.3 2003-12-13 14:52:02 psy Exp $
 What    : Defeasible logic parser
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -181,15 +181,17 @@ suprel:     LABEL '<' LABEL '.' {
 
 atom:       NAME    {
                 #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `%s' is an atom\n",$1->id);
+                    if ($1)
+                      fprintf(stderr,"\tDL_PARSER: `%s' is an atom\n",$1->id);
                 #endif
                 $$=$1;
             }
     |       NAME '(' termlist ')'   {
                 /* *** NOT IMPLEMENTED YET *** */
                 #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `%s({list})' is an atom\n",
-                            $1->id);
+                    if ($1)
+                      fprintf(stderr,"\tDL_PARSER: `%s({list})' is an atom\n",
+                              $1->id);
                 #endif
                 $$=$1;
             }
@@ -252,15 +254,17 @@ termlist:   term    {
 lliteral:   atom    {
                 $$=initLiteral($1,false,NULL);
                 #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `%s%s' is a lliteral\n",
-                           $$->neg?"not ":"",$$->atom->id);
+		    if ($$ && $$->atom)
+                      fprintf(stderr,"\tDL_PARSER: `%s%s' is a lliteral\n",
+                             $$->neg?"not ":"",$$->atom->id);
                 #endif
             }
     |       NOT atom    {
                 $$=initLiteral($2,true,NULL);
                 #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `%s%s' is a lliteral\n",
-                           $$->neg?"not ":"",$$->atom->id);
+		    if ($$ && $$->atom)
+                      fprintf(stderr,"\tDL_PARSER: `%s%s' is a lliteral\n",
+                             $$->neg?"not ":"",$$->atom->id);
                 #endif
             }
     ;
@@ -268,12 +272,12 @@ lliteral:   atom    {
 simple_literal: lliteral    {
                 $$=$1;
                 #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `%s%s' is a simple_literal\n",
-                           $$->neg?"not ":"",$$->atom->id);
+		    if ($$ && $$->atom)
+                      fprintf(stderr,"\tDL_PARSER: `%s%s' is a simple_literal\n",
+                             $$->neg?"not ":"",$$->atom->id);
                 #endif
             }
     |       truefalse {
-                $$=initLiteral($1,false,NULL);
                 #ifdef DL_PARSER_DEBUG
                     fprintf(stderr,"\tDL_PARSER: `%s%s' is a simple_literal\n",
                            $$->neg?"not ":"",$$->atom->id);
@@ -291,51 +295,58 @@ simple_literal: lliteral    {
 literal:    simple_literal {
                 $$=$1;
                 #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `%s%s' is a literal\n",
-                           $$->neg?"not ":"",$$->atom->id);
+		    if ($$ && $$->atom)
+                      fprintf(stderr,"\tDL_PARSER: `%s%s' is a literal\n",
+                             $$->neg?"not ":"",$$->atom->id);
                 #endif
             }
     |       FAIL_D simple_literal {
                 /* *** NOT IMPLEMENTED YET *** */
                 $$=$2;
                 #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `failD %s%s' is a literal\n",
-                           $$->neg?"not ":"",$$->atom->id);
+		    if ($$ && $$->atom)
+                      fprintf(stderr,"\tDL_PARSER: `failD %s%s' is a literal\n",
+                             $$->neg?"not ":"",$$->atom->id);
                 #endif
             }
     |       FAIL_d simple_literal {
                 /* *** NOT IMPLEMENTED YET *** */
                 $$=$2;
                 #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `faild %s%s' is a literal\n",
-                           $$->neg?"not ":"",$$->atom->id);
+		    if ($$ && $$->atom)
+                      fprintf(stderr,"\tDL_PARSER: `faild %s%s' is a literal\n",
+                             $$->neg?"not ":"",$$->atom->id);
                 #endif
             }
     ;
 
 fact:       lliteral '.'        {
-                if ($1->neg) {
-                    $1->atom->plus_delta_neg=true;
-                    $1->atom->plus_DELTA_neg=true;
+                if ($1->atom) {
+                  if ($1->neg) {
+                      $1->atom->plus_delta_neg=true;
+                      $1->atom->plus_DELTA_neg=true;
+                  }
+                  else {
+                      $1->atom->plus_delta=true;
+                      $1->atom->plus_DELTA=true;
+                  }
+                  #ifdef DL_PARSER_DEBUG
+                      fprintf(stderr,"\tDL_PARSER: `%s%s.' is a fact\n",
+                             $1->neg?"not ":"",$1->atom->id);
+                  #endif
                 }
-                else {
-                    $1->atom->plus_delta=true;
-                    $1->atom->plus_DELTA=true;
-                }
-                #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `%s%s.' is a fact\n",
-                           $1->neg?"not ":"",$1->atom->id);
-                #endif
             }
     |       UNKNOWN lliteral '.'    {
-                if ($2->neg)
-                    $2->atom->unknown_neg=true;
-                else 
-                    $2->atom->unknown=true;
-                #ifdef DL_PARSER_DEBUG
-                    fprintf(stderr,"\tDL_PARSER: `UNKNOWN %s%s.' is a fact\n",
-                           $2->neg?"not ":"",$2->atom->id);
-                #endif
+                if ($2->atom) {
+                  if ($2->neg)
+                      $2->atom->unknown_neg=true;
+                  else 
+                      $2->atom->unknown=true;
+                  #ifdef DL_PARSER_DEBUG
+                      fprintf(stderr,"\tDL_PARSER: `UNKNOWN %s%s.' is a fact\n",
+                             $2->neg?"not ":"",$2->atom->id);
+                  #endif
+                }
             }
     ;
 
