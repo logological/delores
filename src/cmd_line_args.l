@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.19 2003-12-13 19:55:11 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.20 2003-12-13 22:38:42 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -282,7 +282,6 @@ void printVersionInformation(void) {
 #ifdef DL_USE_BGET
     "(includes BGET memory management by John Walker)\n"
 #endif
-    "\n"
     "Copyright (C) 1999, 2000 Michael Maher\n"
     "Copyright (C) 1999, 2000, 2003 Tristan Miller\n"
     "This is free software; see the source for copying conditions.  There is NO\n"
