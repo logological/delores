@@ -1,4 +1,4 @@
-# $Id: Makefile.am,v 1.2 2003-12-11 11:26:56 psy Exp $
+# $Id: Makefile.am,v 1.3 2003-12-11 19:06:21 psy Exp $
 #
 # Copyright (C) 1999, 2000 Michael Maher
 # Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
@@ -12,4 +12,4 @@
 # PURPOSE.
 
 bin_PROGRAMS = delores
-delores_SOURCES = bget.c bget.h cmd_line_args.h cmd_line_args.l dl.c dl_compile.h dl.h dl.l dl_malloc.c dl_malloc.h dl_stdbool.h dl_stdint.h dl_strdup.c dl_strdup.h dl.y main.c ohash.c ohash.h timer.c timer.h
+delores_SOURCES = bget.c bget.h cmd_line_args.h cmd_line_args.l dl.c dl.h dl.l dl_malloc.c dl_malloc.h dl_stdbool.h dl_stdint.h dl_strdup.c dl_strdup.h dl.y main.c ohash.c ohash.h timer.c timer.h

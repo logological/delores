@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.c,v 1.5 2003-12-10 20:06:34 psy Exp $
+File    : $Id: dl.c,v 1.6 2003-12-11 19:06:22 psy Exp $
 What    : Defeasible logic interpreter functions
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -22,7 +22,6 @@ USA.
 
 ----------------------------------------------------------------------------*/
 
-#include "dl_compile.h"
 #include <string.h>
 #include "dl_strdup.h"
 #include <stdlib.h>

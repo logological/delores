@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.h,v 1.4 2003-12-11 13:39:32 psy Exp $
+File    : $Id: cmd_line_args.h,v 1.5 2003-12-11 19:08:23 psy Exp $
 What    : Header file for lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -33,7 +33,7 @@ typedef struct {
   bufsize bgetPoolIncrement;
 #endif
   char inputFile[FILENAME_MAX + 1];
-  _Bool quietMode;
+  bool quietMode;
 } cmdargs_t;
 
 cmdargs_t getCmdLineArgs(int argc, char *argv[]);
