@@ -1,0 +1,330 @@
+.\" $Id: delores.1,v 1.1 2003-12-10 17:31:30 psy Exp $
+.TH DELORES 1 \" -*- nroff -*-
+.SH NAME
+DELORES \- a defeasible logic interpreter
+.SH SYNOPSIS
+delores [\fB\-q\fR] [\fB\-a\fIn\fR|\fB\-A\fIn\fR] [\fB\-r\fIn\fR|\fB\-R\fIn\fR] [\fB\-m\fIn\fR] [\fIin-file\fR]
+
+delores \fB\-\-help\fR
+
+delores \fB\-\-version\fR
+.SH DESCRIPTION
+.P
+DELORES (DEfeasible LOgic REasoning System) is a forward-chaining
+reasoning engine for defeasible logic, a less-expressive but more
+efficient non-monotonic logic. In contrast with most other
+non-monotonic logics, defeasible logic has linear complexity, allowing
+DELORES to execute large theories very quickly. DELORES's algorithm
+extends to general defeasible theories through the use of a
+pre-processing transformation which eliminates all uses of defeaters
+and superiority relations. The transformation was designed to provide
+incremental transformation of defeasible theories, and systematically
+uses new atoms and new defeasible rules to simulate the eliminated
+features.
+.SH OPTIONS
+.P
+.TP
+.BI \-q
+Quiet mode \-\- nonessential messages are suppressed.
+.TP
+.BI \-a n
+Make the atom hash table size the smallest prime greater than or equal
+to \fIn\fR.
+.TP
+.BI \-A n
+Make the atom hash table size exactly \fIn\fR.
+.TP
+.BI \-r n
+Make the rule hash table size the smallest prime greater than or equal
+to \fIn\fR.
+.TP
+.BI \-R n
+Make the rule hash table size exactly \fIn\fR.
+.TP
+.BI \-m n
+Pre-allocate memory in \fIn\fR-byte chunks. It is strongly recommended
+that \fIn\fR be a power of 2.  In absence of this option, the chunk
+size defaults to 65536 bytes.  This option is available only if
+DELORES is compiled with the BGET memory allocator.
+.TP
+.BI \-\-help
+Print a brief list of command-line arguments and then quit.
+.TP
+.BI \-\-version
+Print out version and copyright information and then quit.
+.TP
+.IB in-file
+Process the theory contained in the named file and then quit.  If no
+input file is specified, DELORES starts up in interactive mode.
+.P
+Regarding hash table sizes, \fIn\fR should be a prime number, or at
+least not divisible by a small prime; for this reason, it is
+recommended that the \fB\-a\fR and \fB\-r\fR options be used if
+\fIn\fR is not known for certain to be prime. In absence of any
+options setting the atom or rule hash table sizes, the default is 10^6
++ 3.
+.P
+Note that the ranges of acceptable values for options taking integer
+arguments are system-dependant. While DELORES makes every effort to
+report argument values which are too large, there remains a small
+chance that overflow errors will go undetected. For this reason,
+DELORES prints the atom hash table size, rule hash table size, and, if
+applicable, memory chunk size at startup (in non-quiet mode). If the
+numbers do not correspond to the values specified on the command line,
+try invoking DELORES again with smaller argument values.
+.SH LANGUAGE MORPHOLOGY
+A \fIname\fR is any sequence of one or more digits, letters, and
+underscores which begins with a lowercase letter. A \fIlabel\fR is any
+sequence of one or more digits, letters, underscores, and forward
+slashes which begins with a letter or a slash. A \fIfilename\fR is any
+sequence of one or more characters except newlines. In terms of
+regular expressions, these three basic patterns can be represented as
+follows:
+.IP
+\fIname\fR ::= [a-z][A-Za-z0-9_]*
+.IP
+\fIlabel\fR ::= [A-Za-z/][A-Za-z0-9_/]*
+.IP
+\fIfilename\fR ::= .+
+.P
+\fINote\fR: Users may not define rules with labels containing the `/'
+character; this character is reserved for rules named by the
+interpreter.
+.SH LANGUAGE SYNTAX
+.SS METASYNTAX
+In this manual the following BNF-like notational conventions are used
+for expressing DELORES syntax:
+.TP
+.RI [\ pattern\ ]
+optional
+.TP
+.RI (\ pattern\ )
+grouping
+.TP
+.IR pattern1 | pattern2
+choice of either
+.IR pattern1 or pattern2
+.TP
+"\fIliteral\fR"
+interpret quoted text literally 
+.P
+It should be noted that all white space (tabs, spaces, and newlines)
+between tokens is ignored. Thus, white space may be omitted when the
+omission does not lead to ambiguity.
+.SS BASIC TOKENS
+.IP "" 4
+\fINOT\fR ::= "neg" | "not"
+.IP
+\fISARROW\fR ::= ":-" | "<-"
+.IP
+\fIDARROW\fR ::= ":=" | "<="
+.IP
+\fIDEFARROW\fR ::= ":^" | "<~"
+.IP
+\fIDL_TRUE\fR ::= "true"
+.IP
+\fIDL_FALSE\fR ::= "false"
+.SS THEORY CONSTRUCTS
+.IP "" 4
+\fIprogram\fR ::= [\ \fIprogram\fR\ ] \fIstatement\fR "."
+.IP
+\fIstatement\fR ::= \fIrule\fR | \fIfact\fR | \fIsuprel\fR | \fIdirective\fR
+.IP
+\fIsuprel\fR ::= \fIlabel\fR (\ "<" | ">"\ ) \fIlabel\fR
+.IP
+\fIatom\fR ::= \fIname\fR [\ "(" \fItermlist\fR ")"\ ]
+.IP
+\fIterm\fR ::= \fIvariable\fR | \fIname\fR [\ "(" \fItermlist\fR ")"\ ]
+.IP
+\fItermlist\fR ::= [\ \fItermlist\fR ","\ ] \fIterm\fR
+.IP
+\fIlliteral\fR ::= [\ \fINOT\fR\ ] \fIatom\fR
+.IP
+\fIliteral\fR ::= [\ "faild" | "failD"\ ] (\ \fIlliteral\fR | [\ \fINOT\fR\ ] (\ \fIDL_TRUE\fR | \fIDL_FALSE\fR\ )\ )
+.IP
+\fIfact\fR ::= [\ "unknown"\ ] \fIlliteral\fR
+.IP
+\fIrule\fR ::= \fIsrule\fR | \fIdrule\fR | \fIdefeater\fR
+.IP
+\fIlitlist\fR ::= [\ \fIlitlist\fR ","\ ] \fIliteral\fR
+.IP
+\fIsrule\fR ::= [\ \fIlabel\fR ":"\ ] \fIlliteral SARROW litlist\fR
+.IP
+\fIdrule\fR ::= [\ \fIlabel\fR ":"\ ] \fIlliteral DARROW litlist\fR
+.IP
+\fIdefeater\fR ::= [\ \fIlabel\fR ":"\ ] \fIlliteral DEFARROW litlist\fR
+.SS INTERPRETER DIRECTIVES
+Interpreter directives are special commands issued to the interpreter
+which do not, strictly speaking, form part of the user's theory. They
+are used for reading and printing theories, executing the inference
+engine, and terminating the interpreter. Interpreter directives are
+considered statements for the purposes of the language grammar.
+.IP "" 4
+\fIdirective\fR ::= \fIlisting\fR | \fIprint\fR | \fIinfer\fR | \fIinferwf\fR | \fIend\fR | \fIinclude\fR
+.IP
+\fIlisting\fR ::= "listing" [\ "(" \fIlabel\fR ")"\ ]
+.IP
+\fIprint\fR ::= "print" "(" \fIatom\fR ")"
+.IP
+\fIinfer\fR ::= "infer"
+.IP
+\fIinferwf\fR ::= "inferwf"
+.IP
+\fIend\fR ::= "end"
+.IP
+\fIinclude\fR ::= "include" "(" \fIfilename\fR ")"
+.SH LANGUAGE SEMANTICS
+.SS THEORY CONSTRUCTS
+A discussion of the semantics of the theory constructs is well beyond
+the scope of this manual; please refer to the papers by Maher \fIet
+al.\fR listed near the end of this document.
+.SS INTERPRETER DIRECTIVES
+.TP
+.BI include
+The \fBinclude\fR directive is used to read and interpret a theory
+file on disk. The specified file will be read from disk as if it were
+entered via standard input. The maximum nesting depth for
+\fBinclude\fR is 16 files; this limit prevents infinite loops from two
+or more files which \fBinclude\fR each other.
+.TP
+.BI listing
+When called without arguments, the \fBlisting\fR directive prints a
+list of all rules in the theory, in the order they were initially
+created. If the user supplies a rule label as an argument, only that
+rule is printed (if it exists).
+.TP
+.BI print
+This directive takes an atom's name as its argument. Information about
+that atom, if it exists, is then printed.
+.TP
+.BI infer
+This directive executes the defeasible logic inference engine. Timing
+information is printed upon completion.
+.TP
+.BI inferwf
+The \fBinferwf\fR directive is similar to \fBinfer\fR, except that the
+well-founded defeasible logic inference engine is used.
+.TP
+.BI end
+The end directive indicates that the interpretation is over. No
+further statements are read. This directive is optional at the end of
+a file, as the interpretation will simply end when there is no further
+data in standard input.
+.SH DIAGNOSTICS
+.SS SYNTAX ERRORS
+Syntax errors are detected during reading. Each statement that fails
+to comply with syntax requirements causes DELORES to print a "parse
+error" message listing the filename, line number, and if possible, the
+exact token at which the error occurred. The interpretation will then
+continue as if the erroneous statement were never entered. In batch
+mode (that is, when DELORES is processing a theory file given on the
+command line or with an \fBinclude\fR directive), DELORES will print
+out the first sixteen syntax errors before aborting the
+interpretation. In interactive mode, a syntax error will never cause
+the interpretation to abort, as it is assumed that the user will
+correct the error upon reading the error message.
+.SS FATAL ERRORS
+Fatal errors include system errors such as running out of memory or
+attempting to open a theory file (via \fBinclude\fR or a command-line
+argument) that does not exist or cannot be opened, and other
+exceptional cases such as exceeding the \fBinclude\fR nesting
+depth. As the name implies, fatal errors result in immediate
+termination of the interpreter. As with syntax errors, DELORES will
+attempt to identify the exact point in input at which the error
+occurred. The list of the most common fatal errors is as follows:
+.TP
+.B out of memory!
+.TP
+.B atom table too big for available memory!
+.TP
+.B rule table too big for available memory!
+.TP
+.B cannot insert into rule table
+.TP
+.B cannot insert into atom table
+There is not sufficient memory for the interpretation to continue. Try
+using the command-line arguments to decrease the size of the hash
+tables and/or the memory chunk size (if applicable). Failing that, if
+DELORES has been compiled with the BGET memory allocator, try
+recompiling it with the BGET \fBBestFit\fR macro set, or even without
+BGET support at all. The resulting interpreter may be slower, but it
+will probably use less memory. If recompiling is not an option or does
+not solve the problem, consult your operating system's documentation
+for hints on increasing the amount of memory available to DELORES.
+.TP
+.B too many nested includes
+The \fBinclude\fR directive has a maximum nesting depth of 16. It is
+unlikely that files would ever be nested to this depth in practice; if
+this error occurs it is most likely that an infinite loop has arisen
+from a particular file \fBinclude\fRing itself indirectly.
+.TP
+.B no such file or directory
+The user has instructed the interpreter to read in a file which either
+does not exist, or is otherwise unopenable. Check that the path,
+filename, and file permissions are correct.
+.P
+There are other fatal errors which DELORES may produce in the
+extremely unlikely event that certain system limits are exceeded, or
+if the interpreter encounters some completely unexpected error
+condition. In these cases, please contact the program's maintainer
+with the exact error message given, as well as instructions on how to
+reproduce the error.
+.SS WARNINGS
+Warning messages indicate an anomaly that may be of interest to the
+user, though it is unlikely interfere with the interpretation. The
+warnings are as follows:
+.TP
+.B warning: ignoring redefinition of rule
+The same label has been used to define two separate rules. The second
+rule is ignored; if it is to be entered into the theory, then its
+label should be changed or omitted.
+.TP
+.B warning: rule count overflow
+DELORES assigns every rule an identifying number so that the
+\fBlisting\fR directive prints out the rules in the order they were
+entered. This message indicates that DELORES has run out of unique
+numbers for the rules; consequently, \fBlisting\fR can no longer be
+guaranteed to print rules in the proper order.
+.TP
+.B warning: same rule appears on both sides of of superiority relation
+This message is printed when a superiority relation such as \fBrule2 >
+rule2\fR is entered. Such a declaration makes no sense semantically.
+.SH FILES
+.TP
+.B /usr/local/share/delores/primes.txt
+List of prime numbers used by the \fB\-a\fR and \fB\-r\fR options.
+.SH BUGS
+The only known bug in the interpreter has to do with its processing of
+\fBinclude\fR directives; sometimes the filename is not properly
+recognized. To avoid any potential problems, users are cautioned to
+place their \fBinclude\fR directives on lines separate from any other
+statements.
+.P
+Please report bugs to <psychonaut@nothingisreal.com>.
+.SH SEE ALSO
+Michael J. Maher, Allan Rock, Grigoris Antoniou, David Billington, and
+Tristan Miller. Efficient defeasible reasoning
+systems. \fIInternational Journal on Artificial Intelligence Tools\fR,
+10(4):483-501, 2001.
+.P
+Michael J. Maher, Allan Rock, Grigoris Antoniou, David Billington, and
+Tristan Miller. Efficient defeasible reasoning systems. In
+\fIProceedings of the 12th IEEE International Conference on Tools with
+Artificial Intelligence\fR, pages 384-392, 2000.
+.P
+More publications on DELORES and defeasible reasoning are available on
+Michael Maher's publications page:
+http://www.math.luc.edu/~mjm/pubs/#DL
+.P
+DELORES home page: http://www.nothingisreal.com/delores/
+.SH AUTHOR
+DELORES was conceived by Michael Maher and implemented by Tristan
+Miller.  DELORES uses BGET, a public domain memory allocation library
+by John Walker.
+.SH COPYRIGHT
+Copyright (C)\ 1999, 2000 Michael Maher.
+Copyright (C)\ 1999, 2000, 2003 Tristan Miller.
+.P
+Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
