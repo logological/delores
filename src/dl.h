@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.h,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: dl.h,v 1.4 2003-12-10 19:19:15 psy Exp $
 What    : Data structures, macros, headers, etc. shared among dl.l (the
           lexer), dl.y (the parser), and dl.c (the interpreter)
 
@@ -29,10 +29,12 @@ USA.
 /*----------------------------------------------------------------------------
 Debugging flags
 ----------------------------------------------------------------------------*/
-//#define DL_DEBUG             /* Enable debug messages in main program */
-//#define DL_LEXER_DEBUG       /* Enable debug messages in lexer */
-//#define DL_PARSER_DEBUG      /* Enable debug messages in parser */
-//#define DL_PROFILE           /* Time program execution */
+#if 0
+#define DL_DEBUG             /* Enable debug messages in main program */
+#define DL_LEXER_DEBUG       /* Enable debug messages in lexer */
+#define DL_PARSER_DEBUG      /* Enable debug messages in parser */
+#define DL_PROFILE           /* Time program execution */
+#endif
 
 /*----------------------------------------------------------------------------
 Include files
