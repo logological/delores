@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_stdint.h,v 1.4 2003-12-11 19:51:34 psy Exp $
+File    : $Id: dl_stdint.h,v 1.5 2003-12-12 13:30:01 psy Exp $
 What    : Figures out compiler-specific information on standard integer types
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -31,28 +31,47 @@ USA.
 ** Determine the largest unsigned integer type and its printf/scanf format
 ** specifier
 */
-#if (defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L) || \
-    (defined __GLIBC__ && defined _ISOC9X_SOURCE)
-#  include <stdint.h>
-#  define UINTMAX_FMT "llu"
-#  define ATOSIZE_T(x) atoll(x)
-#elif defined __sun__
+
+#if HAVE_INTTYPES_H
 #  include <inttypes.h>
-#  define UINTMAX_FMT "llu"
-#  define ATOSIZE_T(x) atoll(x)
+#endif
+
+#if HAVE_UINTMAX_T
+#  ifndef PRIuMAX
+#    error You appear to have a very strange compiler which has uintmax_t but not PRIuMAX.  Please contact the DELORES bug reports address and provide the details of your compiler.
+#  endif
+#  if ! HAVE_STRTOUMAX
+#    error You appear to have a very strange compiler which has uintmax_t but not strtoumax().  Please contact the DELORES bug reports address and provide the details of your compiler.
+#  endif
 #else
-   typedef unsigned long int uintmax_t;
-#  define UINTMAX_FMT "lu"
-#  define ATOSIZE_T(x) atol(x)
+#  undef PRIuMAX
+#  if HAVE_UNSIGNED_LONG_LONG
+     typedef unsigned long long uintmax_t;
+#    define PRIuMAX "llu"
+#    if ! HAVE_STRTOUMAX
+#      define strtoumax strtoull
+#    else
+#      error You appear to have a very strange compiler which has strtoumax but not uintmax_t.  Please contact the DELORES bug reports address and provide the details of your compiler.
+#    endif
+#  else
+     typedef unsigned long int uintmax_t;
+#    define PRIuMAX "lu"
+#    if ! HAVE_STRTOUMAX
+#      define strtoumax strtoul
+#    else
+#      error You appear to have a very strange compiler which has strtoumax but not uintmax_t.  Please contact the DELORES bug reports address and provide the details of your compiler.
+#    endif
+#  endif
 #endif
 
 /* Determine the largest value representable in a size_t variable */
-#if (defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L) || \
-    (defined __GLIBC__ && defined _ISOC9X_SOURCE)
+#if HAVE_STDINT_H
 #  include <stdint.h>
 #else
-   /* Some non-C9X compilers #define SIZE_MAX in <limits.h> */
-#  include <limits.h>
+   /* Some non-C99 compilers #define SIZE_MAX in <limits.h> */
+#  if HAVE_LIMITS_H
+#    include <limits.h>
+#  endif
 #  ifndef SIZE_MAX
 #    define SIZE_MAX ((size_t)(-1))
 #  endif
