@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_malloc.h,v 1.8 2003-12-13 15:17:55 psy Exp $
+File    : $Id: dl_malloc.h,v 1.9 2003-12-14 14:47:34 psy Exp $
 What    : Header file for memory allocation functions
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

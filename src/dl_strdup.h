@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_strdup.h,v 1.7 2003-12-12 19:30:00 psy Exp $
+File    : $Id: dl_strdup.h,v 1.8 2003-12-14 14:47:34 psy Exp $
 What    : Header file for strdup() function
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

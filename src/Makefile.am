@@ -1,7 +1,7 @@
-# $Id: Makefile.am,v 1.11 2003-12-13 19:54:10 psy Exp $
+# $Id: Makefile.am,v 1.12 2003-12-14 14:47:34 psy Exp $
 #
 # Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-# Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+# Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 #  
 # This file is free software; the author gives unlimited permission to
 # copy and/or distribute it, with or without modifications.

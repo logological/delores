@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------------
-File    : $Id: ohash.c,v 1.6 2003-12-10 19:59:23 psy Exp $
+File    : $Id: ohash.c,v 1.7 2003-12-14 14:47:35 psy Exp $
 What    : Hash table functions
 
 Based on public domain code by Jerry Coffin and HenkJan Wolthuis.
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

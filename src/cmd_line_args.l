@@ -1,10 +1,10 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.20 2003-12-13 22:38:42 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.21 2003-12-14 14:47:34 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

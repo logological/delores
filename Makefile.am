@@ -1,6 +1,6 @@
-# $Id: Makefile.am,v 1.4 2003-12-13 22:43:05 psy Exp $
+# $Id: Makefile.am,v 1.5 2003-12-14 14:47:34 psy Exp $
 #
-# Copyright (C) 2003 Tristan Miller <psychonaut@nothingisreal.com>
+# Copyright (C) 2003 Tristan Miller <Tristan.Miller@dfki.de>
 #  
 # This file is free software; the author gives unlimited permission to
 # copy and/or distribute it, with or without modifications.

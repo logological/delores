@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------------
-File    : $Id: timer.c,v 1.6 2003-12-11 19:51:34 psy Exp $
+File    : $Id: timer.c,v 1.7 2003-12-14 14:47:35 psy Exp $
 What    : Functions for timing
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

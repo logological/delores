@@ -1,12 +1,12 @@
 /*----------------------------------------------------------------------------
-File    : $Id: bget.h,v 1.7 2003-12-13 15:37:22 psy Exp $
+File    : $Id: bget.h,v 1.8 2003-12-14 14:47:34 psy Exp $
 What    : Memory allocation tool (faster replacement for malloc() and friends)
 Notes   : This file has been modified by Tristan Miller to remove ancient K&R-
           style prototypes, and to add the macros BUFSIZE_MAX and ATOBUFSIZE
 
 Based on public domain code by John Walker, Duff Kurland, and Greg Lutz.
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

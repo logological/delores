@@ -1,10 +1,10 @@
 /*----------------------------------------------------------------------------
-File    : $Id: bget.c,v 1.8 2003-12-11 19:51:33 psy Exp $
+File    : $Id: bget.c,v 1.9 2003-12-14 14:47:34 psy Exp $
 What    : Memory allocation tool (faster replacement for malloc() and friends)
 
 Based on public domain code by John Walker, Duff Kurland, and Greg Lutz.
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 Changes from original bget.c:
           1. some preprocessor macros have been commented out to prevent

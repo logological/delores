@@ -1,10 +1,10 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: parser.y,v 1.3 2003-12-13 14:52:02 psy Exp $
+File    : $Id: parser.y,v 1.4 2003-12-14 14:47:35 psy Exp $
 What    : Defeasible logic parser
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------------
-File    : $Id: main.c,v 1.9 2003-12-13 15:13:58 psy Exp $
+File    : $Id: main.c,v 1.10 2003-12-14 14:47:35 psy Exp $
 What    : Initialization routine for interpreter
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

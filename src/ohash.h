@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------
-File    : $Id: ohash.h,v 1.6 2003-12-13 15:30:56 psy Exp $
+File    : $Id: ohash.h,v 1.7 2003-12-14 14:47:35 psy Exp $
 What    : Header file for hash table module -- see hash.c for info
 
-Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
+Copyright (C) 1999, 2000, 2003 Tristan Miller <Tristan.Miller@dfki.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
