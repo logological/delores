@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.c,v 1.7 2003-12-11 19:51:34 psy Exp $
+File    : $Id: dl.c,v 1.8 2003-12-12 18:50:05 psy Exp $
 What    : Defeasible logic interpreter functions
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -28,7 +28,7 @@ USA.
 #include <stdio.h>
 #include "timer.h"
 #include "dl.h"
-#include "dl_y_tab.h"
+#include "parser.h"
 #include "dl_malloc.h"
 #include "dl_stdint.h"
 
