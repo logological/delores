@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: timer.h,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: timer.h,v 1.4 2003-12-11 11:25:15 psy Exp $
 What    : Timing functions header
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -25,7 +25,7 @@ USA.
 #ifndef TIMER__H
 #define TIMER__H
 
-#include "dl_inline.h"
+#include <config.h>
 
 /*
 ** Set up macros and function prototypes for the ANSI standard CPU timer
@@ -34,10 +34,10 @@ USA.
 #include <time.h>
 typedef clock_t cpuTimer;
 
-__inline__ cpuTimer *newCpuTimer(void);
-__inline__ void resetCpuTimer(cpuTimer *t);
-__inline__ double readCpuTimer(cpuTimer *t);
-__inline__ void freeCpuTimer(cpuTimer *t);
+inline cpuTimer *newCpuTimer(void);
+inline void resetCpuTimer(cpuTimer *t);
+inline double readCpuTimer(cpuTimer *t);
+inline void freeCpuTimer(cpuTimer *t);
 
 /*
 ** This section defines our favourite non-ANSI timing functions. If your
@@ -59,10 +59,10 @@ __inline__ void freeCpuTimer(cpuTimer *t);
    typedef struct timeb realTimer;
 #endif
 
-__inline__ realTimer *newRealTimer(void);
-__inline__ void resetRealTimer(realTimer *t);
-__inline__ double readRealTimer(realTimer *t);
-__inline__ void freeRealTimer(realTimer *t);
+inline realTimer *newRealTimer(void);
+inline void resetRealTimer(realTimer *t);
+inline double readRealTimer(realTimer *t);
+inline void freeRealTimer(realTimer *t);
 
 #endif
 

@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------
-File    : $Id: dl_strdup.c,v 1.2 2003-12-09 19:15:29 psy Exp $
+File    : $Id: dl_strdup.c,v 1.3 2003-12-11 11:25:15 psy Exp $
 Purpose : Returns a newly allocated area of memory that contains a duplicate
           of the string pointed to by s. The memory returned by this call must
           be freed by the caller. 
@@ -14,7 +14,7 @@ Returns : the newly-allocated string, or NULL if there is no memory
 
 #ifndef dl_strdup
 
-__inline__ char *dl_strdup(const char *s) {
+inline char *dl_strdup(const char *s) {
   size_t len=strlen(s)+1;
   char *new=balloc(len);
   return new?(char *)memcpy(new,s,len):NULL;

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: timer.c,v 1.4 2003-12-10 20:01:34 psy Exp $
+File    : $Id: timer.c,v 1.5 2003-12-11 11:25:15 psy Exp $
 What    : Functions for timing
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -32,7 +32,7 @@ Purpose : creates a new CPU timer (i.e., a clock_t variable)
 Args    : none
 Returns : pointer to new CPU timer, or NULL if out of memory
 ----------------------------------------------------------------------------*/
-__inline__ cpuTimer *newCpuTimer(void) {
+inline cpuTimer *newCpuTimer(void) {
   return balloc(sizeof(cpuTimer));
 }
 
@@ -42,7 +42,7 @@ Purpose : resets the specified CPU timer to 0
 Args    : pointer to the CPU timer to start
 Returns : nothing
 ----------------------------------------------------------------------------*/
-__inline__ void resetCpuTimer(cpuTimer *t) {
+inline void resetCpuTimer(cpuTimer *t) {
   *t=clock();
 }
 
@@ -52,7 +52,7 @@ Purpose : reads the specified CPU timer
 Args    : pointer to CPU timer to read
 Returns : time elapsed, in seconds
 ----------------------------------------------------------------------------*/
-__inline__ double readCpuTimer(cpuTimer *t) {
+inline double readCpuTimer(cpuTimer *t) {
   return ((clock()-*t)/(double)CLOCKS_PER_SEC);
 }
 
@@ -62,7 +62,7 @@ Purpose : frees memory associated with the specified CPU timer
 Args    : pointer to CPU timer to free
 Returns : nothing
 ----------------------------------------------------------------------------*/
-__inline__ void freeCpuTimer(cpuTimer *t) {
+inline void freeCpuTimer(cpuTimer *t) {
   bfree(t);
 }
 
@@ -72,7 +72,7 @@ Purpose : creates a new real-time timer (i.e., a clock_t variable)
 Args    : none
 Returns : pointer to new real-time timer, or NULL if out of memory
 ----------------------------------------------------------------------------*/
-__inline__ realTimer *newRealTimer(void) {
+inline realTimer *newRealTimer(void) {
   return balloc(sizeof(realTimer));
 }
 
@@ -82,7 +82,7 @@ Purpose : resets the specified real-time timer to 0
 Args    : pointer to the real-time timer to start
 Returns : nothing
 ----------------------------------------------------------------------------*/
-__inline__ void resetRealTimer(realTimer *t) {
+inline void resetRealTimer(realTimer *t) {
 #if REAL_TIMER_METHOD==0
   *t=0;
 #elif REAL_TIMER_METHOD==1
@@ -96,7 +96,7 @@ Purpose : reads the specified real-time timer
 Args    : pointer to real-time timer to read
 Returns : time elapsed, in seconds
 ----------------------------------------------------------------------------*/
-__inline__ double readRealTimer(realTimer *t) {
+inline double readRealTimer(realTimer *t) {
 #if REAL_TIMER_METHOD==0
   return 0;
 #elif REAL_TIMER_METHOD==1
@@ -112,7 +112,7 @@ Purpose : frees memory associated with the specified real-time timer
 Args    : pointer to real-time timer to free
 Returns : nothing
 ----------------------------------------------------------------------------*/
-__inline__ void freeRealTimer(realTimer *t) {
+inline void freeRealTimer(realTimer *t) {
 #if REAL_TIMER_METHOD==0 || REAL_TIMER_METHOD==1
   bfree(t);
 #endif

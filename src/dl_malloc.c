@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_malloc.c,v 1.4 2003-12-10 19:21:37 psy Exp $
+File    : $Id: dl_malloc.c,v 1.5 2003-12-11 11:25:15 psy Exp $
 What    : Memory allocation functions
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -36,7 +36,7 @@ Purpose : Allocates a buffer of the given size, and aborts on failure
 Args    : size -- number of bytes to allocate
 Returns : pointer to the allocated memory on success, otherwise aborts program
 -----------------------------------------------------------------------------*/
-__inline__ void *balloc(size_t size) {
+inline void *balloc(size_t size) {
   void *p;
 
 #ifdef DL_USE_BGET

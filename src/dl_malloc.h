@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_malloc.h,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: dl_malloc.h,v 1.4 2003-12-11 11:25:15 psy Exp $
 What    : Header file for memory allocation functions
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -27,9 +27,9 @@ USA.
 
 #define DL_USE_BGET                   /* Use BGET package instead of malloc */
 
-#include "dl_inline.h"               /* Allow inline funtions, if supported */
+#include <config.h>                   /* For inline funtions */
 
-__inline__ void *balloc(size_t size);
+inline void *balloc(size_t size);
 
 #undef bfree
 
