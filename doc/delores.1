@@ -1,4 +1,4 @@
-.\" $Id: delores.1,v 1.3 2003-12-13 14:59:35 psy Exp $
+.\" $Id: delores.1,v 1.4 2003-12-13 15:24:16 psy Exp $
 .TH DELORES 1 \" -*- nroff -*-
 .SH NAME
 DELORES \- a defeasible logic interpreter
@@ -51,7 +51,9 @@ DELORES is compiled with the BGET memory allocator.
 Print a brief list of command-line arguments and then quit.
 .TP
 .BI \-\-version
-Print out version and copyright information and then quit.
+Print out version and copyright information and then quit.  If the
+BGET memory management routines have been compiled in, this will be
+noted in the version information.
 .TP
 .IB in-file
 Process the theory contained in the named file and then quit.  If no
