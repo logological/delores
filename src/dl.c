@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl.c,v 1.10 2003-12-13 17:37:01 psy Exp $
+File    : $Id: dl.c,v 1.11 2003-12-13 17:39:58 psy Exp $
 What    : Defeasible logic interpreter functions
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -1011,9 +1011,7 @@ Notes   : 1. As this function uses the rule's memory address in its name, it
              id[] should have dimension (log_16(2^(CHAR_BIT*sizeof(Rule *))) + 
              strlen(format)) to avoid overflowing its buffer. Assuming 8
              bits per byte, the above expression collapses to
-             (2*(sizeof Rule *) + strlen(format)). In the interests of
-             efficiency, strlen(format) has been manually calculated and
-             hardcoded.
+             (2*(sizeof Rule *) + strlen(format)).
           3. This function does not check that r->id is already set, so make
              sure any existing id is freed before calling.
 ----------------------------------------------------------------------------*/
@@ -1238,7 +1236,7 @@ Rule *addRule(Rule *r, Rule *(*func)(Rule *, Rule *(*)())) {
   if ((temp = hashLookup(r->id, &ruleTable))) {
     static const char msg[] = "warning: ignoring redefinition of `%s'";
     char *err = balloc(strlen(r->id) + strlen(msg));
-    sprintf(err, "warning: ignoring redefinition of `%s'", r->id);
+    sprintf(err, msg, r->id);
     yyerror(err);
     bfree(err);
     return temp;
