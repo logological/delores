@@ -1,0 +1,932 @@
+<html>
+<head>
+    <meta name="generator" content="groff -Thtml, see www.gnu.org">
+    <meta name="Content-Style" content="text/css">
+    <title>DELORES Manual</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Language" content="en-ca" />
+    <meta name="author" content="Tristan Miller" />
+    <meta name="robots" content="all" />
+    <meta name="description" content="Man page for the DELORES defeasible logic reasoning system." />
+    <meta name="keywords" content="DELORES, manual, user's guide, man page, instructions, guide, reference, reference guide" />
+    <link rev="made" rel="Author" href="mailto:Tristan.Miller@dfki.de" />
+</head>
+<body>
+
+<h1 align=center>DELORES</h1>
+<a href="#NAME">NAME</a><br>
+<a href="#SYNOPSIS">SYNOPSIS</a><br>
+<a href="#DESCRIPTION">DESCRIPTION</a><br>
+<a href="#OPTIONS">OPTIONS</a><br>
+<a href="#LANGUAGE MORPHOLOGY">LANGUAGE MORPHOLOGY</a><br>
+<a href="#LANGUAGE SYNTAX">LANGUAGE SYNTAX</a><br>
+<a href="#LANGUAGE SEMANTICS">LANGUAGE SEMANTICS</a><br>
+<a href="#DIAGNOSTICS">DIAGNOSTICS</a><br>
+<a href="#FILES">FILES</a><br>
+<a href="#BUGS">BUGS</a><br>
+<a href="#SEE ALSO">SEE ALSO</a><br>
+<a href="#AUTHOR">AUTHOR</a><br>
+<a href="#COPYRIGHT">COPYRIGHT</a><br>
+
+<hr>
+<!-- Creator     : groff version 1.17.2 -->
+<!-- CreationDate: Sun Dec 14 15:27:30 2003 -->
+<a name="NAME"></a>
+<h2>NAME</h2>
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+DELORES - a defeasible logic interpreter</td></table>
+<a name="SYNOPSIS"></a>
+<h2>SYNOPSIS</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+delores [<b>-q</b>] [<b>-a</b><i>n</i>|<b>-A</b><i>n</i>]
+[<b>-r</b><i>n</i>|<b>-R</b><i>n</i>] [<b>-m</b><i>n</i>]
+[<i>in-file</i>]</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+delores <b>--help</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+delores <b>--version</b></td></table>
+<a name="DESCRIPTION"></a>
+<h2>DESCRIPTION</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+DELORES (DEfeasible LOgic REasoning System) is a
+forward-chaining reasoning engine for defeasible logic, a
+less-expressive but more efficient non-monotonic logic. In
+contrast with most other non-monotonic logics, defeasible
+logic has linear complexity, allowing DELORES to execute
+large theories very quickly. DELORES's algorithm extends to
+general defeasible theories through the use of a
+pre-processing transformation which eliminates all uses of
+defeaters and superiority relations. The transformation was
+designed to provide incremental transformation of defeasible
+theories, and systematically uses new atoms and new
+defeasible rules to simulate the eliminated
+features.</td></table>
+<a name="OPTIONS"></a>
+<h2>OPTIONS</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>-q</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Quiet mode -- nonessential messages are
+suppressed.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>-a</b><i>n</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Make the atom hash table size the smallest prime greater
+than or equal to <i>n</i>.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>-A</b><i>n</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Make the atom hash table size exactly <i>n</i>.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>-r</b><i>n</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Make the rule hash table size the smallest prime greater
+than or equal to <i>n</i>.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>-R</b><i>n</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Make the rule hash table size exactly <i>n</i>.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>-m</b><i>n</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Pre-allocate memory in <i>n</i>-byte chunks. It is strongly
+recommended that <i>n</i> be a power of 2. In absence of
+this option, the chunk size defaults to 65536 bytes. This
+option is available only if DELORES is compiled with the
+BGET memory allocator.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>--help</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Print a brief list of command-line arguments and then
+quit.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>--version</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Print out version and copyright information and then quit.
+If the BGET memory management routines have been compiled
+in, this will be noted in the version
+information.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<i>in-file</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+Process the theory contained in the named file and then
+quit. If no input file is specified, DELORES starts up in
+interactive mode.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+Regarding hash table sizes, <i>n</i> should be a prime
+number, or at least not divisible by a small prime; for this
+reason, it is recommended that the <b>-a</b> and <b>-r</b>
+options be used if <i>n</i> is not known for certain to be
+prime. In absence of any options setting the atom or rule
+hash table sizes, the default is 10^6 + 3.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+Note that the ranges of acceptable values for options taking
+integer arguments are system-dependant. While DELORES makes
+every effort to report argument values which are too large,
+there remains a small chance that overflow errors will go
+undetected. For this reason, DELORES prints the atom hash
+table size, rule hash table size, and, if applicable, memory
+chunk size at startup (in non-quiet mode). If the numbers do
+not correspond to the values specified on the command line,
+try invoking DELORES again with smaller argument
+values.</td></table>
+<a name="LANGUAGE MORPHOLOGY"></a>
+<h2>LANGUAGE MORPHOLOGY</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+A <i>name</i> is any sequence of one or more digits,
+letters, and underscores which begins with a lowercase
+letter. A <i>label</i> is any sequence of one or more
+digits, letters, underscores, and forward slashes which
+begins with a letter or a slash. A <i>filename</i> is any
+sequence of one or more characters except newlines. In terms
+of regular expressions, these three basic patterns can be
+represented as follows:</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+<i>name</i> ::= [a-z][A-Za-z0-9_]*</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+<i>label</i> ::= [A-Za-z/][A-Za-z0-9_/]*</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+<i>filename</i> ::= .+</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<i>Note</i>: Users may not define rules with labels
+containing the `/' character; this character is reserved for
+rules named by the interpreter.</td></table>
+<a name="LANGUAGE SYNTAX"></a>
+<h2>LANGUAGE SYNTAX</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>METASYNTAX</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+In this manual the following BNF-like notational conventions
+are used for expressing DELORES syntax:</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+[ pattern ]</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+optional</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+( pattern )</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+grouping</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<i>pattern1</i> | <i>pattern2</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+choice of either <i>pattern1</i> or
+<i>pattern2</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+&quot;<i>literal</i>&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+interpret quoted text literally</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+It should be noted that all white space (tabs, spaces, and
+newlines) between tokens is ignored. Thus, white space may
+be omitted when the omission does not lead to
+ambiguity.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>BASIC TOKENS</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>NOT</i> ::= &quot;neg&quot; |
+&quot;not&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>SARROW</i> ::= &quot;:-&quot; |
+&quot;&lt;-&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>DARROW</i> ::= &quot;:=&quot; |
+&quot;&lt;=&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>DEFARROW</i> ::= &quot;:^&quot; |
+&quot;&lt;~&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>DL_TRUE</i> ::= &quot;true&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>DL_FALSE</i> ::= &quot;false&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>THEORY CONSTRUCTS</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>program</i> ::= [ <i>program</i> ] <i>statement</i>
+&quot;.&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>statement</i> ::= <i>rule</i> | <i>fact</i> |
+<i>suprel</i> | <i>directive</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>suprel</i> ::= <i>label</i> ( &quot;&lt;&quot; |
+&quot;&gt;&quot; ) <i>label</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>atom</i> ::= <i>name</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>term</i> ::= <i>variable</i> | <i>name</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>lliteral</i> ::= [ <i>NOT</i> ] <i>atom</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>literal</i> ::= ( <i>lliteral</i> | [ <i>NOT</i> ] (
+<i>DL_TRUE</i> | <i>DL_FALSE</i> ) )</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>fact</i> ::= [ &quot;unknown&quot; ]
+<i>lliteral</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>rule</i> ::= <i>srule</i> | <i>drule</i> |
+<i>defeater</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>litlist</i> ::= [ <i>litlist</i> &quot;,&quot; ]
+<i>literal</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>srule</i> ::= [ <i>label</i> &quot;:&quot; ] <i>lliteral
+SARROW litlist</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>drule</i> ::= [ <i>label</i> &quot;:&quot; ] <i>lliteral
+DARROW litlist</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>defeater</i> ::= [ <i>label</i> &quot;:&quot; ]
+<i>lliteral DEFARROW litlist</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>INTERPRETER DIRECTIVES</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+Interpreter directives are special commands issued to the
+interpreter which do not, strictly speaking, form part of
+the user's theory. They are used for reading and printing
+theories, executing the inference engine, and terminating
+the interpreter. Interpreter directives are considered
+statements for the purposes of the language
+grammar.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>directive</i> ::= <i>listing</i> | <i>print</i> |
+<i>infer</i> | <i>end</i> | <i>include</i></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>listing</i> ::= &quot;listing&quot; [ &quot;(&quot;
+<i>label</i> &quot;)&quot; ]</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>print</i> ::= &quot;print&quot; &quot;(&quot; <i>atom</i>
+&quot;)&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>infer</i> ::= &quot;infer&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>end</i> ::= &quot;end&quot;</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="16%"></td><td width="84%">
+<i>include</i> ::= &quot;include&quot; &quot;(&quot;
+<i>filename</i> &quot;)&quot;</td></table>
+<a name="LANGUAGE SEMANTICS"></a>
+<h2>LANGUAGE SEMANTICS</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>THEORY CONSTRUCTS</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+A discussion of the semantics of the theory constructs is
+well beyond the scope of this manual; please refer to the
+papers by Maher <i>et al.</i> listed near the end of this
+document.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>INTERPRETER DIRECTIVES</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>include</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+The <b>include</b> directive is used to read and interpret a
+theory file on disk. The specified file will be read from
+disk as if it were entered via standard input. The maximum
+nesting depth for <b>include</b> is 16 files; this limit
+prevents infinite loops from two or more files which
+<b>include</b> each other.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>listing</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+When called without arguments, the <b>listing</b> directive
+prints a list of all rules in the theory, in the order they
+were initially created. If the user supplies a rule label as
+an argument, only that rule is printed (if it
+exists).</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>print</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+This directive takes an atom's name as its argument.
+Information about that atom, if it exists, is then
+printed.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>infer</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+This directive executes the defeasible logic inference
+engine. Timing information is printed upon
+completion.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>end</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+The end directive indicates that the interpretation is over.
+No further statements are read. This directive is optional
+at the end of a file, as the interpretation will simply end
+when there is no further data in standard
+input.</td></table>
+<a name="DIAGNOSTICS"></a>
+<h2>DIAGNOSTICS</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>SYNTAX ERRORS</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+Syntax errors are detected during reading. Each statement
+that fails to comply with syntax requirements causes DELORES
+to print a &quot;parse error&quot; message listing the
+filename, line number, and if possible, the exact token at
+which the error occurred. The interpretation will then
+continue as if the erroneous statement were never entered.
+In batch mode (that is, when DELORES is processing a theory
+file given on the command line or with an <b>include</b>
+directive), DELORES will print out the first sixteen syntax
+errors before aborting the interpretation. In interactive
+mode, a syntax error will never cause the interpretation to
+abort, as it is assumed that the user will correct the error
+upon reading the error message.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>FATAL ERRORS</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+Fatal errors include system errors such as running out of
+memory or attempting to open a theory file (via
+<b>include</b> or a command-line argument) that does not
+exist or cannot be opened, and other exceptional cases such
+as exceeding the <b>include</b> nesting depth. As the name
+implies, fatal errors result in immediate termination of the
+interpreter. As with syntax errors, DELORES will attempt to
+identify the exact point in input at which the error
+occurred. The list of the most common fatal errors is as
+follows:</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>out of memory!</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>atom table too big for available memory!</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>rule table too big for available memory!</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>cannot insert into rule table</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>cannot insert into atom table</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+There is not sufficient memory for the interpretation to
+continue. Try using the command-line arguments to decrease
+the size of the hash tables and/or the memory chunk size (if
+applicable). Failing that, if DELORES has been compiled with
+the BGET memory allocator, try recompiling it with the BGET
+<b>BestFit</b> macro set, or even without BGET support at
+all. The resulting interpreter may be slower, but it will
+probably use less memory. If recompiling is not an option or
+does not solve the problem, consult your operating system's
+documentation for hints on increasing the amount of memory
+available to DELORES.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>too many nested includes</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+The <b>include</b> directive has a maximum nesting depth of
+16. It is unlikely that files would ever be nested to this
+depth in practice; if this error occurs it is most likely
+that an infinite loop has arisen from a particular file
+<b>include</b>ing itself indirectly.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>no such file or directory</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+The user has instructed the interpreter to read in a file
+which either does not exist, or is otherwise unopenable.
+Check that the path, filename, and file permissions are
+correct.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+There are other fatal errors which DELORES may produce in
+the extremely unlikely event that certain system limits are
+exceeded, or if the interpreter encounters some completely
+unexpected error condition. In these cases, please contact
+the program's maintainer with the exact error message given,
+as well as instructions on how to reproduce the
+error.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="4%"></td><td width="96%">
+<b>WARNINGS</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+Warning messages indicate an anomaly that may be of interest
+to the user, though it is unlikely interfere with the
+interpretation. The warnings are as follows:</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>warning: ignoring redefinition of rule</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+The same label has been used to define two separate rules.
+The second rule is ignored; if it is to be entered into the
+theory, then its label should be changed or
+omitted.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>warning: rule count overflow</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+DELORES assigns every rule an identifying number so that the
+<b>listing</b> directive prints out the rules in the order
+they were entered. This message indicates that DELORES has
+run out of unique numbers for the rules; consequently,
+<b>listing</b> can no longer be guaranteed to print rules in
+the proper order.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>warning: same rule appears on both sides of of
+superiority relation</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+This message is printed when a superiority relation such as
+<b>rule2 &gt; rule2</b> is entered. Such a declaration makes
+no sense semantically.</td></table>
+<a name="FILES"></a>
+<h2>FILES</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<b>/usr/local/share/delores/primes.txt</b></td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="21%"></td><td width="79%">
+List of prime numbers used by the <b>-a</b> and <b>-r</b>
+options.</td></table>
+<a name="BUGS"></a>
+<h2>BUGS</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+The only known bug in the interpreter has to do with its
+processing of <b>include</b> directives; sometimes the
+filename is not properly recognized. To avoid any potential
+problems, users are cautioned to place their <b>include</b>
+directives on lines separate from any other
+statements.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%"> Please report bugs to &lt;<a
+href="mailto:Tristan.Miller@dfki.de">Tristan.Miller@dfki.de</a>&gt;.</td></table>
+<a name="SEE ALSO"></a> <h2>SEE ALSO</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+Michael J. Maher, Allan Rock, Grigoris Antoniou, David
+Billington, and Tristan Miller. Efficient defeasible
+reasoning systems. <i>International Journal on Artificial
+Intelligence Tools</i>, 10(4):483-501, 2001.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+Michael J. Maher, Allan Rock, Grigoris Antoniou, David
+Billington, and Tristan Miller. Efficient defeasible
+reasoning systems. In <i>Proceedings of the 12th IEEE
+International Conference on Tools with Artificial
+Intelligence</i>, pages 384-392, 2000.</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+More publications on DELORES and defeasible reasoning are
+available on <a href="http://www.math.luc.edu/~mjm/pubs/#DL">Michael Maher's publications page</a>.
+</td></table>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<a href="http://www.dfki.uni-kl.de/~miller/delores/">DELORES home page</a>
+</td></table>
+<a name="AUTHOR"></a>
+<h2>AUTHOR</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">DELORES was originally conceived
+by <a href="http://www.math.luc.edu/~mjm/">Michael Maher</a> and
+implemented by <a href="http://www.dfki.uni-kl.de/~miller/">Tristan
+Miller</a>. DELORES uses BGET, a public domain memory allocation
+library by John Walker.</td></table> <a name="COPYRIGHT"></a>
+<h2>COPYRIGHT</h2>
+
+<table width="100%" border=0 rules="none" frame="void"
+       cols="2" cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td><td width="90%">
+<p>Copyright &copy; 1999, 2000 Michael Maher.<br>
+Copyright &copy; 1999, 2000, 2003 Tristan Miller.</p>
+<p>Permission is granted to make and distribute verbatim copies of this manual provided the copyright notice and this permission notice are preserved on all copies.</p></td></table>
+<hr>
+</body>
+</html>
