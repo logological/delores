@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.13 2003-12-12 19:28:08 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.14 2003-12-12 20:04:29 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -38,23 +38,6 @@ static size_t closestPrime(size_t n);
 #include "dl_stdbool.h"
 #include "dl.h"
 #include "cmd_line_args.h"
-
-#define yy_scan_string xx_scan_string
-#define yy_create_buffer xx_create_buffer
-#define yy_delete_buffer xx_delete_buffer
-#define yy_flex_debug xx_flex_debug
-#define yy_init_buffer xx_init_buffer
-#define yy_flush_buffer xx_flush_buffer
-#define yy_load_buffer_state xx_load_buffer_state
-#define yy_switch_to_buffer xx_switch_to_buffer
-#define yyin xxin
-#define yyleng xxleng
-#define yylex xxlex
-#define yylineno xxlineno
-#define yyout xxout
-#define yyrestart xxrestart
-#define yytext xxtext
-#define yywrap xxwrap
 
 #define PRIME_FILE "primes.txt"
 #define DEFAULT_ATOMTABLESIZE 1000003UL
@@ -94,6 +77,8 @@ static const char *Options[] = {
 
 space [ \t\n]
 uint [0-9]+         
+%option prefix="xx"
+%option outfile="lex.yy.c"
 %x _a _A _r _R _m option
 %option noyywrap
 %option never-interactive
