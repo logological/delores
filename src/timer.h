@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: timer.h,v 1.4 2003-12-11 11:25:15 psy Exp $
+File    : $Id: timer.h,v 1.5 2003-12-11 19:36:21 psy Exp $
 What    : Timing functions header
 
 Copyright (C) 1999, 2000 Michael Maher
@@ -44,9 +44,7 @@ inline void freeCpuTimer(cpuTimer *t);
 ** compiler is not listed, #define a new value of REAL_TIMER_METHOD and make
 ** the appropriate changes to timer.h and timer.c.
 */
-#if defined __STRICT_ANSI__
-#  define REAL_TIMER_METHOD 0
-#elif defined __GNUC__
+#if HAVE_SYS_TIMEB_H
 #  define REAL_TIMER_METHOD 1
 #  include <sys/timeb.h>
 #else
