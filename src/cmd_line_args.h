@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.h,v 1.5 2003-12-11 19:08:23 psy Exp $
+File    : $Id: cmd_line_args.h,v 1.6 2003-12-11 19:51:33 psy Exp $
 What    : Header file for lexer for parsing command line arguments to dl
 
-Copyright (C) 1999, 2000 Michael Maher
+Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
 
 This program is free software; you can redistribute it and/or modify

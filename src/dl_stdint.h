@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_stdint.h,v 1.3 2003-12-09 19:44:18 psy Exp $
+File    : $Id: dl_stdint.h,v 1.4 2003-12-11 19:51:34 psy Exp $
 What    : Figures out compiler-specific information on standard integer types
 
-Copyright (C) 1999, 2000 Michael Maher
+Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
 
 This program is free software; you can redistribute it and/or modify

@@ -1,9 +1,9 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: dl.l,v 1.4 2003-12-10 19:21:37 psy Exp $
+File    : $Id: dl.l,v 1.5 2003-12-11 19:51:34 psy Exp $
 What    : Defeasible logic lexer
 
-Copyright (C) 1999, 2000 Michael Maher
+Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
 
 This program is free software; you can redistribute it and/or modify

@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_stdbool.h,v 1.5 2003-12-11 11:19:42 psy Exp $
+File    : $Id: dl_stdbool.h,v 1.6 2003-12-11 19:51:34 psy Exp $
 What    : Figures out compiler-specific information on boolean variables
 
-Copyright (C) 1999, 2000 Michael Maher
+Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
 
 This program is free software; you can redistribute it and/or modify
