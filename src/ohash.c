@@ -1,7 +1,8 @@
 /*----------------------------------------------------------------------------
-File    : $Id: ohash.c,v 1.4 2003-12-10 19:21:37 psy Exp $
+File    : $Id: ohash.c,v 1.5 2003-12-10 19:57:14 psy Exp $
 What    : Hash table functions
 
+Based on public domain code by Jerry Coffin and HenkJan Wolthuis.
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
 
 This program is free software; you can redistribute it and/or modify
@@ -24,28 +25,6 @@ USA.
 #include <stdlib.h>
 #include "ohash.h"
 #include "dl_malloc.h"
-
-/*
-** public domain code by Jerry Coffin, with improvements by HenkJan Wolthuis.
-** Big improvements by Tristan Miller, 1999
-** problems: 1) incorrect internal documentation
-**           2) hash function broken - segfault
-**           3) enumeration function too restrictive
-**           4) poor hash algorithm -- should be user-defined anyway
-**           5) ridiculous generic-sounding function names (pot. clashes)
-**           6) not generic enough
-**           7) slow collisions -- unsorted lists!
-**           8) assumes size_t == unsigned int -- wrong!!
-** To be done: make even more generic by abstracting the linked list thing;
-** use simple addtoList(), findinList(), deletefromList() functions so that
-** user can use lists, trees, hash tables, or whatever.
-** - keep track of linklist size; use bsearch() in lookups
-**  
-**
-** Tested with Visual C 1.0 and Borland C 3.1.
-** Compiles without warnings, and seems like it should be pretty
-** portable.
-*/
 
 /* ----------------------------------------------------------------------------
 ** Allocate space for the hash table of the specified size and return a
