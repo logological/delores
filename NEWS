@@ -1,5 +1,5 @@
 DELORES NEWS -- history of user-visible changes
-$Id: NEWS,v 1.1 2003-12-11 14:30:43 psy Exp $
+$Id: NEWS,v 1.2 2003-12-13 22:38:08 psy Exp $
 
 Copyright (C) 2003 Tristan Miller.  See the end of this file for
 copying conditions.
@@ -16,6 +16,7 @@ Version 1.0
     * The programmer's manual is now available as DVI, PDF, and LaTeX.
     * A Unix man page is now available.
     * HTML versions of the manuals have been removed.
+    * Miscellaneous bugs have been fixed.
 
 Version 0.59
 
