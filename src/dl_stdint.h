@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_stdint.h,v 1.5 2003-12-12 13:30:01 psy Exp $
+File    : $Id: dl_stdint.h,v 1.6 2003-12-12 14:02:04 psy Exp $
 What    : Figures out compiler-specific information on standard integer types
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -48,18 +48,18 @@ USA.
 #  if HAVE_UNSIGNED_LONG_LONG
      typedef unsigned long long uintmax_t;
 #    define PRIuMAX "llu"
-#    if ! HAVE_STRTOUMAX
+#    if HAVE_STRTOULL && ! HAVE_STRTOUMAX
 #      define strtoumax strtoull
 #    else
-#      error You appear to have a very strange compiler which has strtoumax but not uintmax_t.  Please contact the DELORES bug reports address and provide the details of your compiler.
+#      error You appear to have a very strange compiler which has strtoumax but not uintmax_t and/or strtoull().  Please contact the DELORES bug reports address and provide the details of your compiler.
 #    endif
 #  else
      typedef unsigned long int uintmax_t;
 #    define PRIuMAX "lu"
-#    if ! HAVE_STRTOUMAX
+#    if HAVE_STRTOUL && ! HAVE_STRTOUMAX
 #      define strtoumax strtoul
 #    else
-#      error You appear to have a very strange compiler which has strtoumax but not uintmax_t.  Please contact the DELORES bug reports address and provide the details of your compiler.
+#      error You appear to have a very strange compiler which has strtoumax but not uintmax_t and/or strtoul().  Please contact the DELORES bug reports address and provide the details of your compiler.
 #    endif
 #  endif
 #endif
