@@ -1,4 +1,4 @@
-.\" $Id: delores.1,v 1.2 2003-12-12 21:23:15 psy Exp $
+.\" $Id: delores.1,v 1.3 2003-12-13 14:59:35 psy Exp $
 .TH DELORES 1 \" -*- nroff -*-
 .SH NAME
 DELORES \- a defeasible logic interpreter
@@ -132,15 +132,18 @@ omission does not lead to ambiguity.
 .IP
 \fIsuprel\fR ::= \fIlabel\fR (\ "<" | ">"\ ) \fIlabel\fR
 .IP
-\fIatom\fR ::= \fIname\fR [\ "(" \fItermlist\fR ")"\ ]
+\fIatom\fR ::= \fIname\fR
+.\"\fIatom\fR ::= \fIname\fR [\ "(" \fItermlist\fR ")"\ ]
 .IP
-\fIterm\fR ::= \fIvariable\fR | \fIname\fR [\ "(" \fItermlist\fR ")"\ ]
-.IP
-\fItermlist\fR ::= [\ \fItermlist\fR ","\ ] \fIterm\fR
+\fIterm\fR ::= \fIvariable\fR | \fIname\fR
+.\"\fIterm\fR ::= \fIvariable\fR | \fIname\fR [\ "(" \fItermlist\fR ")"\ ]
+.\".IP
+.\"\fItermlist\fR ::= [\ \fItermlist\fR ","\ ] \fIterm\fR
 .IP
 \fIlliteral\fR ::= [\ \fINOT\fR\ ] \fIatom\fR
 .IP
-\fIliteral\fR ::= [\ "faild" | "failD"\ ] (\ \fIlliteral\fR | [\ \fINOT\fR\ ] (\ \fIDL_TRUE\fR | \fIDL_FALSE\fR\ )\ )
+.\"\fIliteral\fR ::= [\ "faild" | "failD"\ ] (\ \fIlliteral\fR | [\ \fINOT\fR\ ] (\ \fIDL_TRUE\fR | \fIDL_FALSE\fR\ )\ )
+\fIliteral\fR ::= (\ \fIlliteral\fR | [\ \fINOT\fR\ ] (\ \fIDL_TRUE\fR | \fIDL_FALSE\fR\ )\ )
 .IP
 \fIfact\fR ::= [\ "unknown"\ ] \fIlliteral\fR
 .IP
@@ -160,15 +163,16 @@ are used for reading and printing theories, executing the inference
 engine, and terminating the interpreter. Interpreter directives are
 considered statements for the purposes of the language grammar.
 .IP "" 4
-\fIdirective\fR ::= \fIlisting\fR | \fIprint\fR | \fIinfer\fR | \fIinferwf\fR | \fIend\fR | \fIinclude\fR
+.\"\fIdirective\fR ::= \fIlisting\fR | \fIprint\fR | \fIinfer\fR | \fIinferwf\fR | \fIend\fR | \fIinclude\fR
+\fIdirective\fR ::= \fIlisting\fR | \fIprint\fR | \fIinfer\fR | \fIend\fR | \fIinclude\fR
 .IP
 \fIlisting\fR ::= "listing" [\ "(" \fIlabel\fR ")"\ ]
 .IP
 \fIprint\fR ::= "print" "(" \fIatom\fR ")"
 .IP
 \fIinfer\fR ::= "infer"
-.IP
-\fIinferwf\fR ::= "inferwf"
+.\".IP
+.\"\fIinferwf\fR ::= "inferwf"
 .IP
 \fIend\fR ::= "end"
 .IP
@@ -200,10 +204,10 @@ that atom, if it exists, is then printed.
 .BI infer
 This directive executes the defeasible logic inference engine. Timing
 information is printed upon completion.
-.TP
-.BI inferwf
-The \fBinferwf\fR directive is similar to \fBinfer\fR, except that the
-well-founded defeasible logic inference engine is used.
+.\".TP
+.\".BI inferwf
+.\"The \fBinferwf\fR directive is similar to \fBinfer\fR, except that the
+.\"well-founded defeasible logic inference engine is used.
 .TP
 .BI end
 The end directive indicates that the interpretation is over. No
