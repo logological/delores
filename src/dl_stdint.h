@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: dl_stdint.h,v 1.7 2003-12-12 14:14:01 psy Exp $
+File    : $Id: dl_stdint.h,v 1.8 2003-12-13 19:30:37 psy Exp $
 What    : Figures out compiler-specific information on standard integer types
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -24,6 +24,10 @@ USA.
 
 #ifndef DL_STDINT__H
 #define DL_STDINT__H
+
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
 
 #include <stdlib.h>
 
