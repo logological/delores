@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: bget.c,v 1.4 2003-12-10 19:21:37 psy Exp $
+File    : $Id: bget.c,v 1.5 2003-12-11 10:18:03 psy Exp $
 What    : Memory allocation tool (faster replacement for malloc() and friends)
 Notes   : This file has been modified by Tristan Miller for use with the dl
           project:
@@ -405,7 +405,7 @@ extern char *sprintf();               /* Sun includes don't define sprintf */
 
 #define NDEBUG
 #include <assert.h>
-#include <memory.h>
+#include <stdlib.h>
 
 #ifdef BufDump                /* BufDump implies DumpData */
 #ifndef DumpData
