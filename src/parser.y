@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: dl.y,v 1.7 2003-12-12 14:21:09 psy Exp $
+File    : $Id: parser.y,v 1.1 2003-12-12 18:48:18 psy Exp $
 What    : Defeasible logic parser
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
