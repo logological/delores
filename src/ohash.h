@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
-File    : $Id: ohash.h,v 1.5 2003-12-12 14:18:57 psy Exp $
+File    : $Id: ohash.h,v 1.6 2003-12-13 15:30:56 psy Exp $
 What    : Header file for hash table module -- see hash.c for info
 
 Copyright (C) 1999, 2000, 2003 Tristan Miller <psychonaut@nothingisreal.com>
@@ -25,6 +25,7 @@ USA.
 #define OHASH__H
 
 #include <stddef.h>             /* For size_t */
+#include <dl_stdint.h>
 
 /* #define HASH_PROFILE */      /* Compile in profiling code */
 
