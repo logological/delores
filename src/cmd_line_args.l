@@ -1,6 +1,6 @@
 %{
 /*----------------------------------------------------------------------------
-File    : $Id: cmd_line_args.l,v 1.7 2003-12-12 13:39:49 psy Exp $
+File    : $Id: cmd_line_args.l,v 1.8 2003-12-12 13:41:48 psy Exp $
 What    : Lexer for parsing command line arguments to dl
 
 Copyright (C) 1999, 2000 Michael Maher <mjm@math.luc.edu>
@@ -58,15 +58,15 @@ static int Arg_number = 1;
 static int ARGC;
 static char **ARGV;
 static const char *Options[] = {
-  "--help",   "display this information",
-  "-v",       "display version information and quit",
-  "-q",       "quiet mode (suppress nonessential messages)",
-  "-a <n>",   "make atom table size the smallest prime >= <n>",
-  "-r <n>",   "make rule table size the smallest prime >= <n>",
-  "-A <n>",   "make atom table size exactly <n>",
-  "-R <n>",   "make rule table size exactly <n>",
+  "--help",    "display this information",
+  "--version", "display version information and quit",
+  "-q",        "quiet mode (suppress nonessential messages)",
+  "-a <n>",    "make atom table size the smallest prime >= <n>",
+  "-r <n>",    "make rule table size the smallest prime >= <n>",
+  "-A <n>",    "make atom table size exactly <n>",
+  "-R <n>",    "make rule table size exactly <n>",
 #ifdef DL_USE_BGET
-  "-m <n>",   "pre-allocate memory in <n>-byte chunks",
+  "-m <n>",    "pre-allocate memory in <n>-byte chunks",
 #endif
   NULL
 };
@@ -96,7 +96,7 @@ uint [0-9]+
   exit(EXIT_SUCCESS);
 }
 
-<option>v {
+<option>(-version) {
   printVersionInformation();
   exit(EXIT_SUCCESS);
 }
