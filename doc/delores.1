@@ -1,4 +1,4 @@
-.\" $Id: delores.1,v 1.6 2003-12-14 14:47:34 psy Exp $
+.\" $Id: delores.1,v 1.7 2003-12-18 21:05:34 psy Exp $
 .TH DELORES 1 \" -*- nroff -*-
 .SH NAME
 DELORES \- a defeasible logic interpreter
@@ -200,8 +200,11 @@ created. If the user supplies a rule label as an argument, only that
 rule is printed (if it exists).
 .TP
 .BI print
-This directive takes an atom's name as its argument. Information about
-that atom, if it exists, is then printed.
+This directive takes the name of an atom, \fIa\fR, as its argument.
+All conclusions about \fIa\fR and its negation are printed, as well as
+the labels of all rules where \fIa\fR or its negation is the head.
+See the following section for an explanation of the format used for
+the conclusions.
 .TP
 .BI infer
 This directive executes the defeasible logic inference engine. Timing
@@ -216,6 +219,26 @@ The end directive indicates that the interpretation is over. No
 further statements are read. This directive is optional at the end of
 a file, as the interpretation will simply end when there is no further
 data in standard input.
+.SH CONCLUSIONS
+After running the \fBinfer\fR directive, various conclusions of a
+defeasible theory \fIT\fR can be printed using the \fBprint\fR
+directive.  A \fIconclusion\fR of \fIT\fR is a tagged literal and can
+have one of the following four forms:
+.TP
+.RI +D q
+This means that \fIq\fR is definitely provable in \fIT\fR (\fIi.e.\fR,
+using only facts and strict rules).
+.TP
+.RI -D q
+This means that we have proved that \fIq\fR is not definitely provable
+in \fIT\fR.
+.TP
+.RI +d q
+This means that \fIq\fR is defeasibly provable in \fIT\fR.
+.TP
+.RI -d q
+This means that we have proved that \fIq\fR is not defeasibly provable
+in \fIT\fR.
 .SH DIAGNOSTICS
 .SS SYNTAX ERRORS
 Syntax errors are detected during reading. Each statement that fails
